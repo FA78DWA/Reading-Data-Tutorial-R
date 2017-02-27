@@ -35,7 +35,7 @@ downloadDate <- date()
 downloadDate
 ```
 
-    ## [1] "Mon Feb 27 09:46:56 2017"
+    ## [1] "Mon Feb 27 09:48:41 2017"
 
 Reading Excel Files
 ===================
@@ -48,7 +48,7 @@ download.file(url, "data.xlsx",mode="wb")
 date()
 ```
 
-    ## [1] "Mon Feb 27 09:46:57 2017"
+    ## [1] "Mon Feb 27 09:48:41 2017"
 
 Using `xlsx` Package
 --------------------
@@ -79,5 +79,5 @@ Error: package/namespace load failed for 'rJava'
 **To solve that you will need to :**
 
 -   download the `rJava` package (if the error remains)
--   check your R version `R.version()`, and download the corresponding java (32/64), from here.
+-   check your R version `R.version()`, and download the corresponding java (32/64), from [here](https://www.java.com/en/download/win10.jsp).
 -   Finally, check if your Java is in `Program Files` or `Program Files (x86)`. Add the path to the \*\* jvm.dll\*\* to your PATH in **windows Environment**. If the java file is in `Program Files (x86)`, it means you have 32-bit version, and you can change the default version of your `Rstudio` from Tools &gt;&gt; Global options to 32 bit.

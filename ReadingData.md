@@ -1,6 +1,8 @@
 -   [Downloading Data from the internet](#downloading-data-from-the-internet)
 -   [Reading Excel Files](#reading-excel-files)
     -   [Using `xlsx` Package](#using-xlsx-package)
+    -   [You might face some difficulities when using the xlsx library. Here is the most famous error:](#you-might-face-some-difficulities-when-using-the-xlsx-library.-here-is-the-most-famous-error)
+    -   [Error: package/namespace load failed for 'rJava'](#error-packagenamespace-load-failed-for-rjava)
 
 Downloading Data from the internet
 ==================================
@@ -35,7 +37,7 @@ downloadDate <- date()
 downloadDate
 ```
 
-    ## [1] "Mon Feb 27 09:32:33 2017"
+    ## [1] "Mon Feb 27 09:45:40 2017"
 
 Reading Excel Files
 ===================
@@ -48,7 +50,7 @@ download.file(url, "data.xlsx",mode="wb")
 date()
 ```
 
-    ## [1] "Mon Feb 27 09:32:34 2017"
+    ## [1] "Mon Feb 27 09:45:41 2017"
 
 Using `xlsx` Package
 --------------------
@@ -68,4 +70,16 @@ library(xlsx)
 readFile <- read.xlsx("data.xlsx", sheetIndex=1)
 ```
 
-Roses are <span style="color:red">red</span>, violets are <span style="color:blue">blue</span>.
+You might face some difficulities when using the xlsx library. Here is the most famous error:
+---------------------------------------------------------------------------------------------
+
+Error : .onLoad failed in loadNamespace() for 'rJava', details: call: inDL(x, as.logical(local), as.logical(now), ...) error: unable to load shared object 'C:/Users/me/Documents/R/win-library/2.13/rJava/libs/x64/rJava.dll': LoadLibrary failure: %1 is not a valid Win32 application.
+
+Error: package/namespace load failed for 'rJava'
+------------------------------------------------
+
+**To solve that you will need to :**
+
+-   download the `rJava` package (if the error remains)
+-   check your R version `R.version()`, and download the corresponding java (32/64), from here.
+-   Finally, check if your Java is in `Program Files` or `Program Files (x86)`. Add the path to the \*\* jvm.dll\*\* to your PATH in **windows Environment**. If the java file is in `Program Files (x86)`, it means you have 32-bit version, and you can change the default version of your `Rstudio` from Tools &gt;&gt; Global options to 32 bit.

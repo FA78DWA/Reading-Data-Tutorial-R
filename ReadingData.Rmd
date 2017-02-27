@@ -52,14 +52,15 @@ readFile <- read.xlsx("data.xlsx", sheetIndex=1)
 ```
  
 You might face some difficulities when using the xlsx library. Here is the most famous error:
--- 
+ 
 Error : .onLoad failed in loadNamespace() for 'rJava', details:
   call: inDL(x, as.logical(local), as.logical(now), ...)
+
   error: unable to load shared object 'C:/Users/me/Documents/R/win-library/2.13/rJava/libs/x64/rJava.dll':
   LoadLibrary failure:  %1 is not a valid Win32 application.
 
 Error: package/namespace load failed for 'rJava'
---
+
 **To solve that you will need to :**
 
 * download the `rJava` package (if the error remains)

@@ -1,8 +1,6 @@
 -   [Downloading Data from the internet](#downloading-data-from-the-internet)
 -   [Reading Excel Files](#reading-excel-files)
     -   [Using `xlsx` Package](#using-xlsx-package)
-    -   [You might face some difficulities when using the xlsx library. Here is the most famous error:](#you-might-face-some-difficulities-when-using-the-xlsx-library.-here-is-the-most-famous-error)
-    -   [Error: package/namespace load failed for 'rJava'](#error-packagenamespace-load-failed-for-rjava)
 
 Downloading Data from the internet
 ==================================
@@ -37,7 +35,7 @@ downloadDate <- date()
 downloadDate
 ```
 
-    ## [1] "Mon Feb 27 09:45:40 2017"
+    ## [1] "Mon Feb 27 09:46:56 2017"
 
 Reading Excel Files
 ===================
@@ -50,7 +48,7 @@ download.file(url, "data.xlsx",mode="wb")
 date()
 ```
 
-    ## [1] "Mon Feb 27 09:45:41 2017"
+    ## [1] "Mon Feb 27 09:46:57 2017"
 
 Using `xlsx` Package
 --------------------
@@ -71,12 +69,12 @@ readFile <- read.xlsx("data.xlsx", sheetIndex=1)
 ```
 
 You might face some difficulities when using the xlsx library. Here is the most famous error:
----------------------------------------------------------------------------------------------
 
-Error : .onLoad failed in loadNamespace() for 'rJava', details: call: inDL(x, as.logical(local), as.logical(now), ...) error: unable to load shared object 'C:/Users/me/Documents/R/win-library/2.13/rJava/libs/x64/rJava.dll': LoadLibrary failure: %1 is not a valid Win32 application.
+Error : .onLoad failed in loadNamespace() for 'rJava', details: call: inDL(x, as.logical(local), as.logical(now), ...)
+
+error: unable to load shared object 'C:/Users/me/Documents/R/win-library/2.13/rJava/libs/x64/rJava.dll': LoadLibrary failure: %1 is not a valid Win32 application.
 
 Error: package/namespace load failed for 'rJava'
-------------------------------------------------
 
 **To solve that you will need to :**
 

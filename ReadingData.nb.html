@@ -174,7 +174,13 @@ $(document).ready(function () {
 <!-- rnb-text-begin -->
 <div id="downloading-data-from-the-internet" class="section level1">
 <h1>Downloading Data from the internet</h1>
-<p>Use <code>download.file()</code> that takes the url and the destination on your computer to save the file at.</p>
+<p>Use <code>download.file()</code> that takes the url and the destination on your computer to save the file at. And note that</p>
+<ul>
+<li>If the file url starts with <strong>http</strong> you can use <code>download.file()</code>.</li>
+<li>It is also okay to use <code>download.file()</code> in case of <strong>https</strong> and <strong>windows</strong>.</li>
+<li>But on <strong>Mac</strong>, you might need to set <code>method=&quot;curl&quot;</code> to download from <strong>https</strong> url.</li>
+<li>The download duration depends on the file size.</li>
+</ul>
 <p>Example: download the 2006 microdata survey about housing for the state of Idaho.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
@@ -212,11 +218,10 @@ downloadDate</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Note that: * If the file url starts with <strong>http</strong> you can use <code>download.file()</code>. * It is also okay to use <code>download.file()</code> in case of <strong>https</strong> and <strong>windows</strong>. * But on <strong>Mac</strong>, you might need to set <code>method=&quot;curl&quot;</code> to download from <strong>https</strong> url. * The download duration depends on the file size.</p>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQojb3V0cHV0OiBodG1sX25vdGVib29rDQoNCm91dHB1dDoNCiAgbWRfZG9jdW1lbnQ6DQogICAgdmFyaWFudDogbWFya2Rvd25fZ2l0aHViDQogICAgdG9jOiB0cnVlDQogICAgdG9jX2RlcHRoOiAzDQotLS0NCg0KIyBEb3dubG9hZGluZyBEYXRhIGZyb20gdGhlIGludGVybmV0DQpVc2UgYGRvd25sb2FkLmZpbGUoKWAgdGhhdCB0YWtlcyB0aGUgdXJsIGFuZCB0aGUgZGVzdGluYXRpb24gb24geW91ciBjb21wdXRlciB0byBzYXZlIHRoZSBmaWxlIGF0Lg0KDQpFeGFtcGxlOiBkb3dubG9hZCB0aGUgMjAwNiBtaWNyb2RhdGEgc3VydmV5IGFib3V0IGhvdXNpbmcgZm9yIHRoZSBzdGF0ZSBvZiBJZGFoby4NCmBgYHtyfQ0KdXJsIDwtICJodHRwczovL2QzOTZxdXN6YTQwb3JjLmNsb3VkZnJvbnQubmV0L2dldGRhdGElMkZkYXRhJTJGc3MwNmhpZC5jc3YiDQpkb3dubG9hZC5maWxlKHVybCwgImRhdGEuY3N2IikgIyNzYXZlIGluIHRoZSBjdXJyZW50IGRpciwgYW5kIG5hbWUgdGhlIGZpbGUgImRhdGEuY3N2Ig0KYGBgDQoNCkxpc3QgdGhlIGZpbGVzIGluIHRoZSBjdXJyZW50IGRpcmVjdG9yeQ0KYGBge3J9DQpsaXN0LmZpbGVzKCIuLyIpDQpgYGANCg0KVXNlIGBkYXRlKClgIHRvIGdldCB0aGUgZG93bmxvYWRpbmcgZGF0ZS4NCmBgYHtyfQ0KZG93bmxvYWREYXRlIDwtIGRhdGUoKQ0KZG93bmxvYWREYXRlDQpgYGANCk5vdGUgdGhhdDogDQoqIElmIHRoZSBmaWxlIHVybCBzdGFydHMgd2l0aCAqKmh0dHAqKiB5b3UgY2FuIHVzZSBgZG93bmxvYWQuZmlsZSgpYC4NCiogSXQgaXMgYWxzbyBva2F5IHRvIHVzZSBgZG93bmxvYWQuZmlsZSgpYCBpbiBjYXNlIG9mICoqaHR0cHMqKiBhbmQgKip3aW5kb3dzKiouDQoqIEJ1dCBvbiAqKk1hYyoqLCB5b3UgbWlnaHQgbmVlZCB0byBzZXQgYG1ldGhvZD0iY3VybCJgIHRvIGRvd25sb2FkIGZyb20gKipodHRwcyoqIHVybC4NCiogVGhlIGRvd25sb2FkIGR1cmF0aW9uIGRlcGVuZHMgb24gdGhlIGZpbGUgc2l6ZS4NCg0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCg0KIyBvdXRwdXQ6DQojICAgbWRfZG9jdW1lbnQ6DQojICAgICB2YXJpYW50OiBtYXJrZG93bl9naXRodWINCiMgICAgIHRvYzogdHJ1ZQ0KIyAgICAgdG9jX2RlcHRoOiAzDQotLS0NCg0KIyBEb3dubG9hZGluZyBEYXRhIGZyb20gdGhlIGludGVybmV0DQpVc2UgYGRvd25sb2FkLmZpbGUoKWAgdGhhdCB0YWtlcyB0aGUgdXJsIGFuZCB0aGUgZGVzdGluYXRpb24gb24geW91ciBjb21wdXRlciB0byBzYXZlIHRoZSBmaWxlIGF0LiBBbmQgbm90ZSB0aGF0DQoNCiogSWYgdGhlIGZpbGUgdXJsIHN0YXJ0cyB3aXRoICoqaHR0cCoqIHlvdSBjYW4gdXNlIGBkb3dubG9hZC5maWxlKClgLg0KKiBJdCBpcyBhbHNvIG9rYXkgdG8gdXNlIGBkb3dubG9hZC5maWxlKClgIGluIGNhc2Ugb2YgKipodHRwcyoqIGFuZCAqKndpbmRvd3MqKi4NCiogQnV0IG9uICoqTWFjKiosIHlvdSBtaWdodCBuZWVkIHRvIHNldCBgbWV0aG9kPSJjdXJsImAgdG8gZG93bmxvYWQgZnJvbSAqKmh0dHBzKiogdXJsLg0KKiBUaGUgZG93bmxvYWQgZHVyYXRpb24gZGVwZW5kcyBvbiB0aGUgZmlsZSBzaXplLg0KDQpFeGFtcGxlOiBkb3dubG9hZCB0aGUgMjAwNiBtaWNyb2RhdGEgc3VydmV5IGFib3V0IGhvdXNpbmcgZm9yIHRoZSBzdGF0ZSBvZiBJZGFoby4NCmBgYHtyfQ0KdXJsIDwtICJodHRwczovL2QzOTZxdXN6YTQwb3JjLmNsb3VkZnJvbnQubmV0L2dldGRhdGElMkZkYXRhJTJGc3MwNmhpZC5jc3YiDQpkb3dubG9hZC5maWxlKHVybCwgImRhdGEuY3N2IikgIyNzYXZlIGluIHRoZSBjdXJyZW50IGRpciwgYW5kIG5hbWUgdGhlIGZpbGUgImRhdGEuY3N2Ig0KYGBgDQoNCkxpc3QgdGhlIGZpbGVzIGluIHRoZSBjdXJyZW50IGRpcmVjdG9yeQ0KYGBge3J9DQpsaXN0LmZpbGVzKCIuLyIpDQpgYGANCg0KVXNlIGBkYXRlKClgIHRvIGdldCB0aGUgZG93bmxvYWRpbmcgZGF0ZS4NCmBgYHtyfQ0KZG93bmxvYWREYXRlIDwtIGRhdGUoKQ0KZG93bmxvYWREYXRlDQpgYGANCg0KDQoNCg==</div>
 
 
 

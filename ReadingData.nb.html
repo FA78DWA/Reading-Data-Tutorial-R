@@ -218,10 +218,47 @@ downloadDate</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
+<div id="reading-excel-files" class="section level1">
+<h1>Reading Excel Files</h1>
+<p>First download the file using <code>download.file()</code></p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudXJsIDwtIFwiaHR0cHM6Ly9kMzk2cXVzemE0MG9yYy5jbG91ZGZyb250Lm5ldC9nZXRkYXRhJTJGZGF0YSUyRkRBVEEuZ292X05HQVAueGxzeFwiXG5kb3dubG9hZC5maWxlKHVybCwgXCJkYXRhLnhsc3hcIixtb2RlPVwid2JcIilcbmBgYCJ9 -->
+<pre class="r"><code>url &lt;- &quot;https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FDATA.gov_NGAP.xlsx&quot;
+download.file(url, &quot;data.xlsx&quot;,mode=&quot;wb&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoidHJ5aW5nIFVSTCAnaHR0cHM6Ly9kMzk2cXVzemE0MG9yYy5jbG91ZGZyb250Lm5ldC9nZXRkYXRhJTJGZGF0YSUyRkRBVEEuZ292X05HQVAueGxzeCdcbkNvbnRlbnQgdHlwZSAnYXBwbGljYXRpb24vdm5kLm9wZW54bWxmb3JtYXRzLW9mZmljZWRvY3VtZW50LnNwcmVhZHNoZWV0bWwuc2hlZXQnIGxlbmd0aCAxNjE5NyBieXRlcyAoMTUgS0IpXG5kb3dubG9hZGVkIDE1IEtCXG4ifQ== -->
+<pre><code>trying URL 'https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FDATA.gov_NGAP.xlsx'
+Content type 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' length 16197 bytes (15 KB)
+downloaded 15 KB</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0ZSgpXG5gYGAifQ== -->
+<pre class="r"><code>date()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiTW9uIEZlYiAyNyAwOToyODo0MyAyMDE3XCJcbiJ9 -->
+<pre><code>[1] &quot;Mon Feb 27 09:28:43 2017&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="using-xlsx-package" class="section level2">
+<h2>Using <code>xlsx</code> Package</h2>
+<p>You can read the file using <code>read.xlsx</code> or <code>read.xlsx2</code>. You will need to download the <code>xlsx</code> package to use them.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBMb2FkIHRoZSBsaWJyYXJ5XG5saWJyYXJ5KHhsc3gpXG5yZWFkRmlsZSA8LSByZWFkLnhsc3goXCJkYXRhLnhsc3hcIiwgc2hlZXRJbmRleD0xKVxuYGBgIn0= -->
+<pre class="r"><code># Load the library
+library(xlsx)
+readFile &lt;- read.xlsx(&quot;data.xlsx&quot;, sheetIndex=1)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Roses are <span style="color:red">red</span>, violets are <span style="color:blue">blue</span>.</p>
 <!-- rnb-text-end -->
 </div>
+</div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCg0KIyBvdXRwdXQ6DQojICAgbWRfZG9jdW1lbnQ6DQojICAgICB2YXJpYW50OiBtYXJrZG93bl9naXRodWINCiMgICAgIHRvYzogdHJ1ZQ0KIyAgICAgdG9jX2RlcHRoOiAzDQotLS0NCg0KIyBEb3dubG9hZGluZyBEYXRhIGZyb20gdGhlIGludGVybmV0DQpVc2UgYGRvd25sb2FkLmZpbGUoKWAgdGhhdCB0YWtlcyB0aGUgdXJsIGFuZCB0aGUgZGVzdGluYXRpb24gb24geW91ciBjb21wdXRlciB0byBzYXZlIHRoZSBmaWxlIGF0LiBBbmQgbm90ZSB0aGF0DQoNCiogSWYgdGhlIGZpbGUgdXJsIHN0YXJ0cyB3aXRoICoqaHR0cCoqIHlvdSBjYW4gdXNlIGBkb3dubG9hZC5maWxlKClgLg0KKiBJdCBpcyBhbHNvIG9rYXkgdG8gdXNlIGBkb3dubG9hZC5maWxlKClgIGluIGNhc2Ugb2YgKipodHRwcyoqIGFuZCAqKndpbmRvd3MqKi4NCiogQnV0IG9uICoqTWFjKiosIHlvdSBtaWdodCBuZWVkIHRvIHNldCBgbWV0aG9kPSJjdXJsImAgdG8gZG93bmxvYWQgZnJvbSAqKmh0dHBzKiogdXJsLg0KKiBUaGUgZG93bmxvYWQgZHVyYXRpb24gZGVwZW5kcyBvbiB0aGUgZmlsZSBzaXplLg0KDQpFeGFtcGxlOiBkb3dubG9hZCB0aGUgMjAwNiBtaWNyb2RhdGEgc3VydmV5IGFib3V0IGhvdXNpbmcgZm9yIHRoZSBzdGF0ZSBvZiBJZGFoby4NCmBgYHtyfQ0KdXJsIDwtICJodHRwczovL2QzOTZxdXN6YTQwb3JjLmNsb3VkZnJvbnQubmV0L2dldGRhdGElMkZkYXRhJTJGc3MwNmhpZC5jc3YiDQpkb3dubG9hZC5maWxlKHVybCwgImRhdGEuY3N2IikgIyNzYXZlIGluIHRoZSBjdXJyZW50IGRpciwgYW5kIG5hbWUgdGhlIGZpbGUgImRhdGEuY3N2Ig0KYGBgDQoNCkxpc3QgdGhlIGZpbGVzIGluIHRoZSBjdXJyZW50IGRpcmVjdG9yeQ0KYGBge3J9DQpsaXN0LmZpbGVzKCIuLyIpDQpgYGANCg0KVXNlIGBkYXRlKClgIHRvIGdldCB0aGUgZG93bmxvYWRpbmcgZGF0ZS4NCmBgYHtyfQ0KZG93bmxvYWREYXRlIDwtIGRhdGUoKQ0KZG93bmxvYWREYXRlDQpgYGANCg0KDQoNCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCg0KIyBvdXRwdXQ6DQojICAgbWRfZG9jdW1lbnQ6DQojICAgICB2YXJpYW50OiBtYXJrZG93bl9naXRodWINCiMgICAgIHRvYzogdHJ1ZQ0KIyAgICAgdG9jX2RlcHRoOiAzDQotLS0NCg0KIyBEb3dubG9hZGluZyBEYXRhIGZyb20gdGhlIGludGVybmV0DQpVc2UgYGRvd25sb2FkLmZpbGUoKWAgdGhhdCB0YWtlcyB0aGUgdXJsIGFuZCB0aGUgZGVzdGluYXRpb24gb24geW91ciBjb21wdXRlciB0byBzYXZlIHRoZSBmaWxlIGF0LiBBbmQgbm90ZSB0aGF0DQoNCiogSWYgdGhlIGZpbGUgdXJsIHN0YXJ0cyB3aXRoICoqaHR0cCoqIHlvdSBjYW4gdXNlIGBkb3dubG9hZC5maWxlKClgLg0KKiBJdCBpcyBhbHNvIG9rYXkgdG8gdXNlIGBkb3dubG9hZC5maWxlKClgIGluIGNhc2Ugb2YgKipodHRwcyoqIGFuZCAqKndpbmRvd3MqKi4NCiogQnV0IG9uICoqTWFjKiosIHlvdSBtaWdodCBuZWVkIHRvIHNldCBgbWV0aG9kPSJjdXJsImAgdG8gZG93bmxvYWQgZnJvbSAqKmh0dHBzKiogdXJsLg0KKiBUaGUgZG93bmxvYWQgZHVyYXRpb24gZGVwZW5kcyBvbiB0aGUgZmlsZSBzaXplLg0KDQpFeGFtcGxlOiBkb3dubG9hZCB0aGUgMjAwNiBtaWNyb2RhdGEgc3VydmV5IGFib3V0IGhvdXNpbmcgZm9yIHRoZSBzdGF0ZSBvZiBJZGFoby4NCmBgYHtyfQ0KdXJsIDwtICJodHRwczovL2QzOTZxdXN6YTQwb3JjLmNsb3VkZnJvbnQubmV0L2dldGRhdGElMkZkYXRhJTJGc3MwNmhpZC5jc3YiDQpkb3dubG9hZC5maWxlKHVybCwgImRhdGEuY3N2IikgIyNzYXZlIGluIHRoZSBjdXJyZW50IGRpciwgYW5kIG5hbWUgdGhlIGZpbGUgImRhdGEuY3N2Ig0KYGBgDQoNCkxpc3QgdGhlIGZpbGVzIGluIHRoZSBjdXJyZW50IGRpcmVjdG9yeQ0KYGBge3J9DQpsaXN0LmZpbGVzKCIuLyIpDQpgYGANCg0KVXNlIGBkYXRlKClgIHRvIGdldCB0aGUgZG93bmxvYWRpbmcgZGF0ZS4NCmBgYHtyfQ0KZG93bmxvYWREYXRlIDwtIGRhdGUoKQ0KZG93bmxvYWREYXRlDQpgYGANCg0KIyBSZWFkaW5nIEV4Y2VsIEZpbGVzDQpGaXJzdCBkb3dubG9hZCB0aGUgZmlsZSB1c2luZyBgZG93bmxvYWQuZmlsZSgpYA0KYGBge3J9DQp1cmwgPC0gImh0dHBzOi8vZDM5NnF1c3phNDBvcmMuY2xvdWRmcm9udC5uZXQvZ2V0ZGF0YSUyRmRhdGElMkZEQVRBLmdvdl9OR0FQLnhsc3giDQpkb3dubG9hZC5maWxlKHVybCwgImRhdGEueGxzeCIsbW9kZT0id2IiKQ0KZGF0ZSgpDQpgYGANCg0KIyMgVXNpbmcgYHhsc3hgIFBhY2thZ2UNCg0KWW91IGNhbiByZWFkIHRoZSBmaWxlIHVzaW5nIGByZWFkLnhsc3hgIG9yIGByZWFkLnhsc3gyYC4gWW91IHdpbGwgbmVlZCB0byBkb3dubG9hZCB0aGUgYHhsc3hgIHBhY2thZ2UgdG8gdXNlIHRoZW0uDQpgYGB7cn0NCiMgTG9hZCB0aGUgbGlicmFyeQ0KbGlicmFyeSh4bHN4KQ0KcmVhZEZpbGUgPC0gcmVhZC54bHN4KCJkYXRhLnhsc3giLCBzaGVldEluZGV4PTEpDQpgYGANClJvc2VzIGFyZSA8c3BhbiBzdHlsZT0iY29sb3I6cmVkIj5yZWQ8L3NwYW4+LCANCnZpb2xldHMgYXJlIDxzcGFuIHN0eWxlPSJjb2xvcjpibHVlIj5ibHVlPC9zcGFuPi4NCg0K</div>
 
 
 

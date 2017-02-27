@@ -1,12 +1,12 @@
 ---
 title: "R Notebook"
-output: html_notebook
+#output: html_notebook
 
-# output:
-#   md_document:
-#     variant: markdown_github
-#     toc: true
-#     toc_depth: 3
+output:
+  md_document:
+    variant: markdown_github
+    toc: true
+    toc_depth: 3
 ---
 
 # Downloading Data from the internet
@@ -34,5 +34,22 @@ downloadDate <- date()
 downloadDate
 ```
 
+# Reading Excel Files
+First download the file using `download.file()`
+```{r}
+url <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FDATA.gov_NGAP.xlsx"
+download.file(url, "data.xlsx",mode="wb")
+date()
+```
 
+## Using `xlsx` Package
+
+You can read the file using `read.xlsx` or `read.xlsx2`. You will need to download the `xlsx` package to use them.
+```{r}
+# Load the library
+library(xlsx)
+readFile <- read.xlsx("data.xlsx", sheetIndex=1)
+```
+Roses are <span style="color:red">red</span>, 
+violets are <span style="color:blue">blue</span>.
 

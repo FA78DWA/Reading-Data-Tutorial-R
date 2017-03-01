@@ -20,7 +20,7 @@ Use `download.file()` that takes the url and the destination on your computer to
 Example: download the 2006 microdata survey about housing for the state of Idaho.
 ```{r}
 url <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06hid.csv"
-download.file(url, "data.csv") ##save in the current dir, and name the file "data.csv"
+download.file(url, "house_data.csv") ##save in the current dir, and name the file "data.csv"
 ```
 
 List the files in the current directory
@@ -47,8 +47,11 @@ date()
 You can read the file using `read.xlsx` or `read.xlsx2`. You will need to download the `xlsx` package to use them.
 ```{r}
 # Load the library
+library(rJava)
+library(xlsxjars)
 library(xlsx)
 readFile <- read.xlsx("data.xlsx", sheetIndex=1)
+head(readFile)
 ```
  
 You might face some difficulities when using the xlsx library. Here is the most famous error:
@@ -65,5 +68,23 @@ Error: package/namespace load failed for 'rJava'
 
 * download the `rJava` package (if the error remains)
 * check your R version `R.version()`, and download the corresponding java (32/64), from [here](https://www.java.com/en/download/win10.jsp).
-* Finally, check if your Java is in `Program Files` or `Program Files (x86)`. Add the path to the ** jvm.dll** to your PATH in **windows Environment**. If the java file is in `Program Files (x86)`, it means you have 32-bit version, and you can change the default version of your `Rstudio` from Tools >> Global options to 32 bit.
+* Finally, check if your Java is in `Program Files` or `Program Files (x86)`. Add the path to the **jvm.dll** to your PATH in **windows Environment**. If the java file is in `Program Files (x86)`, it means you have 32-bit version, and you can change the default version of your `Rstudio` from Tools >> Global options to 32 bit. For more information check [this](http://stackoverflow.com/questions/7019912/using-the-rjava-package-on-win7-64-bit-with-r).
+
+### You can read specific rows and columns form the Excel file
+```{r}
+c <- 7:15
+r <- 18:23
+readSubset <- read.xlsx("data.xlsx", sheetIndex=1, colIndex = c, rowIndex = r)
+readSubset
+```
+
+## Using `readxl` Package
+Another way to read Excel files is to use `read_excel` from the `readxl` library. For more information check [this](http://stackoverflow.com/questions/7049272/importing-xlsx-file-into-r).
+
+After installing the package..
+```{r}
+library(readxl)
+dataFile <- read_excel("data.xlsx")
+head(dataFile)
+```
 

@@ -281,15 +281,15 @@ DT[,table(y)]
 
 ## Add new column w which is z squared
 DT[,w:=z^2]
-DT
 
 ## Add new column m = log(x+z+5). Note that we used {} to put in multi-line expression. Each expression ends with ';'
 DT[,m:={tmp <- (x+z); log2(tmp+5)}]
-DT
 
-## Bolean Operation. Add new column a shows if x>=0 or <0
+## BOLEAN OPERATIONS: Add new column a shows if x>=0 or <0
 DT[,a:= x>=0]
-DT
+
+## GROUPING: get the mean of(x+w) when a is TRUE and a is False, then add the result in new column b. Note that b has only 2 values.
+DT[,b:=mean(x+w), by=a]
 ```
 **CAUTION**
 ```{r}

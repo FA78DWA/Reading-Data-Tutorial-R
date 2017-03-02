@@ -189,12 +189,36 @@ JSON stands for Javascript Object Notation. It has similar structure as XML but 
 ## Load the library
 library(jsonlite)
 
+## Download and read the file
 jsonData <- fromJSON("https://api.github.com/users/jtleek/repos") 
 
-## Get the names
+## Get the names used in the JSON object
 names(jsonData)
 
-## Nested objects
+## Nested objects, get the names inside the owner object
 names(jsonData$owner)
+
+## owner login name
+jsonData$owner$login
+```
+## Data frame to JSON
+```{r}
+## Load iris dataset (already in R)
+data(iris)
+
+## convert it to JSON
+myIris <- toJSON(iris, pretty = TRUE)
+
+## Show it
+cat(myIris)
+```
+
+## JSON to Data frame
+```{r}
+## Get the iris data bak as datafame
+getIrisBack <- fromJSON(myIris)
+
+## Show the head of the dataframe
+head(getIrisBack)
 ```
 

@@ -1,8 +1,9 @@
 -   [Downloading Data from the internet](#downloading-data-from-the-internet)
 -   [Reading Excel Files](#reading-excel-files)
     -   [Using `xlsx` Package](#using-xlsx-package)
-        -   [You can read specific rows and columns form the Excel file](#you-can-read-specific-rows-and-columns-form-the-excel-file)
+        -   [Reading specific rows and columns form the Excel file](#reading-specific-rows-and-columns-form-the-excel-file)
     -   [Using `readxl` Package](#using-readxl-package)
+-   [Reading XML Files](#reading-xml-files)
 
 Downloading Data from the internet
 ==================================
@@ -28,7 +29,8 @@ list.files("./")
 ```
 
     ## [1] "data.csv"            "data.xlsx"           "house_data.csv"     
-    ## [4] "ReadingData.md"      "ReadingData.nb.html" "ReadingData.Rmd"
+    ## [4] "ReadingData.md"      "ReadingData.nb.html" "ReadingData.Rmd"    
+    ## [7] "simple.xml"
 
 Use `date()` to get the downloading date.
 
@@ -37,7 +39,7 @@ downloadDate <- date()
 downloadDate
 ```
 
-    ## [1] "Wed Mar 01 13:32:02 2017"
+    ## [1] "Thu Mar 02 09:45:51 2017"
 
 Reading Excel Files
 ===================
@@ -50,7 +52,7 @@ download.file(url, "data.xlsx",mode="wb")
 date()
 ```
 
-    ## [1] "Wed Mar 01 13:32:02 2017"
+    ## [1] "Thu Mar 02 09:45:51 2017"
 
 Using `xlsx` Package
 --------------------
@@ -109,7 +111,7 @@ Error: package/namespace load failed for 'rJava'
 -   check your R version `R.version()`, and download the corresponding java (32/64), from [here](https://www.java.com/en/download/win10.jsp).
 -   Finally, check if your Java is in `Program Files` or `Program Files (x86)`. Add the path to the **jvm.dll** to your PATH in **windows Environment**. If the java file is in `Program Files (x86)`, it means you have 32-bit version, and you can change the default version of your `Rstudio` from Tools &gt;&gt; Global options to 32 bit. For more information check [this](http://stackoverflow.com/questions/7019912/using-the-rjava-package-on-win7-64-bit-with-r).
 
-### You can read specific rows and columns form the Excel file
+### Reading specific rows and columns form the Excel file
 
 ``` r
 c <- 7:15
@@ -165,3 +167,154 @@ head(dataFile)
     ## 4 <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA>
     ## 5 <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA>
     ## 6 <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA>
+
+Reading XML Files
+=================
+
+XML stands for *"Extensible Markup Language"*. For more information see [wiki\_xml](https://en.wikipedia.org/wiki/XML#Key_terminology). We start by downloading and loading the `XML` package. Then reading the xml file with `xmlTreeParse`.
+
+``` r
+library(XML)
+
+url <- "https://www.w3schools.com/xml/simple.xml"
+download.file(url, "simple.xml")
+
+xmlFile <- xmlTreeParse("simple.xml", useInternalNodes = TRUE)
+## check the file class 
+class(xmlFile)
+```
+
+    ## [1] "XMLInternalDocument" "XMLAbstractDocument"
+
+Wrapping the content inside the xml file.
+
+``` r
+## get the content of the root
+rootNode <- xmlRoot(xmlFile)
+rootNode
+```
+
+    ## <breakfast_menu>
+    ##   <food>
+    ##     <name>Belgian Waffles</name>
+    ##     <price>$5.95</price>
+    ##     <description>Two of our famous Belgian Waffles with plenty of real maple syrup</description>
+    ##     <calories>650</calories>
+    ##   </food>
+    ##   <food>
+    ##     <name>Strawberry Belgian Waffles</name>
+    ##     <price>$7.95</price>
+    ##     <description>Light Belgian waffles covered with strawberries and whipped cream</description>
+    ##     <calories>900</calories>
+    ##   </food>
+    ##   <food>
+    ##     <name>Berry-Berry Belgian Waffles</name>
+    ##     <price>$8.95</price>
+    ##     <description>Light Belgian waffles covered with an assortment of fresh berries and whipped cream</description>
+    ##     <calories>900</calories>
+    ##   </food>
+    ##   <food>
+    ##     <name>French Toast</name>
+    ##     <price>$4.50</price>
+    ##     <description>Thick slices made from our homemade sourdough bread</description>
+    ##     <calories>600</calories>
+    ##   </food>
+    ##   <food>
+    ##     <name>Homestyle Breakfast</name>
+    ##     <price>$6.95</price>
+    ##     <description>Two eggs, bacon or sausage, toast, and our ever-popular hash browns</description>
+    ##     <calories>950</calories>
+    ##   </food>
+    ## </breakfast_menu>
+
+Now, start exploration.
+
+``` r
+## Get the name of the node
+xmlName(rootNode)
+```
+
+    ## [1] "breakfast_menu"
+
+``` r
+## Take a look at the content of the first child
+rootNode[[1]]
+```
+
+    ## <food>
+    ##   <name>Belgian Waffles</name>
+    ##   <price>$5.95</price>
+    ##   <description>Two of our famous Belgian Waffles with plenty of real maple syrup</description>
+    ##   <calories>650</calories>
+    ## </food>
+
+``` r
+## How many children in the node (number of food nodes)
+xmlSize(rootNode)
+```
+
+    ## [1] 5
+
+``` r
+## Get the name of the first child node
+xmlName(rootNode[[1]])
+```
+
+    ## [1] "food"
+
+We can also list the names and the sizes of the subnodes.
+
+``` r
+## number of childrens inside the first child 
+xmlSize(rootNode[[1]])
+```
+
+    ## [1] 4
+
+``` r
+## Get the names of the childrens inside the first child 
+xmlSApply(rootNode[[1]], xmlName)
+```
+
+    ##          name         price   description      calories 
+    ##        "name"       "price" "description"    "calories"
+
+``` r
+## Extract the food "name"
+xmlSApply(rootNode, function(x) x[[1]][[1]])
+```
+
+    ## $food
+    ## Belgian Waffles 
+    ## 
+    ## $food
+    ## Strawberry Belgian Waffles 
+    ## 
+    ## $food
+    ## Berry-Berry Belgian Waffles 
+    ## 
+    ## $food
+    ## French Toast 
+    ## 
+    ## $food
+    ## Homestyle Breakfast
+
+``` r
+## Another way to get inside values, price in this case
+xmlSApply(rootNode, function(x) x[['price']][[1]])
+```
+
+    ## $food
+    ## $5.95 
+    ## 
+    ## $food
+    ## $7.95 
+    ## 
+    ## $food
+    ## $8.95 
+    ## 
+    ## $food
+    ## $4.50 
+    ## 
+    ## $food
+    ## $6.95

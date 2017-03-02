@@ -9,6 +9,9 @@
     -   [Data frame to JSON](#data-frame-to-json)
     -   [JSON to Data frame](#json-to-data-frame)
 -   [Using `data.table`](#using-data.table)
+    -   [Subsetting Rows](#subsetting-rows)
+    -   [Subsetting Columns](#subsetting-columns)
+    -   [Operating on a subset of a data table](#operating-on-a-subset-of-a-data-table)
 
 Downloading Data from the internet
 ==================================
@@ -33,9 +36,12 @@ List the files in the current directory
 list.files("./")
 ```
 
-    ## [1] "books.xml"           "data.csv"            "data.xlsx"          
-    ## [4] "house_data.csv"      "ReadingData.md"      "ReadingData.nb.html"
-    ## [7] "ReadingData.Rmd"     "simple.xml"
+    ##  [1] "books.xml"               "data.csv"               
+    ##  [3] "data.xlsx"               "house_data.csv"         
+    ##  [5] "pandoc1560735d707f.html" "ReadingData.knit.md"    
+    ##  [7] "ReadingData.md"          "ReadingData.nb.html"    
+    ##  [9] "ReadingData.Rmd"         "ReadingData.utf8.md"    
+    ## [11] "simple.xml"
 
 Use `date()` to get the downloading date.
 
@@ -44,7 +50,7 @@ downloadDate <- date()
 downloadDate
 ```
 
-    ## [1] "Thu Mar 02 16:51:01 2017"
+    ## [1] "Thu Mar 02 17:19:17 2017"
 
 Reading Excel Files
 ===================
@@ -57,7 +63,7 @@ download.file(url, "data.xlsx",mode="wb")
 date()
 ```
 
-    ## [1] "Thu Mar 02 16:51:01 2017"
+    ## [1] "Thu Mar 02 17:19:17 2017"
 
 Using `xlsx` Package
 --------------------
@@ -634,15 +640,15 @@ DT
 ```
 
     ##             x y          z
-    ## 1:  1.1637060 a -0.2069592
-    ## 2:  1.5302343 a -0.3067752
-    ## 3:  0.2353242 a  1.4297631
-    ## 4: -0.3908675 b  0.3816902
-    ## 5:  0.8448469 b  0.6645518
-    ## 6: -0.2568330 b -0.8184477
-    ## 7: -0.5407020 c -0.3665061
-    ## 8: -3.0000109 c  0.0833570
-    ## 9:  2.1220969 c -1.2108633
+    ## 1: -1.8056848 a  0.5435187
+    ## 2:  0.2163240 a -0.5033198
+    ## 3: -0.4871007 a  2.2786603
+    ## 4: -0.5540912 b -0.4009342
+    ## 5: -0.2736544 b -0.7718286
+    ## 6: -1.0473235 b  0.4945387
+    ## 7: -0.2398426 c -1.6380861
+    ## 8:  0.4596318 c  0.6372230
+    ## 9: -0.3166805 c  2.7877834
 
 **To see all data tables in memory call `tabels()`**
 
@@ -654,7 +660,10 @@ tables()
     ## [1,] DT      9    3  1 x,y,z    
     ## Total: 1MB
 
-**Subsetting Rows** Use `DT` creted in previous step.
+Subsetting Rows
+---------------
+
+Use `DT` from previous step.
 
 ``` r
 ## Get the first 2 rows from DT
@@ -662,14 +671,243 @@ DT[2,]
 ```
 
     ##           x y          z
-    ## 1: 1.530234 a -0.3067752
+    ## 1: 0.216324 a -0.5033198
 
 ``` r
 ## Get the rows with y=c
 DT[DT$y=="c",]
 ```
 
-    ##            x y          z
-    ## 1: -0.540702 c -0.3665061
-    ## 2: -3.000011 c  0.0833570
-    ## 3:  2.122097 c -1.2108633
+    ##             x y         z
+    ## 1: -0.2398426 c -1.638086
+    ## 2:  0.4596318 c  0.637223
+    ## 3: -0.3166805 c  2.787783
+
+``` r
+## Get certain rows for example 1st, 5th, and 9th
+DT[c(1,5,9),]
+```
+
+    ##             x y          z
+    ## 1: -1.8056848 a  0.5435187
+    ## 2: -0.2736544 b -0.7718286
+    ## 3: -0.3166805 c  2.7877834
+
+Subsetting Columns
+------------------
+
+We still using `DT`
+
+``` r
+## Get the 2nd columns from DT
+DT[,2]
+```
+
+    ##    y
+    ## 1: a
+    ## 2: a
+    ## 3: a
+    ## 4: b
+    ## 5: b
+    ## 6: b
+    ## 7: c
+    ## 8: c
+    ## 9: c
+
+``` r
+## Get column with its name
+DT[,DT$z]
+```
+
+    ## [1]  0.5435187 -0.5033198  2.2786603 -0.4009342 -0.7718286  0.4945387
+    ## [7] -1.6380861  0.6372230  2.7877834
+
+``` r
+## Get certain columns for example 1st and 3rd
+DT[,c(1,3)]
+```
+
+    ##             x          z
+    ## 1: -1.8056848  0.5435187
+    ## 2:  0.2163240 -0.5033198
+    ## 3: -0.4871007  2.2786603
+    ## 4: -0.5540912 -0.4009342
+    ## 5: -0.2736544 -0.7718286
+    ## 6: -1.0473235  0.4945387
+    ## 7: -0.2398426 -1.6380861
+    ## 8:  0.4596318  0.6372230
+    ## 9: -0.3166805  2.7877834
+
+Operating on a subset of a data table
+-------------------------------------
+
+Until now the subsetting either rows or columns are intuitive. `DT` is a 2-dimensional array(table), and you can get a specific element using DT\[i,j\] format just like `matlab`.
+
+But, what if we want to take the average of the columns, or do any other operation on a subset of the `DT`. In this case **DT\[i,j,by\]** comes very handy. **DT\[i,j,by\]** means Take DT subset rows by **i**, then compute **j** grouped by **by**. Examples.
+
+``` r
+## Calculate the mean of x and sum of z
+DT[,list(mean(x), sum(z))]
+```
+
+    ##            V1       V2
+    ## 1: -0.4498246 3.427555
+
+``` r
+## Get a table with the count of each y value
+DT[,table(y)]
+```
+
+    ## y
+    ## a b c 
+    ## 3 3 3
+
+``` r
+## Add new column w which is z squared
+DT[,w:=z^2]
+```
+
+    ##             x y          z         w
+    ## 1: -1.8056848 a  0.5435187 0.2954125
+    ## 2:  0.2163240 a -0.5033198 0.2533308
+    ## 3: -0.4871007 a  2.2786603 5.1922927
+    ## 4: -0.5540912 b -0.4009342 0.1607483
+    ## 5: -0.2736544 b -0.7718286 0.5957193
+    ## 6: -1.0473235 b  0.4945387 0.2445686
+    ## 7: -0.2398426 c -1.6380861 2.6833259
+    ## 8:  0.4596318 c  0.6372230 0.4060531
+    ## 9: -0.3166805 c  2.7877834 7.7717365
+
+``` r
+DT
+```
+
+    ##             x y          z         w
+    ## 1: -1.8056848 a  0.5435187 0.2954125
+    ## 2:  0.2163240 a -0.5033198 0.2533308
+    ## 3: -0.4871007 a  2.2786603 5.1922927
+    ## 4: -0.5540912 b -0.4009342 0.1607483
+    ## 5: -0.2736544 b -0.7718286 0.5957193
+    ## 6: -1.0473235 b  0.4945387 0.2445686
+    ## 7: -0.2398426 c -1.6380861 2.6833259
+    ## 8:  0.4596318 c  0.6372230 0.4060531
+    ## 9: -0.3166805 c  2.7877834 7.7717365
+
+``` r
+## Add new column m = log(x+z+5). Note that we used {} to put in multi-line expression. Each expression ends with ';'
+DT[,m:={tmp <- (x+z); log2(tmp+5)}]
+```
+
+    ##             x y          z         w        m
+    ## 1: -1.8056848 a  0.5435187 0.2954125 1.902202
+    ## 2:  0.2163240 a -0.5033198 0.2533308 2.236647
+    ## 3: -0.4871007 a  2.2786603 5.1922927 2.763743
+    ## 4: -0.5540912 b -0.4009342 0.1607483 2.016131
+    ## 5: -0.2736544 b -0.7718286 0.5957193 1.983502
+    ## 6: -1.0473235 b  0.4945387 0.2445686 2.152902
+    ## 7: -0.2398426 c -1.6380861 2.6833259 1.642504
+    ## 8:  0.4596318 c  0.6372230 0.4060531 2.608065
+    ## 9: -0.3166805 c  2.7877834 7.7717365 2.901321
+
+``` r
+DT
+```
+
+    ##             x y          z         w        m
+    ## 1: -1.8056848 a  0.5435187 0.2954125 1.902202
+    ## 2:  0.2163240 a -0.5033198 0.2533308 2.236647
+    ## 3: -0.4871007 a  2.2786603 5.1922927 2.763743
+    ## 4: -0.5540912 b -0.4009342 0.1607483 2.016131
+    ## 5: -0.2736544 b -0.7718286 0.5957193 1.983502
+    ## 6: -1.0473235 b  0.4945387 0.2445686 2.152902
+    ## 7: -0.2398426 c -1.6380861 2.6833259 1.642504
+    ## 8:  0.4596318 c  0.6372230 0.4060531 2.608065
+    ## 9: -0.3166805 c  2.7877834 7.7717365 2.901321
+
+``` r
+## Bolean Operation. Add new column a shows if x>=0 or <0
+DT[,a:= x>=0]
+```
+
+    ##             x y          z         w        m     a
+    ## 1: -1.8056848 a  0.5435187 0.2954125 1.902202 FALSE
+    ## 2:  0.2163240 a -0.5033198 0.2533308 2.236647  TRUE
+    ## 3: -0.4871007 a  2.2786603 5.1922927 2.763743 FALSE
+    ## 4: -0.5540912 b -0.4009342 0.1607483 2.016131 FALSE
+    ## 5: -0.2736544 b -0.7718286 0.5957193 1.983502 FALSE
+    ## 6: -1.0473235 b  0.4945387 0.2445686 2.152902 FALSE
+    ## 7: -0.2398426 c -1.6380861 2.6833259 1.642504 FALSE
+    ## 8:  0.4596318 c  0.6372230 0.4060531 2.608065  TRUE
+    ## 9: -0.3166805 c  2.7877834 7.7717365 2.901321 FALSE
+
+``` r
+DT
+```
+
+    ##             x y          z         w        m     a
+    ## 1: -1.8056848 a  0.5435187 0.2954125 1.902202 FALSE
+    ## 2:  0.2163240 a -0.5033198 0.2533308 2.236647  TRUE
+    ## 3: -0.4871007 a  2.2786603 5.1922927 2.763743 FALSE
+    ## 4: -0.5540912 b -0.4009342 0.1607483 2.016131 FALSE
+    ## 5: -0.2736544 b -0.7718286 0.5957193 1.983502 FALSE
+    ## 6: -1.0473235 b  0.4945387 0.2445686 2.152902 FALSE
+    ## 7: -0.2398426 c -1.6380861 2.6833259 1.642504 FALSE
+    ## 8:  0.4596318 c  0.6372230 0.4060531 2.608065  TRUE
+    ## 9: -0.3166805 c  2.7877834 7.7717365 2.901321 FALSE
+
+**CAUTION**
+
+``` r
+DT2 <- DT
+DT[,y:=2]
+```
+
+    ## Warning in `[.data.table`(DT, , `:=`(y, 2)): Coerced 'double' RHS to
+    ## 'character' to match the column's type; may have truncated precision.
+    ## Either change the target column to 'double' first (by creating a new
+    ## 'double' vector length 9 (nrows of entire table) and assign that; i.e.
+    ## 'replace' column), or coerce RHS to 'character' (e.g. 1L, NA_[real|
+    ## integer]_, as.*, etc) to make your intent clear and for speed. Or, set the
+    ## column type correctly up front when you create the table and stick to it,
+    ## please.
+
+    ##             x y          z         w        m     a
+    ## 1: -1.8056848 2  0.5435187 0.2954125 1.902202 FALSE
+    ## 2:  0.2163240 2 -0.5033198 0.2533308 2.236647  TRUE
+    ## 3: -0.4871007 2  2.2786603 5.1922927 2.763743 FALSE
+    ## 4: -0.5540912 2 -0.4009342 0.1607483 2.016131 FALSE
+    ## 5: -0.2736544 2 -0.7718286 0.5957193 1.983502 FALSE
+    ## 6: -1.0473235 2  0.4945387 0.2445686 2.152902 FALSE
+    ## 7: -0.2398426 2 -1.6380861 2.6833259 1.642504 FALSE
+    ## 8:  0.4596318 2  0.6372230 0.4060531 2.608065  TRUE
+    ## 9: -0.3166805 2  2.7877834 7.7717365 2.901321 FALSE
+
+``` r
+DT
+```
+
+    ##             x y          z         w        m     a
+    ## 1: -1.8056848 2  0.5435187 0.2954125 1.902202 FALSE
+    ## 2:  0.2163240 2 -0.5033198 0.2533308 2.236647  TRUE
+    ## 3: -0.4871007 2  2.2786603 5.1922927 2.763743 FALSE
+    ## 4: -0.5540912 2 -0.4009342 0.1607483 2.016131 FALSE
+    ## 5: -0.2736544 2 -0.7718286 0.5957193 1.983502 FALSE
+    ## 6: -1.0473235 2  0.4945387 0.2445686 2.152902 FALSE
+    ## 7: -0.2398426 2 -1.6380861 2.6833259 1.642504 FALSE
+    ## 8:  0.4596318 2  0.6372230 0.4060531 2.608065  TRUE
+    ## 9: -0.3166805 2  2.7877834 7.7717365 2.901321 FALSE
+
+``` r
+DT2
+```
+
+    ##             x y          z         w        m     a
+    ## 1: -1.8056848 2  0.5435187 0.2954125 1.902202 FALSE
+    ## 2:  0.2163240 2 -0.5033198 0.2533308 2.236647  TRUE
+    ## 3: -0.4871007 2  2.2786603 5.1922927 2.763743 FALSE
+    ## 4: -0.5540912 2 -0.4009342 0.1607483 2.016131 FALSE
+    ## 5: -0.2736544 2 -0.7718286 0.5957193 1.983502 FALSE
+    ## 6: -1.0473235 2  0.4945387 0.2445686 2.152902 FALSE
+    ## 7: -0.2398426 2 -1.6380861 2.6833259 1.642504 FALSE
+    ## 8:  0.4596318 2  0.6372230 0.4060531 2.608065  TRUE
+    ## 9: -0.3166805 2  2.7877834 7.7717365 2.901321 FALSE

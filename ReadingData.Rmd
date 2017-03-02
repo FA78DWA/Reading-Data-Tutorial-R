@@ -241,13 +241,63 @@ DT
 tables()
 ```
 
-**Subsetting Rows**
-Use `DT` creted in previous step.
+## Subsetting Rows
+Use `DT` from previous step.
 ```{r}
 ## Get the first 2 rows from DT
 DT[2,]
 
 ## Get the rows with y=c
 DT[DT$y=="c",]
+
+## Get certain rows for example 1st, 5th, and 9th
+DT[c(1,5,9),]
+```
+## Subsetting Columns
+We still using `DT`
+```{r}
+## Get the 2nd columns from DT
+DT[,2]
+
+## Get column with its name
+DT[,DT$z]
+
+## Get certain columns for example 1st and 3rd
+DT[,c(1,3)]
+```
+
+## Operating on a subset of a data table
+Until now the subsetting either rows or columns are intuitive. `DT` is a 2-dimensional array(table), and you can get a specific element using DT[i,j] format just like `matlab`. 
+
+But, what if we want to take the average of the columns, or do any other operation on a subset of the `DT`. In this case **DT[i,j,by]** comes very handy. 
+ **DT[i,j,by]** means Take DT subset rows by **i**, then compute **j** grouped by **by**. Examples.
+ 
+```{r}
+## Calculate the mean of x and sum of z
+DT[,list(mean(x), sum(z))]
+
+## Get a table with the count of each y value
+DT[,table(y)]
+
+## Add new column w which is z squared
+DT[,w:=z^2]
+DT
+
+## Add new column m = log(x+z+5). Note that we used {} to put in multi-line expression. Each expression ends with ';'
+DT[,m:={tmp <- (x+z); log2(tmp+5)}]
+DT
+
+## Bolean Operation. Add new column a shows if x>=0 or <0
+DT[,a:= x>=0]
+DT
+```
+**CAUTION**
+```{r}
+
+DT2 <- DT
+DT[,y:=2]
+DT
+
+DT2
 ```
 

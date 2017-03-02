@@ -203,8 +203,9 @@ jsonData$owner$login
 ```
 ## Data frame to JSON
 ```{r}
-## Load iris dataset (already in R)
+## Load iris dataset (already in R), and get the first 10 observation for simplicity
 data(iris)
+iris = iris[1:10,]
 
 ## convert it to JSON
 myIris <- toJSON(iris, pretty = TRUE)

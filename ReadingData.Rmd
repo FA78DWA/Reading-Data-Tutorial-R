@@ -70,7 +70,7 @@ Error: package/namespace load failed for 'rJava'
 * check your R version `R.version()`, and download the corresponding java (32/64), from [here](https://www.java.com/en/download/win10.jsp).
 * Finally, check if your Java is in `Program Files` or `Program Files (x86)`. Add the path to the **jvm.dll** to your PATH in **windows Environment**. If the java file is in `Program Files (x86)`, it means you have 32-bit version, and you can change the default version of your `Rstudio` from Tools >> Global options to 32 bit. For more information check [this](http://stackoverflow.com/questions/7019912/using-the-rjava-package-on-win7-64-bit-with-r).
 
-### Reading specific rows and columns form the Excel file
+**Reading specific rows and columns form the Excel file**
 ```{r}
 c <- 7:15
 r <- 18:23
@@ -300,7 +300,7 @@ DT[,y:=2]
 DT2
 ```
 
-## Using Special Variable `.N`
+## Using special variable `.N`
 `.N` is an integer, length 1, containing the number of rows in the group. 
 ```{r}
 set.seed(0)
@@ -315,7 +315,7 @@ newDT <- data.table(x)
 newDT[ ,.N, by=x]
 ```
 
-## Create key on data table
+## Create a key on your data table
 `setkey()` sorts a data.table and marks it as sorted (with an attribute sorted). The sorted columns are the key. The key can be any columns in any order. The columns are always sorted in ascending order.
 
 `key()` returns the data.table's key if it exists, and NULL if none exist.
@@ -342,7 +342,7 @@ haskey(DT)
 DT['c']
 ```
 
-## Joins
+## Join two data tables together
 Setting keys can also be useful to merge two data tables
 ```{r}
 ## Greate 2 DTs

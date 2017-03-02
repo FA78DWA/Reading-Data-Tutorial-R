@@ -39,7 +39,7 @@ downloadDate <- date()
 downloadDate
 ```
 
-    ## [1] "Thu Mar 02 09:45:51 2017"
+    ## [1] "Thu Mar 02 09:49:50 2017"
 
 Reading Excel Files
 ===================
@@ -52,7 +52,7 @@ download.file(url, "data.xlsx",mode="wb")
 date()
 ```
 
-    ## [1] "Thu Mar 02 09:45:51 2017"
+    ## [1] "Thu Mar 02 09:49:50 2017"
 
 Using `xlsx` Package
 --------------------
@@ -227,7 +227,7 @@ rootNode
     ##   </food>
     ## </breakfast_menu>
 
-Now, start exploration.
+**Now, start exploring**
 
 ``` r
 ## Get the name of the node
@@ -262,7 +262,7 @@ xmlName(rootNode[[1]])
 
     ## [1] "food"
 
-We can also list the names and the sizes of the subnodes.
+**We can also list the names and the sizes of the subnodes**
 
 ``` r
 ## number of childrens inside the first child 
@@ -280,7 +280,7 @@ xmlSApply(rootNode[[1]], xmlName)
     ##        "name"       "price" "description"    "calories"
 
 ``` r
-## Extract the food "name"
+## Extract the food "name" from all subnodes
 xmlSApply(rootNode, function(x) x[[1]][[1]])
 ```
 
@@ -300,7 +300,7 @@ xmlSApply(rootNode, function(x) x[[1]][[1]])
     ## Homestyle Breakfast
 
 ``` r
-## Another way to get inside values, price in this case
+## Another way to get inside values, price in this case 
 xmlSApply(rootNode, function(x) x[['price']][[1]])
 ```
 

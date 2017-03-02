@@ -4,6 +4,7 @@
         -   [Reading specific rows and columns form the Excel file](#reading-specific-rows-and-columns-form-the-excel-file)
     -   [Using `readxl` Package](#using-readxl-package)
 -   [Reading XML Files](#reading-xml-files)
+    -   [Using `XPath`](#using-xpath)
 
 Downloading Data from the internet
 ==================================
@@ -28,9 +29,9 @@ List the files in the current directory
 list.files("./")
 ```
 
-    ## [1] "data.csv"            "data.xlsx"           "house_data.csv"     
-    ## [4] "ReadingData.md"      "ReadingData.nb.html" "ReadingData.Rmd"    
-    ## [7] "simple.xml"
+    ## [1] "books.xml"           "data.csv"            "data.xlsx"          
+    ## [4] "house_data.csv"      "ReadingData.md"      "ReadingData.nb.html"
+    ## [7] "ReadingData.Rmd"     "simple.xml"
 
 Use `date()` to get the downloading date.
 
@@ -39,7 +40,7 @@ downloadDate <- date()
 downloadDate
 ```
 
-    ## [1] "Thu Mar 02 09:49:50 2017"
+    ## [1] "Thu Mar 02 10:58:31 2017"
 
 Reading Excel Files
 ===================
@@ -52,7 +53,7 @@ download.file(url, "data.xlsx",mode="wb")
 date()
 ```
 
-    ## [1] "Thu Mar 02 09:49:50 2017"
+    ## [1] "Thu Mar 02 10:58:32 2017"
 
 Using `xlsx` Package
 --------------------
@@ -171,7 +172,7 @@ head(dataFile)
 Reading XML Files
 =================
 
-XML stands for *"Extensible Markup Language"*. For more information see [wiki\_xml](https://en.wikipedia.org/wiki/XML#Key_terminology). We start by downloading and loading the `XML` package. Then reading the xml file with `xmlTreeParse`.
+XML stands for *"Extensible Markup Language"*. For more information see [wiki\_xml](https://en.wikipedia.org/wiki/XML#Key_terminology) and [readXML](https://www.stat.berkeley.edu/~statcur/Workshop2/Presentations/XML.pdf). We start by downloading and loading the `XML` package. Then reading the xml file with `xmlTreeParse`.
 
 ``` r
 library(XML)
@@ -318,3 +319,124 @@ xmlSApply(rootNode, function(x) x[['price']][[1]])
     ## 
     ## $food
     ## $6.95
+
+Using `XPath`
+-------------
+
+`xpathApply` and `xpathSApply` provide a way to find XML nodes that match a particular criterion to identify nodes of interest within the document. The set of matching node are returned as a list. For more information type `?xpathApply` in R console. Note that `xpathSApply` is a simplified version of `xpathApply`, just like `Sapply` and `apply`.
+
+\*\* XPath Language Notes \*\*
+
+-   `/node` - Top level node
+-   `//node` - Node at ANY level
+-   `node[@attr-name]` - node that has an attribute named "attr-name"
+-   `node[@attr-name='bob']` - node that has attribute named attr-name with value 'bob'
+-   `node/@x` - value of attribute x in node with such attr.
+
+``` r
+## Get the food "name"
+xpathApply(rootNode, "//name", xmlValue)
+```
+
+    ## [[1]]
+    ## [1] "Belgian Waffles"
+    ## 
+    ## [[2]]
+    ## [1] "Strawberry Belgian Waffles"
+    ## 
+    ## [[3]]
+    ## [1] "Berry-Berry Belgian Waffles"
+    ## 
+    ## [[4]]
+    ## [1] "French Toast"
+    ## 
+    ## [[5]]
+    ## [1] "Homestyle Breakfast"
+
+``` r
+## Get the food "name" with xpathSApply
+xpathSApply(rootNode, "//name", xmlValue)
+```
+
+    ## [1] "Belgian Waffles"             "Strawberry Belgian Waffles" 
+    ## [3] "Berry-Berry Belgian Waffles" "French Toast"               
+    ## [5] "Homestyle Breakfast"
+
+``` r
+## Get the prices
+xpathApply(rootNode, "//price", xmlValue)
+```
+
+    ## [[1]]
+    ## [1] "$5.95"
+    ## 
+    ## [[2]]
+    ## [1] "$7.95"
+    ## 
+    ## [[3]]
+    ## [1] "$8.95"
+    ## 
+    ## [[4]]
+    ## [1] "$4.50"
+    ## 
+    ## [[5]]
+    ## [1] "$6.95"
+
+``` r
+## Get the prices with xpathSApply
+xpathSApply(rootNode, "//price", xmlValue)
+```
+
+    ## [1] "$5.95" "$7.95" "$8.95" "$4.50" "$6.95"
+
+\*\* Extract content by attributes \*\* First, we load another xml `books.xml` file that contains attributes to work on. You can find it [here](https://msdn.microsoft.com/en-us/library/ms762271(v=vs.85).aspx) or in the file directory [here](https://github.com/FA78DWA/Reading-Data-Tutorial-R).
+
+``` r
+## Load the file, and wrap into one variable
+books <- xmlRoot(xmlTreeParse("books.xml", useInternalNodes = TRUE))
+
+## Show the the first book from the books library we loaded
+books[[1]]
+```
+
+    ## <book id="bk101">
+    ##   <author>Gambardella, Matthew</author>
+    ##   <title>XML Developer's Guide</title>
+    ##   <genre>Computer</genre>
+    ##   <price>44.95</price>
+    ##   <publish_date>2000-10-01</publish_date>
+    ##   <description>An in-depth look at creating applications 
+    ##       with XML.</description>
+    ## </book>
+
+``` r
+## Get the number of books inside the library
+xmlSize(books)
+```
+
+    ## [1] 12
+
+``` r
+## Get the title of the "book"s that have "id" attribute. In this case all books have "id"
+xpathSApply(books, "//book[@id]/title", xmlValue)
+```
+
+    ##  [1] "XML Developer's Guide"                 
+    ##  [2] "Midnight Rain"                         
+    ##  [3] "Maeve Ascendant"                       
+    ##  [4] "Oberon's Legacy"                       
+    ##  [5] "The Sundered Grail"                    
+    ##  [6] "Lover Birds"                           
+    ##  [7] "Splish Splash"                         
+    ##  [8] "Creepy Crawlies"                       
+    ##  [9] "Paradox Lost"                          
+    ## [10] "Microsoft .NET: The Programming Bible" 
+    ## [11] "MSXML3: A Comprehensive Guide"         
+    ## [12] "Visual Studio 7: A Comprehensive Guide"
+
+``` r
+## Get the "title" of the book with "id = bk103". Note that "id" is an "attribute"
+xpathSApply(books, "//book[@id='bk103']/title", xmlValue)
+```
+
+    ## [1] "Maeve Ascendant"

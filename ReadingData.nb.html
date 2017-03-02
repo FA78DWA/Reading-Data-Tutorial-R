@@ -320,7 +320,7 @@ head(dataFile)</code></pre>
 </div>
 <div id="reading-xml-files" class="section level1">
 <h1>Reading XML Files</h1>
-<p>XML stands for <em>“Extensible Markup Language”</em>. For more information see <a href="https://en.wikipedia.org/wiki/XML#Key_terminology">wiki_xml</a>. We start by downloading and loading the <code>XML</code> package. Then reading the xml file with <code>xmlTreeParse</code>.</p>
+<p>XML stands for <em>“Extensible Markup Language”</em>. For more information see <a href="https://en.wikipedia.org/wiki/XML#Key_terminology">wiki_xml</a> and <a href="https://www.stat.berkeley.edu/~statcur/Workshop2/Presentations/XML.pdf">readXML</a>. We start by downloading and loading the <code>XML</code> package. Then reading the xml file with <code>xmlTreeParse</code>.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShYTUwpXG51cmwgPC0gXCJodHRwczovL3d3dy53M3NjaG9vbHMuY29tL3htbC9zaW1wbGUueG1sXCJcbmRvd25sb2FkLmZpbGUodXJsLCBcInNpbXBsZS54bWxcIilcbmBgYCJ9 -->
@@ -386,7 +386,7 @@ rootNode</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Now, start exploration.</p>
+<p><strong>Now, start exploring</strong></p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgR2V0IHRoZSBmaXJzdCBub2RlXG5yb290Tm9kZVtbMV1dXG5gYGAifQ== -->
@@ -436,7 +436,7 @@ rootNode[[1]]</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>We can also list the names and the sizes of the subnodes.</p>
+<p><strong>We can also list the names and the sizes of the subnodes</strong></p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgbnVtYmVyIG9mIGNoaWxkcmVucyBpbnNpZGUgdGhlIGZpcnN0IGNoaWxkIFxueG1sU2l6ZShyb290Tm9kZVtbMV1dKVxuYGBgIn0= -->
@@ -496,10 +496,136 @@ $6.95 </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<div id="using-xpath" class="section level2">
+<h2>Using <code>XPath</code></h2>
+<p><code>xpathApply</code> and <code>xpathSApply</code> provide a way to find XML nodes that match a particular criterion to identify nodes of interest within the document. The set of matching node are returned as a list. For more information type <code>?xpathApply</code> in R console. Note that <code>xpathSApply</code> is a simplified version of <code>xpathApply</code>, just like <code>Sapply</code> and <code>apply</code>.</p>
+<p>** XPath Language Notes **</p>
+<ul>
+<li><code>/node</code> - Top level node</li>
+<li><code>//node</code> - Node at ANY level</li>
+<li><code>node[@attr-name]</code> - node that has an attribute named “attr-name”</li>
+<li><code>node[@attr-name='bob']</code> - node that has attribute named attr-name with value ‘bob’</li>
+<li><code>node/@x</code> - value of attribute x in node with such attr.</li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgR2V0IHRoZSBmb29kIFwibmFtZVwiXG54cGF0aEFwcGx5KHJvb3ROb2RlLCBcIi8vbmFtZVwiLCB4bWxWYWx1ZSlcbmBgYCJ9 -->
+<pre class="r"><code>## Get the food &quot;name&quot;
+xpathApply(rootNode, &quot;//name&quot;, xmlValue)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiW1sxXV1cblsxXSBcIkJlbGdpYW4gV2FmZmxlc1wiXG5cbltbMl1dXG5bMV0gXCJTdHJhd2JlcnJ5IEJlbGdpYW4gV2FmZmxlc1wiXG5cbltbM11dXG5bMV0gXCJCZXJyeS1CZXJyeSBCZWxnaWFuIFdhZmZsZXNcIlxuXG5bWzRdXVxuWzFdIFwiRnJlbmNoIFRvYXN0XCJcblxuW1s1XV1cblsxXSBcIkhvbWVzdHlsZSBCcmVha2Zhc3RcIlxuIn0= -->
+<pre><code>[[1]]
+[1] &quot;Belgian Waffles&quot;
+
+[[2]]
+[1] &quot;Strawberry Belgian Waffles&quot;
+
+[[3]]
+[1] &quot;Berry-Berry Belgian Waffles&quot;
+
+[[4]]
+[1] &quot;French Toast&quot;
+
+[[5]]
+[1] &quot;Homestyle Breakfast&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgR2V0IHRoZSBmb29kIFwibmFtZVwiIHdpdGggU0FwcGx5XG54cGF0aFNBcHBseShyb290Tm9kZSwgXCIvL25hbWVcIiwgeG1sVmFsdWUpXG5gYGAifQ== -->
+<pre class="r"><code>## Get the food &quot;name&quot; with SApply
+xpathSApply(rootNode, &quot;//name&quot;, xmlValue)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiQmVsZ2lhbiBXYWZmbGVzXCIgICAgICAgICAgICAgXCJTdHJhd2JlcnJ5IEJlbGdpYW4gV2FmZmxlc1wiIFxuWzNdIFwiQmVycnktQmVycnkgQmVsZ2lhbiBXYWZmbGVzXCIgXCJGcmVuY2ggVG9hc3RcIiAgICAgICAgICAgICAgIFxuWzVdIFwiSG9tZXN0eWxlIEJyZWFrZmFzdFwiICAgICAgICBcbiJ9 -->
+<pre><code>[1] &quot;Belgian Waffles&quot;             &quot;Strawberry Belgian Waffles&quot; 
+[3] &quot;Berry-Berry Belgian Waffles&quot; &quot;French Toast&quot;               
+[5] &quot;Homestyle Breakfast&quot;        </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgR2V0IHRoZSBwcmljZXNcbnhwYXRoQXBwbHkocm9vdE5vZGUsIFwiLy9wcmljZVwiLCB4bWxWYWx1ZSlcbmBgYCJ9 -->
+<pre class="r"><code>## Get the prices
+xpathApply(rootNode, &quot;//price&quot;, xmlValue)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiW1sxXV1cblsxXSBcIiQ1Ljk1XCJcblxuW1syXV1cblsxXSBcIiQ3Ljk1XCJcblxuW1szXV1cblsxXSBcIiQ4Ljk1XCJcblxuW1s0XV1cblsxXSBcIiQ0LjUwXCJcblxuW1s1XV1cblsxXSBcIiQ2Ljk1XCJcbiJ9 -->
+<pre><code>[[1]]
+[1] &quot;$5.95&quot;
+
+[[2]]
+[1] &quot;$7.95&quot;
+
+[[3]]
+[1] &quot;$8.95&quot;
+
+[[4]]
+[1] &quot;$4.50&quot;
+
+[[5]]
+[1] &quot;$6.95&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgR2V0IHRoZSBwcmljZXMgd2l0aCBTQXBwbHlcbnhwYXRoU0FwcGx5KHJvb3ROb2RlLCBcIi8vcHJpY2VcIiwgeG1sVmFsdWUpXG5gYGAifQ== -->
+<pre class="r"><code>## Get the prices with SApply
+xpathSApply(rootNode, &quot;//price&quot;, xmlValue)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiJDUuOTVcIiBcIiQ3Ljk1XCIgXCIkOC45NVwiIFwiJDQuNTBcIiBcIiQ2Ljk1XCJcbiJ9 -->
+<pre><code>[1] &quot;$5.95&quot; &quot;$7.95&quot; &quot;$8.95&quot; &quot;$4.50&quot; &quot;$6.95&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>** Extract content by attributes ** First, we load another xml <code>books.xml</code> file that contains attributes to work on. You can find it <a href="https://msdn.microsoft.com/en-us/library/ms762271(v=vs.85).aspx">here</a> or in the file directory <a href="https://github.com/FA78DWA/Reading-Data-Tutorial-R">here</a>.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgTG9hZCB0aGUgZmlsZSwgYW5kIHdyYXAgaW50byBvbmUgdmFyaWFibGVcbmJvb2tzIDwtIHhtbFJvb3QoeG1sVHJlZVBhcnNlKFwiYm9va3MueG1sXCIsIHVzZUludGVybmFsTm9kZXMgPSBUUlVFKSlcbiMjIFNob3cgdGhlIHRoZSBmaXJzdCBib29rIGZyb20gdGhlIGJvb2tzIGxpYnJhcnkgd2UgbG9hZGVkXG5ib29rc1tbMV1dXG5gYGAifQ== -->
+<pre class="r"><code>## Load the file, and wrap into one variable
+books &lt;- xmlRoot(xmlTreeParse(&quot;books.xml&quot;, useInternalNodes = TRUE))
+## Show the the first book from the books library we loaded
+books[[1]]</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiPGJvb2sgaWQ9XCJiazEwMVwiPlxuICA8YXV0aG9yPkdhbWJhcmRlbGxhLCBNYXR0aGV3PC9hdXRob3I+XG4gIDx0aXRsZT5YTUwgRGV2ZWxvcGVyJ3MgR3VpZGU8L3RpdGxlPlxuICA8Z2VucmU+Q29tcHV0ZXI8L2dlbnJlPlxuICA8cHJpY2U+NDQuOTU8L3ByaWNlPlxuICA8cHVibGlzaF9kYXRlPjIwMDAtMTAtMDE8L3B1Ymxpc2hfZGF0ZT5cbiAgPGRlc2NyaXB0aW9uPkFuIGluLWRlcHRoIGxvb2sgYXQgY3JlYXRpbmcgYXBwbGljYXRpb25zIFxuICAgICAgd2l0aCBYTUwuPC9kZXNjcmlwdGlvbj5cbjwvYm9vaz4gXG4ifQ== -->
+<pre><code>&lt;book id=&quot;bk101&quot;&gt;
+  &lt;author&gt;Gambardella, Matthew&lt;/author&gt;
+  &lt;title&gt;XML Developer's Guide&lt;/title&gt;
+  &lt;genre&gt;Computer&lt;/genre&gt;
+  &lt;price&gt;44.95&lt;/price&gt;
+  &lt;publish_date&gt;2000-10-01&lt;/publish_date&gt;
+  &lt;description&gt;An in-depth look at creating applications 
+      with XML.&lt;/description&gt;
+&lt;/book&gt; </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgR2V0IHRoZSBudW1iZXIgb2YgYm9va3MgaW5zaWRlIHRoZSBsaWJyYXJ5XG54bWxTaXplKGJvb2tzKVxuYGBgIn0= -->
+<pre class="r"><code>## Get the number of books inside the library
+xmlSize(books)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEyXG4ifQ== -->
+<pre><code>[1] 12</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgR2V0IHRoZSB0aXRsZSBvZiB0aGUgXCJib29rXCJzIHRoYXQgaGF2ZSBcImlkXCIgYXR0cmlidXRlLiBJbiB0aGlzIGNhc2UgYWxsIGJvb2tzIGhhdmUgXCJpZFwiXG54cGF0aFNBcHBseShib29rcywgXCIvL2Jvb2tbQGlkXS90aXRsZVwiLCB4bWxWYWx1ZSlcbmBgYCJ9 -->
+<pre class="r"><code>## Get the title of the &quot;book&quot;s that have &quot;id&quot; attribute. In this case all books have &quot;id&quot;
+xpathSApply(books, &quot;//book[@id]/title&quot;, xmlValue)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcIlhNTCBEZXZlbG9wZXIncyBHdWlkZVwiICAgICAgICAgICAgICAgICBcbiBbMl0gXCJNaWRuaWdodCBSYWluXCIgICAgICAgICAgICAgICAgICAgICAgICAgXG4gWzNdIFwiTWFldmUgQXNjZW5kYW50XCIgICAgICAgICAgICAgICAgICAgICAgIFxuIFs0XSBcIk9iZXJvbidzIExlZ2FjeVwiICAgICAgICAgICAgICAgICAgICAgICBcbiBbNV0gXCJUaGUgU3VuZGVyZWQgR3JhaWxcIiAgICAgICAgICAgICAgICAgICAgXG4gWzZdIFwiTG92ZXIgQmlyZHNcIiAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuIFs3XSBcIlNwbGlzaCBTcGxhc2hcIiAgICAgICAgICAgICAgICAgICAgICAgICBcbiBbOF0gXCJDcmVlcHkgQ3Jhd2xpZXNcIiAgICAgICAgICAgICAgICAgICAgICAgXG4gWzldIFwiUGFyYWRveCBMb3N0XCIgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzEwXSBcIk1pY3Jvc29mdCAuTkVUOiBUaGUgUHJvZ3JhbW1pbmcgQmlibGVcIiBcblsxMV0gXCJNU1hNTDM6IEEgQ29tcHJlaGVuc2l2ZSBHdWlkZVwiICAgICAgICAgXG5bMTJdIFwiVmlzdWFsIFN0dWRpbyA3OiBBIENvbXByZWhlbnNpdmUgR3VpZGVcIlxuIn0= -->
+<pre><code> [1] &quot;XML Developer's Guide&quot;                 
+ [2] &quot;Midnight Rain&quot;                         
+ [3] &quot;Maeve Ascendant&quot;                       
+ [4] &quot;Oberon's Legacy&quot;                       
+ [5] &quot;The Sundered Grail&quot;                    
+ [6] &quot;Lover Birds&quot;                           
+ [7] &quot;Splish Splash&quot;                         
+ [8] &quot;Creepy Crawlies&quot;                       
+ [9] &quot;Paradox Lost&quot;                          
+[10] &quot;Microsoft .NET: The Programming Bible&quot; 
+[11] &quot;MSXML3: A Comprehensive Guide&quot;         
+[12] &quot;Visual Studio 7: A Comprehensive Guide&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgR2V0IHRoZSBcInRpdGxlXCIgb2YgdGhlIGJvb2sgd2l0aCBcImlkID0gYmsxMDNcIi4gTm90IHRoYXQgXCJpZFwiIGlzIGFuIFwiYXR0cmlidXRlXCJcbnhwYXRoU0FwcGx5KGJvb2tzLCBcIi8vYm9va1tAaWQ9J2JrMTAzJ10vdGl0bGVcIiwgeG1sVmFsdWUpXG5gYGAifQ== -->
+<pre class="r"><code>## Get the &quot;title&quot; of the book with &quot;id = bk103&quot;. Not that &quot;id&quot; is an &quot;attribute&quot;
+xpathSApply(books, &quot;//book[@id='bk103']/title&quot;, xmlValue)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiTWFldmUgQXNjZW5kYW50XCJcbiJ9 -->
+<pre><code>[1] &quot;Maeve Ascendant&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
+</div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCg0KIyBvdXRwdXQ6DQojICAgbWRfZG9jdW1lbnQ6DQojICAgICB2YXJpYW50OiBtYXJrZG93bl9naXRodWINCiMgICAgIHRvYzogdHJ1ZQ0KIyAgICAgdG9jX2RlcHRoOiAzDQotLS0NCg0KIyBEb3dubG9hZGluZyBEYXRhIGZyb20gdGhlIGludGVybmV0DQpVc2UgYGRvd25sb2FkLmZpbGUoKWAgdGhhdCB0YWtlcyB0aGUgdXJsIGFuZCB0aGUgZGVzdGluYXRpb24gb24geW91ciBjb21wdXRlciB0byBzYXZlIHRoZSBmaWxlIGF0LiBBbmQgbm90ZSB0aGF0DQoNCiogSWYgdGhlIGZpbGUgdXJsIHN0YXJ0cyB3aXRoICoqaHR0cCoqIHlvdSBjYW4gdXNlIGBkb3dubG9hZC5maWxlKClgLg0KKiBJdCBpcyBhbHNvIG9rYXkgdG8gdXNlIGBkb3dubG9hZC5maWxlKClgIGluIGNhc2Ugb2YgKipodHRwcyoqIGFuZCAqKndpbmRvd3MqKi4NCiogQnV0IG9uICoqTWFjKiosIHlvdSBtaWdodCBuZWVkIHRvIHNldCBgbWV0aG9kPSJjdXJsImAgdG8gZG93bmxvYWQgZnJvbSAqKmh0dHBzKiogdXJsLg0KKiBUaGUgZG93bmxvYWQgZHVyYXRpb24gZGVwZW5kcyBvbiB0aGUgZmlsZSBzaXplLg0KDQpFeGFtcGxlOiBkb3dubG9hZCB0aGUgMjAwNiBtaWNyb2RhdGEgc3VydmV5IGFib3V0IGhvdXNpbmcgZm9yIHRoZSBzdGF0ZSBvZiBJZGFoby4NCmBgYHtyfQ0KdXJsIDwtICJodHRwczovL2QzOTZxdXN6YTQwb3JjLmNsb3VkZnJvbnQubmV0L2dldGRhdGElMkZkYXRhJTJGc3MwNmhpZC5jc3YiDQpkb3dubG9hZC5maWxlKHVybCwgImhvdXNlX2RhdGEuY3N2IikgIyNzYXZlIGluIHRoZSBjdXJyZW50IGRpciwgYW5kIG5hbWUgdGhlIGZpbGUgImRhdGEuY3N2Ig0KYGBgDQoNCkxpc3QgdGhlIGZpbGVzIGluIHRoZSBjdXJyZW50IGRpcmVjdG9yeQ0KYGBge3J9DQpsaXN0LmZpbGVzKCIuLyIpDQpgYGANCg0KVXNlIGBkYXRlKClgIHRvIGdldCB0aGUgZG93bmxvYWRpbmcgZGF0ZS4NCmBgYHtyfQ0KZG93bmxvYWREYXRlIDwtIGRhdGUoKQ0KZG93bmxvYWREYXRlDQpgYGANCg0KIyBSZWFkaW5nIEV4Y2VsIEZpbGVzDQpGaXJzdCBkb3dubG9hZCB0aGUgZmlsZSB1c2luZyBgZG93bmxvYWQuZmlsZSgpYA0KYGBge3J9DQp1cmwgPC0gImh0dHBzOi8vZDM5NnF1c3phNDBvcmMuY2xvdWRmcm9udC5uZXQvZ2V0ZGF0YSUyRmRhdGElMkZEQVRBLmdvdl9OR0FQLnhsc3giDQpkb3dubG9hZC5maWxlKHVybCwgImRhdGEueGxzeCIsbW9kZT0id2IiKQ0KZGF0ZSgpDQpgYGANCg0KIyMgVXNpbmcgYHhsc3hgIFBhY2thZ2UNCg0KWW91IGNhbiByZWFkIHRoZSBmaWxlIHVzaW5nIGByZWFkLnhsc3hgIG9yIGByZWFkLnhsc3gyYC4gWW91IHdpbGwgbmVlZCB0byBkb3dubG9hZCB0aGUgYHhsc3hgIHBhY2thZ2UgdG8gdXNlIHRoZW0uDQpgYGB7cn0NCiMgTG9hZCB0aGUgbGlicmFyeQ0KbGlicmFyeShySmF2YSkNCmxpYnJhcnkoeGxzeGphcnMpDQpsaWJyYXJ5KHhsc3gpDQpyZWFkRmlsZSA8LSByZWFkLnhsc3goImRhdGEueGxzeCIsIHNoZWV0SW5kZXg9MSkNCmhlYWQocmVhZEZpbGUpDQpgYGANCiANCllvdSBtaWdodCBmYWNlIHNvbWUgZGlmZmljdWxpdGllcyB3aGVuIHVzaW5nIHRoZSB4bHN4IGxpYnJhcnkuIEhlcmUgaXMgdGhlIG1vc3QgZmFtb3VzIGVycm9yOg0KIA0KRXJyb3IgOiAub25Mb2FkIGZhaWxlZCBpbiBsb2FkTmFtZXNwYWNlKCkgZm9yICdySmF2YScsIGRldGFpbHM6DQogIGNhbGw6IGluREwoeCwgYXMubG9naWNhbChsb2NhbCksIGFzLmxvZ2ljYWwobm93KSwgLi4uKQ0KDQogIGVycm9yOiB1bmFibGUgdG8gbG9hZCBzaGFyZWQgb2JqZWN0ICdDOi9Vc2Vycy9tZS9Eb2N1bWVudHMvUi93aW4tbGlicmFyeS8yLjEzL3JKYXZhL2xpYnMveDY0L3JKYXZhLmRsbCc6DQogIExvYWRMaWJyYXJ5IGZhaWx1cmU6ICAlMSBpcyBub3QgYSB2YWxpZCBXaW4zMiBhcHBsaWNhdGlvbi4NCg0KRXJyb3I6IHBhY2thZ2UvbmFtZXNwYWNlIGxvYWQgZmFpbGVkIGZvciAnckphdmEnDQoNCioqVG8gc29sdmUgdGhhdCB5b3Ugd2lsbCBuZWVkIHRvIDoqKg0KDQoqIGRvd25sb2FkIHRoZSBgckphdmFgIHBhY2thZ2UgKGlmIHRoZSBlcnJvciByZW1haW5zKQ0KKiBjaGVjayB5b3VyIFIgdmVyc2lvbiBgUi52ZXJzaW9uKClgLCBhbmQgZG93bmxvYWQgdGhlIGNvcnJlc3BvbmRpbmcgamF2YSAoMzIvNjQpLCBmcm9tIFtoZXJlXShodHRwczovL3d3dy5qYXZhLmNvbS9lbi9kb3dubG9hZC93aW4xMC5qc3ApLg0KKiBGaW5hbGx5LCBjaGVjayBpZiB5b3VyIEphdmEgaXMgaW4gYFByb2dyYW0gRmlsZXNgIG9yIGBQcm9ncmFtIEZpbGVzICh4ODYpYC4gQWRkIHRoZSBwYXRoIHRvIHRoZSAqKmp2bS5kbGwqKiB0byB5b3VyIFBBVEggaW4gKip3aW5kb3dzIEVudmlyb25tZW50KiouIElmIHRoZSBqYXZhIGZpbGUgaXMgaW4gYFByb2dyYW0gRmlsZXMgKHg4NilgLCBpdCBtZWFucyB5b3UgaGF2ZSAzMi1iaXQgdmVyc2lvbiwgYW5kIHlvdSBjYW4gY2hhbmdlIHRoZSBkZWZhdWx0IHZlcnNpb24gb2YgeW91ciBgUnN0dWRpb2AgZnJvbSBUb29scyA+PiBHbG9iYWwgb3B0aW9ucyB0byAzMiBiaXQuIEZvciBtb3JlIGluZm9ybWF0aW9uIGNoZWNrIFt0aGlzXShodHRwOi8vc3RhY2tvdmVyZmxvdy5jb20vcXVlc3Rpb25zLzcwMTk5MTIvdXNpbmctdGhlLXJqYXZhLXBhY2thZ2Utb24td2luNy02NC1iaXQtd2l0aC1yKS4NCg0KIyMjIFJlYWRpbmcgc3BlY2lmaWMgcm93cyBhbmQgY29sdW1ucyBmb3JtIHRoZSBFeGNlbCBmaWxlDQpgYGB7cn0NCmMgPC0gNzoxNQ0KciA8LSAxODoyMw0KcmVhZFN1YnNldCA8LSByZWFkLnhsc3goImRhdGEueGxzeCIsIHNoZWV0SW5kZXg9MSwgY29sSW5kZXggPSBjLCByb3dJbmRleCA9IHIpDQpyZWFkU3Vic2V0DQpgYGANCg0KIyMgVXNpbmcgYHJlYWR4bGAgUGFja2FnZQ0KQW5vdGhlciB3YXkgdG8gcmVhZCBFeGNlbCBmaWxlcyBpcyB0byB1c2UgYHJlYWRfZXhjZWxgIGZyb20gdGhlIGByZWFkeGxgIGxpYnJhcnkuIEZvciBtb3JlIGluZm9ybWF0aW9uIGNoZWNrIFt0aGlzXShodHRwOi8vc3RhY2tvdmVyZmxvdy5jb20vcXVlc3Rpb25zLzcwNDkyNzIvaW1wb3J0aW5nLXhsc3gtZmlsZS1pbnRvLXIpLg0KDQpBZnRlciBpbnN0YWxsaW5nIHRoZSBwYWNrYWdlLi4NCmBgYHtyfQ0KbGlicmFyeShyZWFkeGwpDQpkYXRhRmlsZSA8LSByZWFkX2V4Y2VsKCJkYXRhLnhsc3giKQ0KaGVhZChkYXRhRmlsZSkNCmBgYA0KDQojIFJlYWRpbmcgWE1MIEZpbGVzDQpYTUwgc3RhbmRzIGZvciAqIkV4dGVuc2libGUgTWFya3VwIExhbmd1YWdlIiouIEZvciBtb3JlIGluZm9ybWF0aW9uIHNlZSBbd2lraV94bWxdKGh0dHBzOi8vZW4ud2lraXBlZGlhLm9yZy93aWtpL1hNTCNLZXlfdGVybWlub2xvZ3kpLiBXZSBzdGFydCBieSBkb3dubG9hZGluZyBhbmQgbG9hZGluZyB0aGUgYFhNTGAgcGFja2FnZS4gVGhlbiByZWFkaW5nIHRoZSB4bWwgZmlsZSB3aXRoIGB4bWxUcmVlUGFyc2VgLg0KYGBge3J9DQpsaWJyYXJ5KFhNTCkNCg0KdXJsIDwtICJodHRwczovL3d3dy53M3NjaG9vbHMuY29tL3htbC9zaW1wbGUueG1sIg0KZG93bmxvYWQuZmlsZSh1cmwsICJzaW1wbGUueG1sIikNCg0KeG1sRmlsZSA8LSB4bWxUcmVlUGFyc2UoInNpbXBsZS54bWwiLCB1c2VJbnRlcm5hbE5vZGVzID0gVFJVRSkNCiMjIGNoZWNrIHRoZSBmaWxlIGNsYXNzIA0KY2xhc3MoeG1sRmlsZSkNCmBgYA0KDQpXcmFwcGluZyB0aGUgY29udGVudCBpbnNpZGUgdGhlIHhtbCBmaWxlLiANCmBgYHtyfQ0KIyMgZ2V0IHRoZSBjb250ZW50IG9mIHRoZSByb290DQpyb290Tm9kZSA8LSB4bWxSb290KHhtbEZpbGUpDQpyb290Tm9kZQ0KYGBgDQoNCk5vdywgc3RhcnQgZXhwbG9yYXRpb24uDQpgYGB7cn0NCiMjIEdldCB0aGUgbmFtZSBvZiB0aGUgbm9kZQ0KeG1sTmFtZShyb290Tm9kZSkNCg0KIyMgVGFrZSBhIGxvb2sgYXQgdGhlIGNvbnRlbnQgb2YgdGhlIGZpcnN0IGNoaWxkDQpyb290Tm9kZVtbMV1dDQoNCiMjIEhvdyBtYW55IGNoaWxkcmVuIGluIHRoZSBub2RlIChudW1iZXIgb2YgZm9vZCBub2RlcykNCnhtbFNpemUocm9vdE5vZGUpDQoNCiMjIEdldCB0aGUgbmFtZSBvZiB0aGUgZmlyc3QgY2hpbGQgbm9kZQ0KeG1sTmFtZShyb290Tm9kZVtbMV1dKQ0KYGBgDQpXZSBjYW4gYWxzbyBsaXN0IHRoZSBuYW1lcyBhbmQgdGhlIHNpemVzIG9mIHRoZSBzdWJub2Rlcy4NCmBgYHtyfQ0KIyMgbnVtYmVyIG9mIGNoaWxkcmVucyBpbnNpZGUgdGhlIGZpcnN0IGNoaWxkIA0KeG1sU2l6ZShyb290Tm9kZVtbMV1dKQ0KDQojIyBHZXQgdGhlIG5hbWVzIG9mIHRoZSBjaGlsZHJlbnMgaW5zaWRlIHRoZSBmaXJzdCBjaGlsZCANCnhtbFNBcHBseShyb290Tm9kZVtbMV1dLCB4bWxOYW1lKQ0KDQojIyBFeHRyYWN0IHRoZSBmb29kICJuYW1lIg0KeG1sU0FwcGx5KHJvb3ROb2RlLCBmdW5jdGlvbih4KSB4W1sxXV1bWzFdXSkNCg0KIyMgQW5vdGhlciB3YXkgdG8gZ2V0IGluc2lkZSB2YWx1ZXMsIHByaWNlIGluIHRoaXMgY2FzZQ0KeG1sU0FwcGx5KHJvb3ROb2RlLCBmdW5jdGlvbih4KSB4W1sncHJpY2UnXV1bWzFdXSkNCmBgYA0KDQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQojb3V0cHV0OiBodG1sX25vdGVib29rDQoNCm91dHB1dDoNCiAgbWRfZG9jdW1lbnQ6DQogICAgdmFyaWFudDogbWFya2Rvd25fZ2l0aHViDQogICAgdG9jOiB0cnVlDQogICAgdG9jX2RlcHRoOiAzDQotLS0NCg0KIyBEb3dubG9hZGluZyBEYXRhIGZyb20gdGhlIGludGVybmV0DQpVc2UgYGRvd25sb2FkLmZpbGUoKWAgdGhhdCB0YWtlcyB0aGUgdXJsIGFuZCB0aGUgZGVzdGluYXRpb24gb24geW91ciBjb21wdXRlciB0byBzYXZlIHRoZSBmaWxlIGF0LiBBbmQgbm90ZSB0aGF0DQoNCiogSWYgdGhlIGZpbGUgdXJsIHN0YXJ0cyB3aXRoICoqaHR0cCoqIHlvdSBjYW4gdXNlIGBkb3dubG9hZC5maWxlKClgLg0KKiBJdCBpcyBhbHNvIG9rYXkgdG8gdXNlIGBkb3dubG9hZC5maWxlKClgIGluIGNhc2Ugb2YgKipodHRwcyoqIGFuZCAqKndpbmRvd3MqKi4NCiogQnV0IG9uICoqTWFjKiosIHlvdSBtaWdodCBuZWVkIHRvIHNldCBgbWV0aG9kPSJjdXJsImAgdG8gZG93bmxvYWQgZnJvbSAqKmh0dHBzKiogdXJsLg0KKiBUaGUgZG93bmxvYWQgZHVyYXRpb24gZGVwZW5kcyBvbiB0aGUgZmlsZSBzaXplLg0KDQpFeGFtcGxlOiBkb3dubG9hZCB0aGUgMjAwNiBtaWNyb2RhdGEgc3VydmV5IGFib3V0IGhvdXNpbmcgZm9yIHRoZSBzdGF0ZSBvZiBJZGFoby4NCmBgYHtyfQ0KdXJsIDwtICJodHRwczovL2QzOTZxdXN6YTQwb3JjLmNsb3VkZnJvbnQubmV0L2dldGRhdGElMkZkYXRhJTJGc3MwNmhpZC5jc3YiDQpkb3dubG9hZC5maWxlKHVybCwgImhvdXNlX2RhdGEuY3N2IikgIyNzYXZlIGluIHRoZSBjdXJyZW50IGRpciwgYW5kIG5hbWUgdGhlIGZpbGUgImRhdGEuY3N2Ig0KYGBgDQoNCkxpc3QgdGhlIGZpbGVzIGluIHRoZSBjdXJyZW50IGRpcmVjdG9yeQ0KYGBge3J9DQpsaXN0LmZpbGVzKCIuLyIpDQpgYGANCg0KVXNlIGBkYXRlKClgIHRvIGdldCB0aGUgZG93bmxvYWRpbmcgZGF0ZS4NCmBgYHtyfQ0KZG93bmxvYWREYXRlIDwtIGRhdGUoKQ0KZG93bmxvYWREYXRlDQpgYGANCg0KIyBSZWFkaW5nIEV4Y2VsIEZpbGVzDQpGaXJzdCBkb3dubG9hZCB0aGUgZmlsZSB1c2luZyBgZG93bmxvYWQuZmlsZSgpYA0KYGBge3J9DQp1cmwgPC0gImh0dHBzOi8vZDM5NnF1c3phNDBvcmMuY2xvdWRmcm9udC5uZXQvZ2V0ZGF0YSUyRmRhdGElMkZEQVRBLmdvdl9OR0FQLnhsc3giDQpkb3dubG9hZC5maWxlKHVybCwgImRhdGEueGxzeCIsbW9kZT0id2IiKQ0KZGF0ZSgpDQpgYGANCg0KIyMgVXNpbmcgYHhsc3hgIFBhY2thZ2UNCg0KWW91IGNhbiByZWFkIHRoZSBmaWxlIHVzaW5nIGByZWFkLnhsc3hgIG9yIGByZWFkLnhsc3gyYC4gWW91IHdpbGwgbmVlZCB0byBkb3dubG9hZCB0aGUgYHhsc3hgIHBhY2thZ2UgdG8gdXNlIHRoZW0uDQpgYGB7cn0NCiMgTG9hZCB0aGUgbGlicmFyeQ0KbGlicmFyeShySmF2YSkNCmxpYnJhcnkoeGxzeGphcnMpDQpsaWJyYXJ5KHhsc3gpDQpyZWFkRmlsZSA8LSByZWFkLnhsc3goImRhdGEueGxzeCIsIHNoZWV0SW5kZXg9MSkNCmhlYWQocmVhZEZpbGUpDQpgYGANCiANCllvdSBtaWdodCBmYWNlIHNvbWUgZGlmZmljdWxpdGllcyB3aGVuIHVzaW5nIHRoZSB4bHN4IGxpYnJhcnkuIEhlcmUgaXMgdGhlIG1vc3QgZmFtb3VzIGVycm9yOg0KIA0KRXJyb3IgOiAub25Mb2FkIGZhaWxlZCBpbiBsb2FkTmFtZXNwYWNlKCkgZm9yICdySmF2YScsIGRldGFpbHM6DQogIGNhbGw6IGluREwoeCwgYXMubG9naWNhbChsb2NhbCksIGFzLmxvZ2ljYWwobm93KSwgLi4uKQ0KDQogIGVycm9yOiB1bmFibGUgdG8gbG9hZCBzaGFyZWQgb2JqZWN0ICdDOi9Vc2Vycy9tZS9Eb2N1bWVudHMvUi93aW4tbGlicmFyeS8yLjEzL3JKYXZhL2xpYnMveDY0L3JKYXZhLmRsbCc6DQogIExvYWRMaWJyYXJ5IGZhaWx1cmU6ICAlMSBpcyBub3QgYSB2YWxpZCBXaW4zMiBhcHBsaWNhdGlvbi4NCg0KRXJyb3I6IHBhY2thZ2UvbmFtZXNwYWNlIGxvYWQgZmFpbGVkIGZvciAnckphdmEnDQoNCioqVG8gc29sdmUgdGhhdCB5b3Ugd2lsbCBuZWVkIHRvIDoqKg0KDQoqIGRvd25sb2FkIHRoZSBgckphdmFgIHBhY2thZ2UgKGlmIHRoZSBlcnJvciByZW1haW5zKQ0KKiBjaGVjayB5b3VyIFIgdmVyc2lvbiBgUi52ZXJzaW9uKClgLCBhbmQgZG93bmxvYWQgdGhlIGNvcnJlc3BvbmRpbmcgamF2YSAoMzIvNjQpLCBmcm9tIFtoZXJlXShodHRwczovL3d3dy5qYXZhLmNvbS9lbi9kb3dubG9hZC93aW4xMC5qc3ApLg0KKiBGaW5hbGx5LCBjaGVjayBpZiB5b3VyIEphdmEgaXMgaW4gYFByb2dyYW0gRmlsZXNgIG9yIGBQcm9ncmFtIEZpbGVzICh4ODYpYC4gQWRkIHRoZSBwYXRoIHRvIHRoZSAqKmp2bS5kbGwqKiB0byB5b3VyIFBBVEggaW4gKip3aW5kb3dzIEVudmlyb25tZW50KiouIElmIHRoZSBqYXZhIGZpbGUgaXMgaW4gYFByb2dyYW0gRmlsZXMgKHg4NilgLCBpdCBtZWFucyB5b3UgaGF2ZSAzMi1iaXQgdmVyc2lvbiwgYW5kIHlvdSBjYW4gY2hhbmdlIHRoZSBkZWZhdWx0IHZlcnNpb24gb2YgeW91ciBgUnN0dWRpb2AgZnJvbSBUb29scyA+PiBHbG9iYWwgb3B0aW9ucyB0byAzMiBiaXQuIEZvciBtb3JlIGluZm9ybWF0aW9uIGNoZWNrIFt0aGlzXShodHRwOi8vc3RhY2tvdmVyZmxvdy5jb20vcXVlc3Rpb25zLzcwMTk5MTIvdXNpbmctdGhlLXJqYXZhLXBhY2thZ2Utb24td2luNy02NC1iaXQtd2l0aC1yKS4NCg0KIyMjIFJlYWRpbmcgc3BlY2lmaWMgcm93cyBhbmQgY29sdW1ucyBmb3JtIHRoZSBFeGNlbCBmaWxlDQpgYGB7cn0NCmMgPC0gNzoxNQ0KciA8LSAxODoyMw0KcmVhZFN1YnNldCA8LSByZWFkLnhsc3goImRhdGEueGxzeCIsIHNoZWV0SW5kZXg9MSwgY29sSW5kZXggPSBjLCByb3dJbmRleCA9IHIpDQpyZWFkU3Vic2V0DQpgYGANCg0KIyMgVXNpbmcgYHJlYWR4bGAgUGFja2FnZQ0KQW5vdGhlciB3YXkgdG8gcmVhZCBFeGNlbCBmaWxlcyBpcyB0byB1c2UgYHJlYWRfZXhjZWxgIGZyb20gdGhlIGByZWFkeGxgIGxpYnJhcnkuIEZvciBtb3JlIGluZm9ybWF0aW9uIGNoZWNrIFt0aGlzXShodHRwOi8vc3RhY2tvdmVyZmxvdy5jb20vcXVlc3Rpb25zLzcwNDkyNzIvaW1wb3J0aW5nLXhsc3gtZmlsZS1pbnRvLXIpLg0KDQpBZnRlciBpbnN0YWxsaW5nIHRoZSBwYWNrYWdlLi4NCmBgYHtyfQ0KbGlicmFyeShyZWFkeGwpDQpkYXRhRmlsZSA8LSByZWFkX2V4Y2VsKCJkYXRhLnhsc3giKQ0KaGVhZChkYXRhRmlsZSkNCmBgYA0KDQojIFJlYWRpbmcgWE1MIEZpbGVzDQpYTUwgc3RhbmRzIGZvciAqIkV4dGVuc2libGUgTWFya3VwIExhbmd1YWdlIiouIEZvciBtb3JlIGluZm9ybWF0aW9uIHNlZSBbd2lraV94bWxdKGh0dHBzOi8vZW4ud2lraXBlZGlhLm9yZy93aWtpL1hNTCNLZXlfdGVybWlub2xvZ3kpIGFuZCBbcmVhZFhNTF0oaHR0cHM6Ly93d3cuc3RhdC5iZXJrZWxleS5lZHUvfnN0YXRjdXIvV29ya3Nob3AyL1ByZXNlbnRhdGlvbnMvWE1MLnBkZikuIFdlIHN0YXJ0IGJ5IGRvd25sb2FkaW5nIGFuZCBsb2FkaW5nIHRoZSBgWE1MYCBwYWNrYWdlLiBUaGVuIHJlYWRpbmcgdGhlIHhtbCBmaWxlIHdpdGggYHhtbFRyZWVQYXJzZWAuDQpgYGB7cn0NCmxpYnJhcnkoWE1MKQ0KDQp1cmwgPC0gImh0dHBzOi8vd3d3Lnczc2Nob29scy5jb20veG1sL3NpbXBsZS54bWwiDQpkb3dubG9hZC5maWxlKHVybCwgInNpbXBsZS54bWwiKQ0KDQp4bWxGaWxlIDwtIHhtbFRyZWVQYXJzZSgic2ltcGxlLnhtbCIsIHVzZUludGVybmFsTm9kZXMgPSBUUlVFKQ0KIyMgY2hlY2sgdGhlIGZpbGUgY2xhc3MgDQpjbGFzcyh4bWxGaWxlKQ0KYGBgDQoNCldyYXBwaW5nIHRoZSBjb250ZW50IGluc2lkZSB0aGUgeG1sIGZpbGUuIA0KYGBge3J9DQojIyBnZXQgdGhlIGNvbnRlbnQgb2YgdGhlIHJvb3QNCnJvb3ROb2RlIDwtIHhtbFJvb3QoeG1sRmlsZSkNCnJvb3ROb2RlDQpgYGANCg0KKipOb3csIHN0YXJ0IGV4cGxvcmluZyoqDQpgYGB7cn0NCiMjIEdldCB0aGUgbmFtZSBvZiB0aGUgbm9kZQ0KeG1sTmFtZShyb290Tm9kZSkNCg0KIyMgVGFrZSBhIGxvb2sgYXQgdGhlIGNvbnRlbnQgb2YgdGhlIGZpcnN0IGNoaWxkDQpyb290Tm9kZVtbMV1dDQoNCiMjIEhvdyBtYW55IGNoaWxkcmVuIGluIHRoZSBub2RlIChudW1iZXIgb2YgZm9vZCBub2RlcykNCnhtbFNpemUocm9vdE5vZGUpDQoNCiMjIEdldCB0aGUgbmFtZSBvZiB0aGUgZmlyc3QgY2hpbGQgbm9kZQ0KeG1sTmFtZShyb290Tm9kZVtbMV1dKQ0KYGBgDQoqKldlIGNhbiBhbHNvIGxpc3QgdGhlIG5hbWVzIGFuZCB0aGUgc2l6ZXMgb2YgdGhlIHN1Ym5vZGVzKioNCmBgYHtyfQ0KIyMgbnVtYmVyIG9mIGNoaWxkcmVucyBpbnNpZGUgdGhlIGZpcnN0IGNoaWxkIA0KeG1sU2l6ZShyb290Tm9kZVtbMV1dKQ0KDQojIyBHZXQgdGhlIG5hbWVzIG9mIHRoZSBjaGlsZHJlbnMgaW5zaWRlIHRoZSBmaXJzdCBjaGlsZCANCnhtbFNBcHBseShyb290Tm9kZVtbMV1dLCB4bWxOYW1lKQ0KDQojIyBFeHRyYWN0IHRoZSBmb29kICJuYW1lIiBmcm9tIGFsbCBzdWJub2Rlcw0KeG1sU0FwcGx5KHJvb3ROb2RlLCBmdW5jdGlvbih4KSB4W1sxXV1bWzFdXSkNCg0KIyMgQW5vdGhlciB3YXkgdG8gZ2V0IGluc2lkZSB2YWx1ZXMsIHByaWNlIGluIHRoaXMgY2FzZSANCnhtbFNBcHBseShyb290Tm9kZSwgZnVuY3Rpb24oeCkgeFtbJ3ByaWNlJ11dW1sxXV0pDQpgYGANCg0KIyMgVXNpbmcgYFhQYXRoYA0KYHhwYXRoQXBwbHlgIGFuZCBgeHBhdGhTQXBwbHlgIHByb3ZpZGUgYSB3YXkgdG8gZmluZCBYTUwgbm9kZXMgdGhhdCBtYXRjaCBhIHBhcnRpY3VsYXIgY3JpdGVyaW9uIHRvIGlkZW50aWZ5IG5vZGVzIG9mIGludGVyZXN0IHdpdGhpbiB0aGUgZG9jdW1lbnQuIFRoZSBzZXQgb2YgbWF0Y2hpbmcgbm9kZSBhcmUgcmV0dXJuZWQgYXMgYSBsaXN0LiBGb3IgbW9yZSBpbmZvcm1hdGlvbiB0eXBlIGA/eHBhdGhBcHBseWAgaW4gUiBjb25zb2xlLiBOb3RlIHRoYXQgYHhwYXRoU0FwcGx5YCBpcyBhIHNpbXBsaWZpZWQgdmVyc2lvbiBvZiBgeHBhdGhBcHBseWAsIGp1c3QgbGlrZSBgU2FwcGx5YCBhbmQgYGFwcGx5YC4NCg0KKiogWFBhdGggTGFuZ3VhZ2UgTm90ZXMgKioNCg0KKiBgL25vZGVgIC0gVG9wIGxldmVsIG5vZGUNCiogYC8vbm9kZWAgLSBOb2RlIGF0IEFOWSBsZXZlbA0KKiBgbm9kZVtAYXR0ci1uYW1lXWAgLSBub2RlIHRoYXQgaGFzIGFuIGF0dHJpYnV0ZSBuYW1lZCAiYXR0ci1uYW1lIg0KKiBgbm9kZVtAYXR0ci1uYW1lPSdib2InXWAgLSBub2RlIHRoYXQgaGFzIGF0dHJpYnV0ZSBuYW1lZCBhdHRyLW5hbWUgd2l0aCB2YWx1ZSAnYm9iJw0KKiBgbm9kZS9AeGAgLSB2YWx1ZSBvZiBhdHRyaWJ1dGUgeCBpbiBub2RlIHdpdGggc3VjaCBhdHRyLg0KDQpgYGB7cn0NCiMjIEdldCB0aGUgZm9vZCAibmFtZSINCnhwYXRoQXBwbHkocm9vdE5vZGUsICIvL25hbWUiLCB4bWxWYWx1ZSkNCg0KIyMgR2V0IHRoZSBmb29kICJuYW1lIiB3aXRoIHhwYXRoU0FwcGx5DQp4cGF0aFNBcHBseShyb290Tm9kZSwgIi8vbmFtZSIsIHhtbFZhbHVlKQ0KDQojIyBHZXQgdGhlIHByaWNlcw0KeHBhdGhBcHBseShyb290Tm9kZSwgIi8vcHJpY2UiLCB4bWxWYWx1ZSkNCg0KIyMgR2V0IHRoZSBwcmljZXMgd2l0aCB4cGF0aFNBcHBseQ0KeHBhdGhTQXBwbHkocm9vdE5vZGUsICIvL3ByaWNlIiwgeG1sVmFsdWUpDQpgYGANCg0KKiogRXh0cmFjdCBjb250ZW50IGJ5IGF0dHJpYnV0ZXMgKioNCkZpcnN0LCB3ZSBsb2FkIGFub3RoZXIgeG1sIGBib29rcy54bWxgIGZpbGUgdGhhdCBjb250YWlucyBhdHRyaWJ1dGVzIHRvIHdvcmsgb24uIFlvdSBjYW4gZmluZCBpdCBbaGVyZV0oaHR0cHM6Ly9tc2RuLm1pY3Jvc29mdC5jb20vZW4tdXMvbGlicmFyeS9tczc2MjI3MSh2PXZzLjg1KS5hc3B4KSBvciBpbiB0aGUgZmlsZSBkaXJlY3RvcnkgW2hlcmVdKGh0dHBzOi8vZ2l0aHViLmNvbS9GQTc4RFdBL1JlYWRpbmctRGF0YS1UdXRvcmlhbC1SKS4NCg0KYGBge3J9DQojIyBMb2FkIHRoZSBmaWxlLCBhbmQgd3JhcCBpbnRvIG9uZSB2YXJpYWJsZQ0KYm9va3MgPC0geG1sUm9vdCh4bWxUcmVlUGFyc2UoImJvb2tzLnhtbCIsIHVzZUludGVybmFsTm9kZXMgPSBUUlVFKSkNCg0KIyMgU2hvdyB0aGUgdGhlIGZpcnN0IGJvb2sgZnJvbSB0aGUgYm9va3MgbGlicmFyeSB3ZSBsb2FkZWQNCmJvb2tzW1sxXV0NCg0KIyMgR2V0IHRoZSBudW1iZXIgb2YgYm9va3MgaW5zaWRlIHRoZSBsaWJyYXJ5DQp4bWxTaXplKGJvb2tzKQ0KDQojIyBHZXQgdGhlIHRpdGxlIG9mIHRoZSAiYm9vayJzIHRoYXQgaGF2ZSAiaWQiIGF0dHJpYnV0ZS4gSW4gdGhpcyBjYXNlIGFsbCBib29rcyBoYXZlICJpZCINCnhwYXRoU0FwcGx5KGJvb2tzLCAiLy9ib29rW0BpZF0vdGl0bGUiLCB4bWxWYWx1ZSkNCg0KIyMgR2V0IHRoZSAidGl0bGUiIG9mIHRoZSBib29rIHdpdGggImlkID0gYmsxMDMiLiBOb3RlIHRoYXQgImlkIiBpcyBhbiAiYXR0cmlidXRlIg0KeHBhdGhTQXBwbHkoYm9va3MsICIvL2Jvb2tbQGlkPSdiazEwMyddL3RpdGxlIiwgeG1sVmFsdWUpDQpgYGANCg0K</div>
 
 
 

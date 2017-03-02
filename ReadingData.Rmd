@@ -1,12 +1,12 @@
 ---
 title: "R Notebook"
-output: html_notebook
+#output: html_notebook
 
-# output:
-#   md_document:
-#     variant: markdown_github
-#     toc: true
-#     toc_depth: 3
+output:
+  md_document:
+    variant: markdown_github
+    toc: true
+    toc_depth: 3
 ---
 
 # Downloading Data from the internet
@@ -89,7 +89,7 @@ head(dataFile)
 ```
 
 # Reading XML Files
-XML stands for *"Extensible Markup Language"*. For more information see [wiki_xml](https://en.wikipedia.org/wiki/XML#Key_terminology). We start by downloading and loading the `XML` package. Then reading the xml file with `xmlTreeParse`.
+XML stands for *"Extensible Markup Language"*. For more information see [wiki_xml](https://en.wikipedia.org/wiki/XML#Key_terminology) and [readXML](https://www.stat.berkeley.edu/~statcur/Workshop2/Presentations/XML.pdf). We start by downloading and loading the `XML` package. Then reading the xml file with `xmlTreeParse`.
 ```{r}
 library(XML)
 
@@ -108,7 +108,7 @@ rootNode <- xmlRoot(xmlFile)
 rootNode
 ```
 
-Now, start exploration.
+**Now, start exploring**
 ```{r}
 ## Get the name of the node
 xmlName(rootNode)
@@ -122,7 +122,7 @@ xmlSize(rootNode)
 ## Get the name of the first child node
 xmlName(rootNode[[1]])
 ```
-We can also list the names and the sizes of the subnodes.
+**We can also list the names and the sizes of the subnodes**
 ```{r}
 ## number of childrens inside the first child 
 xmlSize(rootNode[[1]])
@@ -130,10 +130,55 @@ xmlSize(rootNode[[1]])
 ## Get the names of the childrens inside the first child 
 xmlSApply(rootNode[[1]], xmlName)
 
-## Extract the food "name"
+## Extract the food "name" from all subnodes
 xmlSApply(rootNode, function(x) x[[1]][[1]])
 
-## Another way to get inside values, price in this case
+## Another way to get inside values, price in this case 
 xmlSApply(rootNode, function(x) x[['price']][[1]])
+```
+
+## Using `XPath`
+`xpathApply` and `xpathSApply` provide a way to find XML nodes that match a particular criterion to identify nodes of interest within the document. The set of matching node are returned as a list. For more information type `?xpathApply` in R console. Note that `xpathSApply` is a simplified version of `xpathApply`, just like `Sapply` and `apply`.
+
+** XPath Language Notes **
+
+* `/node` - Top level node
+* `//node` - Node at ANY level
+* `node[@attr-name]` - node that has an attribute named "attr-name"
+* `node[@attr-name='bob']` - node that has attribute named attr-name with value 'bob'
+* `node/@x` - value of attribute x in node with such attr.
+
+```{r}
+## Get the food "name"
+xpathApply(rootNode, "//name", xmlValue)
+
+## Get the food "name" with xpathSApply
+xpathSApply(rootNode, "//name", xmlValue)
+
+## Get the prices
+xpathApply(rootNode, "//price", xmlValue)
+
+## Get the prices with xpathSApply
+xpathSApply(rootNode, "//price", xmlValue)
+```
+
+** Extract content by attributes **
+First, we load another xml `books.xml` file that contains attributes to work on. You can find it [here](https://msdn.microsoft.com/en-us/library/ms762271(v=vs.85).aspx) or in the file directory [here](https://github.com/FA78DWA/Reading-Data-Tutorial-R).
+
+```{r}
+## Load the file, and wrap into one variable
+books <- xmlRoot(xmlTreeParse("books.xml", useInternalNodes = TRUE))
+
+## Show the the first book from the books library we loaded
+books[[1]]
+
+## Get the number of books inside the library
+xmlSize(books)
+
+## Get the title of the "book"s that have "id" attribute. In this case all books have "id"
+xpathSApply(books, "//book[@id]/title", xmlValue)
+
+## Get the "title" of the book with "id = bk103". Note that "id" is an "attribute"
+xpathSApply(books, "//book[@id='bk103']/title", xmlValue)
 ```
 

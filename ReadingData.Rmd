@@ -163,6 +163,7 @@ xpathSApply(rootNode, "//price", xmlValue)
 ```
 
 ** Extract content by attributes **
+
 First, we load another xml `books.xml` file that contains attributes to work on. You can find it [here](https://msdn.microsoft.com/en-us/library/ms762271(v=vs.85).aspx) or in the file directory [here](https://github.com/FA78DWA/Reading-Data-Tutorial-R).
 
 ```{r}

@@ -29,9 +29,12 @@ List the files in the current directory
 list.files("./")
 ```
 
-    ## [1] "books.xml"           "data.csv"            "data.xlsx"          
-    ## [4] "house_data.csv"      "ReadingData.md"      "ReadingData.nb.html"
-    ## [7] "ReadingData.Rmd"     "simple.xml"
+    ##  [1] "books.xml"              "data.csv"              
+    ##  [3] "data.xlsx"              "house_data.csv"        
+    ##  [5] "pandoc4f0293c6e42.html" "ReadingData.knit.md"   
+    ##  [7] "ReadingData.md"         "ReadingData.nb.html"   
+    ##  [9] "ReadingData.Rmd"        "ReadingData.utf8.md"   
+    ## [11] "simple.xml"
 
 Use `date()` to get the downloading date.
 
@@ -40,7 +43,7 @@ downloadDate <- date()
 downloadDate
 ```
 
-    ## [1] "Thu Mar 02 10:58:31 2017"
+    ## [1] "Thu Mar 02 11:01:33 2017"
 
 Reading Excel Files
 ===================
@@ -53,7 +56,7 @@ download.file(url, "data.xlsx",mode="wb")
 date()
 ```
 
-    ## [1] "Thu Mar 02 10:58:32 2017"
+    ## [1] "Thu Mar 02 11:01:33 2017"
 
 Using `xlsx` Package
 --------------------
@@ -389,7 +392,9 @@ xpathSApply(rootNode, "//price", xmlValue)
 
     ## [1] "$5.95" "$7.95" "$8.95" "$4.50" "$6.95"
 
-\*\* Extract content by attributes \*\* First, we load another xml `books.xml` file that contains attributes to work on. You can find it [here](https://msdn.microsoft.com/en-us/library/ms762271(v=vs.85).aspx) or in the file directory [here](https://github.com/FA78DWA/Reading-Data-Tutorial-R).
+\*\* Extract content by attributes \*\*
+
+First, we load another xml `books.xml` file that contains attributes to work on. You can find it [here](https://msdn.microsoft.com/en-us/library/ms762271(v=vs.85).aspx) or in the file directory [here](https://github.com/FA78DWA/Reading-Data-Tutorial-R).
 
 ``` r
 ## Load the file, and wrap into one variable

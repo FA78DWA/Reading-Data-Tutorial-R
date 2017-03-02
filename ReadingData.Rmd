@@ -223,3 +223,21 @@ getIrisBack <- fromJSON(myIris)
 head(getIrisBack)
 ```
 
+# Using `data.table`
+This package inherits from `data.frame` this means that all functions that accept `data.frame` will work on `data.table`. Also, `data.table` is much faster in data subsetting, grouping and updating, because it is written in C.
+
+Starting by downloading the package and load it. Then, create a `data table`
+```{r}
+library(data.table)
+
+#create a data table with 9 rows and 3 columns
+DT <- data.table(x=rnorm(9), y=rep(c("a","b","c"), each=3), z=rnorm(9))
+
+DT
+```
+
+**To see all data tables in memory call `tabels()`**
+```{r}
+tables()
+```
+

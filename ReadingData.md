@@ -8,6 +8,7 @@
 -   [Reading JSON Files](#reading-json-files)
     -   [Data frame to JSON](#data-frame-to-json)
     -   [JSON to Data frame](#json-to-data-frame)
+-   [Using `data.table`](#using-data.table)
 
 Downloading Data from the internet
 ==================================
@@ -32,12 +33,10 @@ List the files in the current directory
 list.files("./")
 ```
 
-    ##  [1] "books.xml"               "data.csv"               
-    ##  [3] "data.xlsx"               "house_data.csv"         
-    ##  [5] "pandoc1560148d545a.html" "ReadingData.knit.md"    
-    ##  [7] "ReadingData.md"          "ReadingData.nb.html"    
-    ##  [9] "ReadingData.Rmd"         "ReadingData.utf8.md"    
-    ## [11] "simple.xml"
+    ##  [1] "books.xml"           "data.csv"            "data.xlsx"          
+    ##  [4] "house_data.csv"      "ReadingData.knit.md" "ReadingData.md"     
+    ##  [7] "ReadingData.nb.html" "ReadingData.Rmd"     "ReadingData.utf8.md"
+    ## [10] "simple.xml"
 
 Use `date()` to get the downloading date.
 
@@ -46,7 +45,7 @@ downloadDate <- date()
 downloadDate
 ```
 
-    ## [1] "Thu Mar 02 11:33:54 2017"
+    ## [1] "Thu Mar 02 16:45:54 2017"
 
 Reading Excel Files
 ===================
@@ -59,7 +58,7 @@ download.file(url, "data.xlsx",mode="wb")
 date()
 ```
 
-    ## [1] "Thu Mar 02 11:33:54 2017"
+    ## [1] "Thu Mar 02 16:45:55 2017"
 
 Using `xlsx` Package
 --------------------
@@ -618,3 +617,40 @@ head(getIrisBack)
     ## 4          4.6         3.1          1.5         0.2  setosa
     ## 5          5.0         3.6          1.4         0.2  setosa
     ## 6          5.4         3.9          1.7         0.4  setosa
+
+Using `data.table`
+==================
+
+This package inherits from `data.frame` this means that all functions that accept `data.frame` will work on `data.table`. Also, `data.table` is much faster in data subsetting, grouping and updating, because it is written in C.
+
+Starting by downloading the package and load it. Then, create a `data table`
+
+``` r
+library(data.table)
+
+#create a data table with 9 rows and 3 columns
+DT <- data.table(x=rnorm(9), y=rep(c("a","b","c"), each=3), z=rnorm(9))
+
+DT
+```
+
+    ##             x y          z
+    ## 1: -0.3391353 a -0.3184901
+    ## 2: -0.9979388 a -0.9385342
+    ## 3: -0.3015013 a  0.3666544
+    ## 4:  0.8135170 b -0.4521520
+    ## 5: -0.3606534 b -0.7092137
+    ## 6: -0.3802281 b -1.5083522
+    ## 7: -0.2530329 c -0.0750245
+    ## 8:  1.2535846 c  2.0688133
+    ## 9: -0.8213955 c -1.9377648
+
+**To see all data tables in memory call `tabels()`**
+
+``` r
+tables()
+```
+
+    ##      NAME NROW NCOL MB COLS  KEY
+    ## [1,] DT      9    3  1 x,y,z    
+    ## Total: 1MB

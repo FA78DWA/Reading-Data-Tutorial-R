@@ -275,8 +275,8 @@ head(readFile)</code></pre>
 <li>check your R version <code>R.version()</code>, and download the corresponding java (32/64), from <a href="https://www.java.com/en/download/win10.jsp">here</a>.</li>
 <li>Finally, check if your Java is in <code>Program Files</code> or <code>Program Files (x86)</code>. Add the path to the <strong>jvm.dll</strong> to your PATH in <strong>windows Environment</strong>. If the java file is in <code>Program Files (x86)</code>, it means you have 32-bit version, and you can change the default version of your <code>Rstudio</code> from Tools &gt;&gt; Global options to 32 bit. For more information check <a href="http://stackoverflow.com/questions/7019912/using-the-rjava-package-on-win7-64-bit-with-r">this</a>.</li>
 </ul>
-<div id="you-can-read-specific-rows-and-columns-form-the-excel-file" class="section level3">
-<h3>You can read specific rows and columns form the Excel file</h3>
+<div id="reading-specific-rows-and-columns-form-the-excel-file" class="section level3">
+<h3>Reading specific rows and columns form the Excel file</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYyA8LSA3OjE1XG5yIDwtIDE4OjIzXG5yZWFkU3Vic2V0IDwtIHJlYWQueGxzeChcImRhdGEueGxzeFwiLCBzaGVldEluZGV4PTEsIGNvbEluZGV4ID0gYywgcm93SW5kZXggPSByKVxucmVhZFN1YnNldFxuYGBgIn0= -->
@@ -316,11 +316,190 @@ head(dataFile)</code></pre>
 <!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
+</div>
+<div id="reading-xml-files" class="section level1">
+<h1>Reading XML Files</h1>
+<p>XML stands for <em>“Extensible Markup Language”</em>. For more information see <a href="https://en.wikipedia.org/wiki/XML#Key_terminology">wiki_xml</a>. We start by downloading and loading the <code>XML</code> package. Then reading the xml file with <code>xmlTreeParse</code>.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShYTUwpXG51cmwgPC0gXCJodHRwczovL3d3dy53M3NjaG9vbHMuY29tL3htbC9zaW1wbGUueG1sXCJcbmRvd25sb2FkLmZpbGUodXJsLCBcInNpbXBsZS54bWxcIilcbmBgYCJ9 -->
+<pre class="r"><code>library(XML)
+url &lt;- &quot;https://www.w3schools.com/xml/simple.xml&quot;
+download.file(url, &quot;simple.xml&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoidHJ5aW5nIFVSTCAnaHR0cHM6Ly93d3cudzNzY2hvb2xzLmNvbS94bWwvc2ltcGxlLnhtbCdcbkNvbnRlbnQgdHlwZSAndGV4dC94bWwnIGxlbmd0aCAxMTUyIGJ5dGVzXG5kb3dubG9hZGVkIDExNTIgYnl0ZXNcbiJ9 -->
+<pre><code>trying URL 'https://www.w3schools.com/xml/simple.xml'
+Content type 'text/xml' length 1152 bytes
+downloaded 1152 bytes</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueG1sRmlsZSA8LSB4bWxUcmVlUGFyc2UoXCJzaW1wbGUueG1sXCIsIHVzZUludGVybmFsTm9kZXMgPSBUUlVFKVxuY2xhc3MoeG1sRmlsZSlcbmBgYCJ9 -->
+<pre class="r"><code>xmlFile &lt;- xmlTreeParse(&quot;simple.xml&quot;, useInternalNodes = TRUE)
+class(xmlFile)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiWE1MSW50ZXJuYWxEb2N1bWVudFwiIFwiWE1MQWJzdHJhY3REb2N1bWVudFwiXG4ifQ== -->
+<pre><code>[1] &quot;XMLInternalDocument&quot; &quot;XMLAbstractDocument&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Wrapping the content inside the xml file.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgZ2V0IHRoZSBjb250ZW50IG9mIHRoZSByb290XG5yb290Tm9kZSA8LSB4bWxSb290KHhtbEZpbGUpXG5yb290Tm9kZVxuYGBgIn0= -->
+<pre class="r"><code>## get the content of the root
+rootNode &lt;- xmlRoot(xmlFile)
+rootNode</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiPGJyZWFrZmFzdF9tZW51PlxuICA8Zm9vZD5cbiAgICA8bmFtZT5CZWxnaWFuIFdhZmZsZXM8L25hbWU+XG4gICAgPHByaWNlPiQ1Ljk1PC9wcmljZT5cbiAgICA8ZGVzY3JpcHRpb24+VHdvIG9mIG91ciBmYW1vdXMgQmVsZ2lhbiBXYWZmbGVzIHdpdGggcGxlbnR5IG9mIHJlYWwgbWFwbGUgc3lydXA8L2Rlc2NyaXB0aW9uPlxuICAgIDxjYWxvcmllcz42NTA8L2NhbG9yaWVzPlxuICA8L2Zvb2Q+XG4gIDxmb29kPlxuICAgIDxuYW1lPlN0cmF3YmVycnkgQmVsZ2lhbiBXYWZmbGVzPC9uYW1lPlxuICAgIDxwcmljZT4kNy45NTwvcHJpY2U+XG4gICAgPGRlc2NyaXB0aW9uPkxpZ2h0IEJlbGdpYW4gd2FmZmxlcyBjb3ZlcmVkIHdpdGggc3RyYXdiZXJyaWVzIGFuZCB3aGlwcGVkIGNyZWFtPC9kZXNjcmlwdGlvbj5cbiAgICA8Y2Fsb3JpZXM+OTAwPC9jYWxvcmllcz5cbiAgPC9mb29kPlxuICA8Zm9vZD5cbiAgICA8bmFtZT5CZXJyeS1CZXJyeSBCZWxnaWFuIFdhZmZsZXM8L25hbWU+XG4gICAgPHByaWNlPiQ4Ljk1PC9wcmljZT5cbiAgICA8ZGVzY3JpcHRpb24+TGlnaHQgQmVsZ2lhbiB3YWZmbGVzIGNvdmVyZWQgd2l0aCBhbiBhc3NvcnRtZW50IG9mIGZyZXNoIGJlcnJpZXMgYW5kIHdoaXBwZWQgY3JlYW08L2Rlc2NyaXB0aW9uPlxuICAgIDxjYWxvcmllcz45MDA8L2NhbG9yaWVzPlxuICA8L2Zvb2Q+XG4gIDxmb29kPlxuICAgIDxuYW1lPkZyZW5jaCBUb2FzdDwvbmFtZT5cbiAgICA8cHJpY2U+JDQuNTA8L3ByaWNlPlxuICAgIDxkZXNjcmlwdGlvbj5UaGljayBzbGljZXMgbWFkZSBmcm9tIG91ciBob21lbWFkZSBzb3VyZG91Z2ggYnJlYWQ8L2Rlc2NyaXB0aW9uPlxuICAgIDxjYWxvcmllcz42MDA8L2NhbG9yaWVzPlxuICA8L2Zvb2Q+XG4gIDxmb29kPlxuICAgIDxuYW1lPkhvbWVzdHlsZSBCcmVha2Zhc3Q8L25hbWU+XG4gICAgPHByaWNlPiQ2Ljk1PC9wcmljZT5cbiAgICA8ZGVzY3JpcHRpb24+VHdvIGVnZ3MsIGJhY29uIG9yIHNhdXNhZ2UsIHRvYXN0LCBhbmQgb3VyIGV2ZXItcG9wdWxhciBoYXNoIGJyb3duczwvZGVzY3JpcHRpb24+XG4gICAgPGNhbG9yaWVzPjk1MDwvY2Fsb3JpZXM+XG4gIDwvZm9vZD5cbjwvYnJlYWtmYXN0X21lbnU+IFxuIn0= -->
+<pre><code>&lt;breakfast_menu&gt;
+  &lt;food&gt;
+    &lt;name&gt;Belgian Waffles&lt;/name&gt;
+    &lt;price&gt;$5.95&lt;/price&gt;
+    &lt;description&gt;Two of our famous Belgian Waffles with plenty of real maple syrup&lt;/description&gt;
+    &lt;calories&gt;650&lt;/calories&gt;
+  &lt;/food&gt;
+  &lt;food&gt;
+    &lt;name&gt;Strawberry Belgian Waffles&lt;/name&gt;
+    &lt;price&gt;$7.95&lt;/price&gt;
+    &lt;description&gt;Light Belgian waffles covered with strawberries and whipped cream&lt;/description&gt;
+    &lt;calories&gt;900&lt;/calories&gt;
+  &lt;/food&gt;
+  &lt;food&gt;
+    &lt;name&gt;Berry-Berry Belgian Waffles&lt;/name&gt;
+    &lt;price&gt;$8.95&lt;/price&gt;
+    &lt;description&gt;Light Belgian waffles covered with an assortment of fresh berries and whipped cream&lt;/description&gt;
+    &lt;calories&gt;900&lt;/calories&gt;
+  &lt;/food&gt;
+  &lt;food&gt;
+    &lt;name&gt;French Toast&lt;/name&gt;
+    &lt;price&gt;$4.50&lt;/price&gt;
+    &lt;description&gt;Thick slices made from our homemade sourdough bread&lt;/description&gt;
+    &lt;calories&gt;600&lt;/calories&gt;
+  &lt;/food&gt;
+  &lt;food&gt;
+    &lt;name&gt;Homestyle Breakfast&lt;/name&gt;
+    &lt;price&gt;$6.95&lt;/price&gt;
+    &lt;description&gt;Two eggs, bacon or sausage, toast, and our ever-popular hash browns&lt;/description&gt;
+    &lt;calories&gt;950&lt;/calories&gt;
+  &lt;/food&gt;
+&lt;/breakfast_menu&gt; </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Now, start exploration.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgR2V0IHRoZSBmaXJzdCBub2RlXG5yb290Tm9kZVtbMV1dXG5gYGAifQ== -->
+<pre class="r"><code>## Get the first node
+rootNode[[1]]</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiPGZvb2Q+XG4gIDxuYW1lPkJlbGdpYW4gV2FmZmxlczwvbmFtZT5cbiAgPHByaWNlPiQ1Ljk1PC9wcmljZT5cbiAgPGRlc2NyaXB0aW9uPlR3byBvZiBvdXIgZmFtb3VzIEJlbGdpYW4gV2FmZmxlcyB3aXRoIHBsZW50eSBvZiByZWFsIG1hcGxlIHN5cnVwPC9kZXNjcmlwdGlvbj5cbiAgPGNhbG9yaWVzPjY1MDwvY2Fsb3JpZXM+XG48L2Zvb2Q+IFxuIn0= -->
+<pre><code>&lt;food&gt;
+  &lt;name&gt;Belgian Waffles&lt;/name&gt;
+  &lt;price&gt;$5.95&lt;/price&gt;
+  &lt;description&gt;Two of our famous Belgian Waffles with plenty of real maple syrup&lt;/description&gt;
+  &lt;calories&gt;650&lt;/calories&gt;
+&lt;/food&gt; </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgR2V0IHRoZSBuYW1lIG9mIHRoZSBub2RlXG54bWxOYW1lKHJvb3ROb2RlKVxuYGBgIn0= -->
+<pre class="r"><code>## Get the name of the node
+xmlName(rootNode)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiYnJlYWtmYXN0X21lbnVcIlxuIn0= -->
+<pre><code>[1] &quot;breakfast_menu&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgSG93IG1hbnkgY2hpbGRyZW4gaW4gdGhlIG5vZGUgKG51bWJlciBvZiBmb29kIG5vZGVzKVxueG1sU2l6ZShyb290Tm9kZSlcbmBgYCJ9 -->
+<pre class="r"><code>## How many children in the node (number of food nodes)
+xmlSize(rootNode)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDVcbiJ9 -->
+<pre><code>[1] 5</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgR2V0IHRoZSBuYW1lIG9mIHRoZSBmaXJzdCBjaGlsZCBub2RlXG54bWxOYW1lKHJvb3ROb2RlW1sxXV0pXG5gYGAifQ== -->
+<pre class="r"><code>## Get the name of the first child node
+xmlName(rootNode[[1]])</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiZm9vZFwiXG4ifQ== -->
+<pre><code>[1] &quot;food&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgVGFrZSBhIGxvb2sgYXQgdGhlIGNvbnRlbnQgb2YgdGhlIGZpcnN0IGNoaWxkXG5yb290Tm9kZVtbMV1dXG5gYGAifQ== -->
+<pre class="r"><code>## Take a look at the content of the first child
+rootNode[[1]]</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiPGZvb2Q+XG4gIDxuYW1lPkJlbGdpYW4gV2FmZmxlczwvbmFtZT5cbiAgPHByaWNlPiQ1Ljk1PC9wcmljZT5cbiAgPGRlc2NyaXB0aW9uPlR3byBvZiBvdXIgZmFtb3VzIEJlbGdpYW4gV2FmZmxlcyB3aXRoIHBsZW50eSBvZiByZWFsIG1hcGxlIHN5cnVwPC9kZXNjcmlwdGlvbj5cbiAgPGNhbG9yaWVzPjY1MDwvY2Fsb3JpZXM+XG48L2Zvb2Q+IFxuIn0= -->
+<pre><code>&lt;food&gt;
+  &lt;name&gt;Belgian Waffles&lt;/name&gt;
+  &lt;price&gt;$5.95&lt;/price&gt;
+  &lt;description&gt;Two of our famous Belgian Waffles with plenty of real maple syrup&lt;/description&gt;
+  &lt;calories&gt;650&lt;/calories&gt;
+&lt;/food&gt; </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>We can also list the names and the sizes of the subnodes.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgbnVtYmVyIG9mIGNoaWxkcmVucyBpbnNpZGUgdGhlIGZpcnN0IGNoaWxkIFxueG1sU2l6ZShyb290Tm9kZVtbMV1dKVxuYGBgIn0= -->
+<pre class="r"><code>## number of childrens inside the first child 
+xmlSize(rootNode[[1]])</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDRcbiJ9 -->
+<pre><code>[1] 4</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgR2V0IHRoZSBuYW1lcyBvZiB0aGUgY2hpbGRyZW5zIGluc2lkZSB0aGUgZmlyc3QgY2hpbGQgXG54bWxTQXBwbHkocm9vdE5vZGVbWzFdXSwgeG1sTmFtZSlcbmBgYCJ9 -->
+<pre class="r"><code>## Get the names of the childrens inside the first child 
+xmlSApply(rootNode[[1]], xmlName)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgbmFtZSAgICAgICAgIHByaWNlICAgZGVzY3JpcHRpb24gICAgICBjYWxvcmllcyBcbiAgICAgICBcIm5hbWVcIiAgICAgICBcInByaWNlXCIgXCJkZXNjcmlwdGlvblwiICAgIFwiY2Fsb3JpZXNcIiBcbiJ9 -->
+<pre><code>         name         price   description      calories 
+       &quot;name&quot;       &quot;price&quot; &quot;description&quot;    &quot;calories&quot; </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgRXh0cmFjdCB0aGUgZm9vZCBcIm5hbWVcIlxueG1sU0FwcGx5KHJvb3ROb2RlLCBmdW5jdGlvbih4KSB4W1sxXV1bWzFdXSlcbmBgYCJ9 -->
+<pre class="r"><code>## Extract the food &quot;name&quot;
+xmlSApply(rootNode, function(x) x[[1]][[1]])</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiJGZvb2RcbkJlbGdpYW4gV2FmZmxlcyBcblxuJGZvb2RcblN0cmF3YmVycnkgQmVsZ2lhbiBXYWZmbGVzIFxuXG4kZm9vZFxuQmVycnktQmVycnkgQmVsZ2lhbiBXYWZmbGVzIFxuXG4kZm9vZFxuRnJlbmNoIFRvYXN0IFxuXG4kZm9vZFxuSG9tZXN0eWxlIEJyZWFrZmFzdCBcbiJ9 -->
+<pre><code>$food
+Belgian Waffles 
+
+$food
+Strawberry Belgian Waffles 
+
+$food
+Berry-Berry Belgian Waffles 
+
+$food
+French Toast 
+
+$food
+Homestyle Breakfast </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgQW5vdGhlciB3YXkgdG8gZ2V0IGluc2lkZSB2YWx1ZXMsIHByaWNlIGluIHRoaXMgY2FzZVxueG1sU0FwcGx5KHJvb3ROb2RlLCBmdW5jdGlvbih4KSB4W1sncHJpY2UnXV1bWzFdXSlcbmBgYCJ9 -->
+<pre class="r"><code>## Another way to get inside values, price in this case
+xmlSApply(rootNode, function(x) x[['price']][[1]])</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiJGZvb2RcbiQ1Ljk1IFxuXG4kZm9vZFxuJDcuOTUgXG5cbiRmb29kXG4kOC45NSBcblxuJGZvb2RcbiQ0LjUwIFxuXG4kZm9vZFxuJDYuOTUgXG4ifQ== -->
+<pre><code>$food
+$5.95 
+
+$food
+$7.95 
+
+$food
+$8.95 
+
+$food
+$4.50 
+
+$food
+$6.95 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
-</div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCg0KIyBvdXRwdXQ6DQojICAgbWRfZG9jdW1lbnQ6DQojICAgICB2YXJpYW50OiBtYXJrZG93bl9naXRodWINCiMgICAgIHRvYzogdHJ1ZQ0KIyAgICAgdG9jX2RlcHRoOiAzDQotLS0NCg0KIyBEb3dubG9hZGluZyBEYXRhIGZyb20gdGhlIGludGVybmV0DQpVc2UgYGRvd25sb2FkLmZpbGUoKWAgdGhhdCB0YWtlcyB0aGUgdXJsIGFuZCB0aGUgZGVzdGluYXRpb24gb24geW91ciBjb21wdXRlciB0byBzYXZlIHRoZSBmaWxlIGF0LiBBbmQgbm90ZSB0aGF0DQoNCiogSWYgdGhlIGZpbGUgdXJsIHN0YXJ0cyB3aXRoICoqaHR0cCoqIHlvdSBjYW4gdXNlIGBkb3dubG9hZC5maWxlKClgLg0KKiBJdCBpcyBhbHNvIG9rYXkgdG8gdXNlIGBkb3dubG9hZC5maWxlKClgIGluIGNhc2Ugb2YgKipodHRwcyoqIGFuZCAqKndpbmRvd3MqKi4NCiogQnV0IG9uICoqTWFjKiosIHlvdSBtaWdodCBuZWVkIHRvIHNldCBgbWV0aG9kPSJjdXJsImAgdG8gZG93bmxvYWQgZnJvbSAqKmh0dHBzKiogdXJsLg0KKiBUaGUgZG93bmxvYWQgZHVyYXRpb24gZGVwZW5kcyBvbiB0aGUgZmlsZSBzaXplLg0KDQpFeGFtcGxlOiBkb3dubG9hZCB0aGUgMjAwNiBtaWNyb2RhdGEgc3VydmV5IGFib3V0IGhvdXNpbmcgZm9yIHRoZSBzdGF0ZSBvZiBJZGFoby4NCmBgYHtyfQ0KdXJsIDwtICJodHRwczovL2QzOTZxdXN6YTQwb3JjLmNsb3VkZnJvbnQubmV0L2dldGRhdGElMkZkYXRhJTJGc3MwNmhpZC5jc3YiDQpkb3dubG9hZC5maWxlKHVybCwgImhvdXNlX2RhdGEuY3N2IikgIyNzYXZlIGluIHRoZSBjdXJyZW50IGRpciwgYW5kIG5hbWUgdGhlIGZpbGUgImRhdGEuY3N2Ig0KYGBgDQoNCkxpc3QgdGhlIGZpbGVzIGluIHRoZSBjdXJyZW50IGRpcmVjdG9yeQ0KYGBge3J9DQpsaXN0LmZpbGVzKCIuLyIpDQpgYGANCg0KVXNlIGBkYXRlKClgIHRvIGdldCB0aGUgZG93bmxvYWRpbmcgZGF0ZS4NCmBgYHtyfQ0KZG93bmxvYWREYXRlIDwtIGRhdGUoKQ0KZG93bmxvYWREYXRlDQpgYGANCg0KIyBSZWFkaW5nIEV4Y2VsIEZpbGVzDQpGaXJzdCBkb3dubG9hZCB0aGUgZmlsZSB1c2luZyBgZG93bmxvYWQuZmlsZSgpYA0KYGBge3J9DQp1cmwgPC0gImh0dHBzOi8vZDM5NnF1c3phNDBvcmMuY2xvdWRmcm9udC5uZXQvZ2V0ZGF0YSUyRmRhdGElMkZEQVRBLmdvdl9OR0FQLnhsc3giDQpkb3dubG9hZC5maWxlKHVybCwgImRhdGEueGxzeCIsbW9kZT0id2IiKQ0KZGF0ZSgpDQpgYGANCg0KIyMgVXNpbmcgYHhsc3hgIFBhY2thZ2UNCg0KWW91IGNhbiByZWFkIHRoZSBmaWxlIHVzaW5nIGByZWFkLnhsc3hgIG9yIGByZWFkLnhsc3gyYC4gWW91IHdpbGwgbmVlZCB0byBkb3dubG9hZCB0aGUgYHhsc3hgIHBhY2thZ2UgdG8gdXNlIHRoZW0uDQpgYGB7cn0NCiMgTG9hZCB0aGUgbGlicmFyeQ0KbGlicmFyeShySmF2YSkNCmxpYnJhcnkoeGxzeGphcnMpDQpsaWJyYXJ5KHhsc3gpDQpyZWFkRmlsZSA8LSByZWFkLnhsc3goImRhdGEueGxzeCIsIHNoZWV0SW5kZXg9MSkNCmhlYWQocmVhZEZpbGUpDQpgYGANCiANCllvdSBtaWdodCBmYWNlIHNvbWUgZGlmZmljdWxpdGllcyB3aGVuIHVzaW5nIHRoZSB4bHN4IGxpYnJhcnkuIEhlcmUgaXMgdGhlIG1vc3QgZmFtb3VzIGVycm9yOg0KIA0KRXJyb3IgOiAub25Mb2FkIGZhaWxlZCBpbiBsb2FkTmFtZXNwYWNlKCkgZm9yICdySmF2YScsIGRldGFpbHM6DQogIGNhbGw6IGluREwoeCwgYXMubG9naWNhbChsb2NhbCksIGFzLmxvZ2ljYWwobm93KSwgLi4uKQ0KDQogIGVycm9yOiB1bmFibGUgdG8gbG9hZCBzaGFyZWQgb2JqZWN0ICdDOi9Vc2Vycy9tZS9Eb2N1bWVudHMvUi93aW4tbGlicmFyeS8yLjEzL3JKYXZhL2xpYnMveDY0L3JKYXZhLmRsbCc6DQogIExvYWRMaWJyYXJ5IGZhaWx1cmU6ICAlMSBpcyBub3QgYSB2YWxpZCBXaW4zMiBhcHBsaWNhdGlvbi4NCg0KRXJyb3I6IHBhY2thZ2UvbmFtZXNwYWNlIGxvYWQgZmFpbGVkIGZvciAnckphdmEnDQoNCioqVG8gc29sdmUgdGhhdCB5b3Ugd2lsbCBuZWVkIHRvIDoqKg0KDQoqIGRvd25sb2FkIHRoZSBgckphdmFgIHBhY2thZ2UgKGlmIHRoZSBlcnJvciByZW1haW5zKQ0KKiBjaGVjayB5b3VyIFIgdmVyc2lvbiBgUi52ZXJzaW9uKClgLCBhbmQgZG93bmxvYWQgdGhlIGNvcnJlc3BvbmRpbmcgamF2YSAoMzIvNjQpLCBmcm9tIFtoZXJlXShodHRwczovL3d3dy5qYXZhLmNvbS9lbi9kb3dubG9hZC93aW4xMC5qc3ApLg0KKiBGaW5hbGx5LCBjaGVjayBpZiB5b3VyIEphdmEgaXMgaW4gYFByb2dyYW0gRmlsZXNgIG9yIGBQcm9ncmFtIEZpbGVzICh4ODYpYC4gQWRkIHRoZSBwYXRoIHRvIHRoZSAqKmp2bS5kbGwqKiB0byB5b3VyIFBBVEggaW4gKip3aW5kb3dzIEVudmlyb25tZW50KiouIElmIHRoZSBqYXZhIGZpbGUgaXMgaW4gYFByb2dyYW0gRmlsZXMgKHg4NilgLCBpdCBtZWFucyB5b3UgaGF2ZSAzMi1iaXQgdmVyc2lvbiwgYW5kIHlvdSBjYW4gY2hhbmdlIHRoZSBkZWZhdWx0IHZlcnNpb24gb2YgeW91ciBgUnN0dWRpb2AgZnJvbSBUb29scyA+PiBHbG9iYWwgb3B0aW9ucyB0byAzMiBiaXQuIEZvciBtb3JlIGluZm9ybWF0aW9uIGNoZWNrIFt0aGlzXShodHRwOi8vc3RhY2tvdmVyZmxvdy5jb20vcXVlc3Rpb25zLzcwMTk5MTIvdXNpbmctdGhlLXJqYXZhLXBhY2thZ2Utb24td2luNy02NC1iaXQtd2l0aC1yKS4NCg0KIyMjIFlvdSBjYW4gcmVhZCBzcGVjaWZpYyByb3dzIGFuZCBjb2x1bW5zIGZvcm0gdGhlIEV4Y2VsIGZpbGUNCmBgYHtyfQ0KYyA8LSA3OjE1DQpyIDwtIDE4OjIzDQpyZWFkU3Vic2V0IDwtIHJlYWQueGxzeCgiZGF0YS54bHN4Iiwgc2hlZXRJbmRleD0xLCBjb2xJbmRleCA9IGMsIHJvd0luZGV4ID0gcikNCnJlYWRTdWJzZXQNCmBgYA0KDQojIyBVc2luZyBgcmVhZHhsYCBQYWNrYWdlDQpBbm90aGVyIHdheSB0byByZWFkIEV4Y2VsIGZpbGVzIGlzIHRvIHVzZSBgcmVhZF9leGNlbGAgZnJvbSB0aGUgYHJlYWR4bGAgbGlicmFyeS4gRm9yIG1vcmUgaW5mb3JtYXRpb24gY2hlY2sgW3RoaXNdKGh0dHA6Ly9zdGFja292ZXJmbG93LmNvbS9xdWVzdGlvbnMvNzA0OTI3Mi9pbXBvcnRpbmcteGxzeC1maWxlLWludG8tcikuDQoNCkFmdGVyIGluc3RhbGxpbmcgdGhlIHBhY2thZ2UuLg0KYGBge3J9DQpsaWJyYXJ5KHJlYWR4bCkNCmRhdGFGaWxlIDwtIHJlYWRfZXhjZWwoImRhdGEueGxzeCIpDQpoZWFkKGRhdGFGaWxlKQ0KYGBgDQoNCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCg0KIyBvdXRwdXQ6DQojICAgbWRfZG9jdW1lbnQ6DQojICAgICB2YXJpYW50OiBtYXJrZG93bl9naXRodWINCiMgICAgIHRvYzogdHJ1ZQ0KIyAgICAgdG9jX2RlcHRoOiAzDQotLS0NCg0KIyBEb3dubG9hZGluZyBEYXRhIGZyb20gdGhlIGludGVybmV0DQpVc2UgYGRvd25sb2FkLmZpbGUoKWAgdGhhdCB0YWtlcyB0aGUgdXJsIGFuZCB0aGUgZGVzdGluYXRpb24gb24geW91ciBjb21wdXRlciB0byBzYXZlIHRoZSBmaWxlIGF0LiBBbmQgbm90ZSB0aGF0DQoNCiogSWYgdGhlIGZpbGUgdXJsIHN0YXJ0cyB3aXRoICoqaHR0cCoqIHlvdSBjYW4gdXNlIGBkb3dubG9hZC5maWxlKClgLg0KKiBJdCBpcyBhbHNvIG9rYXkgdG8gdXNlIGBkb3dubG9hZC5maWxlKClgIGluIGNhc2Ugb2YgKipodHRwcyoqIGFuZCAqKndpbmRvd3MqKi4NCiogQnV0IG9uICoqTWFjKiosIHlvdSBtaWdodCBuZWVkIHRvIHNldCBgbWV0aG9kPSJjdXJsImAgdG8gZG93bmxvYWQgZnJvbSAqKmh0dHBzKiogdXJsLg0KKiBUaGUgZG93bmxvYWQgZHVyYXRpb24gZGVwZW5kcyBvbiB0aGUgZmlsZSBzaXplLg0KDQpFeGFtcGxlOiBkb3dubG9hZCB0aGUgMjAwNiBtaWNyb2RhdGEgc3VydmV5IGFib3V0IGhvdXNpbmcgZm9yIHRoZSBzdGF0ZSBvZiBJZGFoby4NCmBgYHtyfQ0KdXJsIDwtICJodHRwczovL2QzOTZxdXN6YTQwb3JjLmNsb3VkZnJvbnQubmV0L2dldGRhdGElMkZkYXRhJTJGc3MwNmhpZC5jc3YiDQpkb3dubG9hZC5maWxlKHVybCwgImhvdXNlX2RhdGEuY3N2IikgIyNzYXZlIGluIHRoZSBjdXJyZW50IGRpciwgYW5kIG5hbWUgdGhlIGZpbGUgImRhdGEuY3N2Ig0KYGBgDQoNCkxpc3QgdGhlIGZpbGVzIGluIHRoZSBjdXJyZW50IGRpcmVjdG9yeQ0KYGBge3J9DQpsaXN0LmZpbGVzKCIuLyIpDQpgYGANCg0KVXNlIGBkYXRlKClgIHRvIGdldCB0aGUgZG93bmxvYWRpbmcgZGF0ZS4NCmBgYHtyfQ0KZG93bmxvYWREYXRlIDwtIGRhdGUoKQ0KZG93bmxvYWREYXRlDQpgYGANCg0KIyBSZWFkaW5nIEV4Y2VsIEZpbGVzDQpGaXJzdCBkb3dubG9hZCB0aGUgZmlsZSB1c2luZyBgZG93bmxvYWQuZmlsZSgpYA0KYGBge3J9DQp1cmwgPC0gImh0dHBzOi8vZDM5NnF1c3phNDBvcmMuY2xvdWRmcm9udC5uZXQvZ2V0ZGF0YSUyRmRhdGElMkZEQVRBLmdvdl9OR0FQLnhsc3giDQpkb3dubG9hZC5maWxlKHVybCwgImRhdGEueGxzeCIsbW9kZT0id2IiKQ0KZGF0ZSgpDQpgYGANCg0KIyMgVXNpbmcgYHhsc3hgIFBhY2thZ2UNCg0KWW91IGNhbiByZWFkIHRoZSBmaWxlIHVzaW5nIGByZWFkLnhsc3hgIG9yIGByZWFkLnhsc3gyYC4gWW91IHdpbGwgbmVlZCB0byBkb3dubG9hZCB0aGUgYHhsc3hgIHBhY2thZ2UgdG8gdXNlIHRoZW0uDQpgYGB7cn0NCiMgTG9hZCB0aGUgbGlicmFyeQ0KbGlicmFyeShySmF2YSkNCmxpYnJhcnkoeGxzeGphcnMpDQpsaWJyYXJ5KHhsc3gpDQpyZWFkRmlsZSA8LSByZWFkLnhsc3goImRhdGEueGxzeCIsIHNoZWV0SW5kZXg9MSkNCmhlYWQocmVhZEZpbGUpDQpgYGANCiANCllvdSBtaWdodCBmYWNlIHNvbWUgZGlmZmljdWxpdGllcyB3aGVuIHVzaW5nIHRoZSB4bHN4IGxpYnJhcnkuIEhlcmUgaXMgdGhlIG1vc3QgZmFtb3VzIGVycm9yOg0KIA0KRXJyb3IgOiAub25Mb2FkIGZhaWxlZCBpbiBsb2FkTmFtZXNwYWNlKCkgZm9yICdySmF2YScsIGRldGFpbHM6DQogIGNhbGw6IGluREwoeCwgYXMubG9naWNhbChsb2NhbCksIGFzLmxvZ2ljYWwobm93KSwgLi4uKQ0KDQogIGVycm9yOiB1bmFibGUgdG8gbG9hZCBzaGFyZWQgb2JqZWN0ICdDOi9Vc2Vycy9tZS9Eb2N1bWVudHMvUi93aW4tbGlicmFyeS8yLjEzL3JKYXZhL2xpYnMveDY0L3JKYXZhLmRsbCc6DQogIExvYWRMaWJyYXJ5IGZhaWx1cmU6ICAlMSBpcyBub3QgYSB2YWxpZCBXaW4zMiBhcHBsaWNhdGlvbi4NCg0KRXJyb3I6IHBhY2thZ2UvbmFtZXNwYWNlIGxvYWQgZmFpbGVkIGZvciAnckphdmEnDQoNCioqVG8gc29sdmUgdGhhdCB5b3Ugd2lsbCBuZWVkIHRvIDoqKg0KDQoqIGRvd25sb2FkIHRoZSBgckphdmFgIHBhY2thZ2UgKGlmIHRoZSBlcnJvciByZW1haW5zKQ0KKiBjaGVjayB5b3VyIFIgdmVyc2lvbiBgUi52ZXJzaW9uKClgLCBhbmQgZG93bmxvYWQgdGhlIGNvcnJlc3BvbmRpbmcgamF2YSAoMzIvNjQpLCBmcm9tIFtoZXJlXShodHRwczovL3d3dy5qYXZhLmNvbS9lbi9kb3dubG9hZC93aW4xMC5qc3ApLg0KKiBGaW5hbGx5LCBjaGVjayBpZiB5b3VyIEphdmEgaXMgaW4gYFByb2dyYW0gRmlsZXNgIG9yIGBQcm9ncmFtIEZpbGVzICh4ODYpYC4gQWRkIHRoZSBwYXRoIHRvIHRoZSAqKmp2bS5kbGwqKiB0byB5b3VyIFBBVEggaW4gKip3aW5kb3dzIEVudmlyb25tZW50KiouIElmIHRoZSBqYXZhIGZpbGUgaXMgaW4gYFByb2dyYW0gRmlsZXMgKHg4NilgLCBpdCBtZWFucyB5b3UgaGF2ZSAzMi1iaXQgdmVyc2lvbiwgYW5kIHlvdSBjYW4gY2hhbmdlIHRoZSBkZWZhdWx0IHZlcnNpb24gb2YgeW91ciBgUnN0dWRpb2AgZnJvbSBUb29scyA+PiBHbG9iYWwgb3B0aW9ucyB0byAzMiBiaXQuIEZvciBtb3JlIGluZm9ybWF0aW9uIGNoZWNrIFt0aGlzXShodHRwOi8vc3RhY2tvdmVyZmxvdy5jb20vcXVlc3Rpb25zLzcwMTk5MTIvdXNpbmctdGhlLXJqYXZhLXBhY2thZ2Utb24td2luNy02NC1iaXQtd2l0aC1yKS4NCg0KIyMjIFJlYWRpbmcgc3BlY2lmaWMgcm93cyBhbmQgY29sdW1ucyBmb3JtIHRoZSBFeGNlbCBmaWxlDQpgYGB7cn0NCmMgPC0gNzoxNQ0KciA8LSAxODoyMw0KcmVhZFN1YnNldCA8LSByZWFkLnhsc3goImRhdGEueGxzeCIsIHNoZWV0SW5kZXg9MSwgY29sSW5kZXggPSBjLCByb3dJbmRleCA9IHIpDQpyZWFkU3Vic2V0DQpgYGANCg0KIyMgVXNpbmcgYHJlYWR4bGAgUGFja2FnZQ0KQW5vdGhlciB3YXkgdG8gcmVhZCBFeGNlbCBmaWxlcyBpcyB0byB1c2UgYHJlYWRfZXhjZWxgIGZyb20gdGhlIGByZWFkeGxgIGxpYnJhcnkuIEZvciBtb3JlIGluZm9ybWF0aW9uIGNoZWNrIFt0aGlzXShodHRwOi8vc3RhY2tvdmVyZmxvdy5jb20vcXVlc3Rpb25zLzcwNDkyNzIvaW1wb3J0aW5nLXhsc3gtZmlsZS1pbnRvLXIpLg0KDQpBZnRlciBpbnN0YWxsaW5nIHRoZSBwYWNrYWdlLi4NCmBgYHtyfQ0KbGlicmFyeShyZWFkeGwpDQpkYXRhRmlsZSA8LSByZWFkX2V4Y2VsKCJkYXRhLnhsc3giKQ0KaGVhZChkYXRhRmlsZSkNCmBgYA0KDQojIFJlYWRpbmcgWE1MIEZpbGVzDQpYTUwgc3RhbmRzIGZvciAqIkV4dGVuc2libGUgTWFya3VwIExhbmd1YWdlIiouIEZvciBtb3JlIGluZm9ybWF0aW9uIHNlZSBbd2lraV94bWxdKGh0dHBzOi8vZW4ud2lraXBlZGlhLm9yZy93aWtpL1hNTCNLZXlfdGVybWlub2xvZ3kpLiBXZSBzdGFydCBieSBkb3dubG9hZGluZyBhbmQgbG9hZGluZyB0aGUgYFhNTGAgcGFja2FnZS4gVGhlbiByZWFkaW5nIHRoZSB4bWwgZmlsZSB3aXRoIGB4bWxUcmVlUGFyc2VgLg0KYGBge3J9DQpsaWJyYXJ5KFhNTCkNCg0KdXJsIDwtICJodHRwczovL3d3dy53M3NjaG9vbHMuY29tL3htbC9zaW1wbGUueG1sIg0KZG93bmxvYWQuZmlsZSh1cmwsICJzaW1wbGUueG1sIikNCg0KeG1sRmlsZSA8LSB4bWxUcmVlUGFyc2UoInNpbXBsZS54bWwiLCB1c2VJbnRlcm5hbE5vZGVzID0gVFJVRSkNCiMjIGNoZWNrIHRoZSBmaWxlIGNsYXNzIA0KY2xhc3MoeG1sRmlsZSkNCmBgYA0KDQpXcmFwcGluZyB0aGUgY29udGVudCBpbnNpZGUgdGhlIHhtbCBmaWxlLiANCmBgYHtyfQ0KIyMgZ2V0IHRoZSBjb250ZW50IG9mIHRoZSByb290DQpyb290Tm9kZSA8LSB4bWxSb290KHhtbEZpbGUpDQpyb290Tm9kZQ0KYGBgDQoNCk5vdywgc3RhcnQgZXhwbG9yYXRpb24uDQpgYGB7cn0NCiMjIEdldCB0aGUgbmFtZSBvZiB0aGUgbm9kZQ0KeG1sTmFtZShyb290Tm9kZSkNCg0KIyMgVGFrZSBhIGxvb2sgYXQgdGhlIGNvbnRlbnQgb2YgdGhlIGZpcnN0IGNoaWxkDQpyb290Tm9kZVtbMV1dDQoNCiMjIEhvdyBtYW55IGNoaWxkcmVuIGluIHRoZSBub2RlIChudW1iZXIgb2YgZm9vZCBub2RlcykNCnhtbFNpemUocm9vdE5vZGUpDQoNCiMjIEdldCB0aGUgbmFtZSBvZiB0aGUgZmlyc3QgY2hpbGQgbm9kZQ0KeG1sTmFtZShyb290Tm9kZVtbMV1dKQ0KYGBgDQpXZSBjYW4gYWxzbyBsaXN0IHRoZSBuYW1lcyBhbmQgdGhlIHNpemVzIG9mIHRoZSBzdWJub2Rlcy4NCmBgYHtyfQ0KIyMgbnVtYmVyIG9mIGNoaWxkcmVucyBpbnNpZGUgdGhlIGZpcnN0IGNoaWxkIA0KeG1sU2l6ZShyb290Tm9kZVtbMV1dKQ0KDQojIyBHZXQgdGhlIG5hbWVzIG9mIHRoZSBjaGlsZHJlbnMgaW5zaWRlIHRoZSBmaXJzdCBjaGlsZCANCnhtbFNBcHBseShyb290Tm9kZVtbMV1dLCB4bWxOYW1lKQ0KDQojIyBFeHRyYWN0IHRoZSBmb29kICJuYW1lIg0KeG1sU0FwcGx5KHJvb3ROb2RlLCBmdW5jdGlvbih4KSB4W1sxXV1bWzFdXSkNCg0KIyMgQW5vdGhlciB3YXkgdG8gZ2V0IGluc2lkZSB2YWx1ZXMsIHByaWNlIGluIHRoaXMgY2FzZQ0KeG1sU0FwcGx5KHJvb3ROb2RlLCBmdW5jdGlvbih4KSB4W1sncHJpY2UnXV1bWzFdXSkNCmBgYA0KDQo=</div>
 
 
 

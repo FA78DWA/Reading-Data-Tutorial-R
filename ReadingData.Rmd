@@ -1,12 +1,12 @@
 ---
 title: "R Notebook"
-#output: html_notebook
+output: html_notebook
 
-output:
-  md_document:
-    variant: markdown_github
-    toc: true
-    toc_depth: 3
+# output:
+#   md_document:
+#     variant: markdown_github
+#     toc: true
+#     toc_depth: 3
 ---
 
 # Downloading Data from the internet
@@ -70,7 +70,7 @@ Error: package/namespace load failed for 'rJava'
 * check your R version `R.version()`, and download the corresponding java (32/64), from [here](https://www.java.com/en/download/win10.jsp).
 * Finally, check if your Java is in `Program Files` or `Program Files (x86)`. Add the path to the **jvm.dll** to your PATH in **windows Environment**. If the java file is in `Program Files (x86)`, it means you have 32-bit version, and you can change the default version of your `Rstudio` from Tools >> Global options to 32 bit. For more information check [this](http://stackoverflow.com/questions/7019912/using-the-rjava-package-on-win7-64-bit-with-r).
 
-### You can read specific rows and columns form the Excel file
+### Reading specific rows and columns form the Excel file
 ```{r}
 c <- 7:15
 r <- 18:23
@@ -86,5 +86,54 @@ After installing the package..
 library(readxl)
 dataFile <- read_excel("data.xlsx")
 head(dataFile)
+```
+
+# Reading XML Files
+XML stands for *"Extensible Markup Language"*. For more information see [wiki_xml](https://en.wikipedia.org/wiki/XML#Key_terminology). We start by downloading and loading the `XML` package. Then reading the xml file with `xmlTreeParse`.
+```{r}
+library(XML)
+
+url <- "https://www.w3schools.com/xml/simple.xml"
+download.file(url, "simple.xml")
+
+xmlFile <- xmlTreeParse("simple.xml", useInternalNodes = TRUE)
+## check the file class 
+class(xmlFile)
+```
+
+Wrapping the content inside the xml file. 
+```{r}
+## get the content of the root
+rootNode <- xmlRoot(xmlFile)
+rootNode
+```
+
+Now, start exploration.
+```{r}
+## Get the name of the node
+xmlName(rootNode)
+
+## Take a look at the content of the first child
+rootNode[[1]]
+
+## How many children in the node (number of food nodes)
+xmlSize(rootNode)
+
+## Get the name of the first child node
+xmlName(rootNode[[1]])
+```
+We can also list the names and the sizes of the subnodes.
+```{r}
+## number of childrens inside the first child 
+xmlSize(rootNode[[1]])
+
+## Get the names of the childrens inside the first child 
+xmlSApply(rootNode[[1]], xmlName)
+
+## Extract the food "name"
+xmlSApply(rootNode, function(x) x[[1]][[1]])
+
+## Another way to get inside values, price in this case
+xmlSApply(rootNode, function(x) x[['price']][[1]])
 ```
 

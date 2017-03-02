@@ -5,6 +5,7 @@
     -   [Using `readxl` Package](#using-readxl-package)
 -   [Reading XML Files](#reading-xml-files)
     -   [Using `XPath`](#using-xpath)
+-   [Reading JSON Files](#reading-json-files)
 
 Downloading Data from the internet
 ==================================
@@ -29,12 +30,9 @@ List the files in the current directory
 list.files("./")
 ```
 
-    ##  [1] "books.xml"              "data.csv"              
-    ##  [3] "data.xlsx"              "house_data.csv"        
-    ##  [5] "pandoc4f01b547fed.html" "ReadingData.knit.md"   
-    ##  [7] "ReadingData.md"         "ReadingData.nb.html"   
-    ##  [9] "ReadingData.Rmd"        "ReadingData.utf8.md"   
-    ## [11] "simple.xml"
+    ## [1] "books.xml"           "data.csv"            "data.xlsx"          
+    ## [4] "house_data.csv"      "ReadingData.md"      "ReadingData.nb.html"
+    ## [7] "ReadingData.Rmd"     "simple.xml"
 
 Use `date()` to get the downloading date.
 
@@ -43,7 +41,7 @@ downloadDate <- date()
 downloadDate
 ```
 
-    ## [1] "Thu Mar 02 11:02:16 2017"
+    ## [1] "Thu Mar 02 11:18:39 2017"
 
 Reading Excel Files
 ===================
@@ -56,7 +54,7 @@ download.file(url, "data.xlsx",mode="wb")
 date()
 ```
 
-    ## [1] "Thu Mar 02 11:02:16 2017"
+    ## [1] "Thu Mar 02 11:18:39 2017"
 
 Using `xlsx` Package
 --------------------
@@ -445,3 +443,54 @@ xpathSApply(books, "//book[@id='bk103']/title", xmlValue)
 ```
 
     ## [1] "Maeve Ascendant"
+
+Reading JSON Files
+==================
+
+JSON stands for Javascript Object Notation. It has similar structure as XML but different syntax. To read JSON files we need the `jsonlite` package.
+
+``` r
+## Load the library
+library(jsonlite)
+
+jsonData <- fromJSON("https://api.github.com/users/jtleek/repos") 
+
+## Get the names
+names(jsonData)
+```
+
+    ##  [1] "id"                "name"              "full_name"        
+    ##  [4] "owner"             "private"           "html_url"         
+    ##  [7] "description"       "fork"              "url"              
+    ## [10] "forks_url"         "keys_url"          "collaborators_url"
+    ## [13] "teams_url"         "hooks_url"         "issue_events_url" 
+    ## [16] "events_url"        "assignees_url"     "branches_url"     
+    ## [19] "tags_url"          "blobs_url"         "git_tags_url"     
+    ## [22] "git_refs_url"      "trees_url"         "statuses_url"     
+    ## [25] "languages_url"     "stargazers_url"    "contributors_url" 
+    ## [28] "subscribers_url"   "subscription_url"  "commits_url"      
+    ## [31] "git_commits_url"   "comments_url"      "issue_comment_url"
+    ## [34] "contents_url"      "compare_url"       "merges_url"       
+    ## [37] "archive_url"       "downloads_url"     "issues_url"       
+    ## [40] "pulls_url"         "milestones_url"    "notifications_url"
+    ## [43] "labels_url"        "releases_url"      "deployments_url"  
+    ## [46] "created_at"        "updated_at"        "pushed_at"        
+    ## [49] "git_url"           "ssh_url"           "clone_url"        
+    ## [52] "svn_url"           "homepage"          "size"             
+    ## [55] "stargazers_count"  "watchers_count"    "language"         
+    ## [58] "has_issues"        "has_downloads"     "has_wiki"         
+    ## [61] "has_pages"         "forks_count"       "mirror_url"       
+    ## [64] "open_issues_count" "forks"             "open_issues"      
+    ## [67] "watchers"          "default_branch"
+
+``` r
+## Nested objects
+names(jsonData$owner)
+```
+
+    ##  [1] "login"               "id"                  "avatar_url"         
+    ##  [4] "gravatar_id"         "url"                 "html_url"           
+    ##  [7] "followers_url"       "following_url"       "gists_url"          
+    ## [10] "starred_url"         "subscriptions_url"   "organizations_url"  
+    ## [13] "repos_url"           "events_url"          "received_events_url"
+    ## [16] "type"                "site_admin"

@@ -183,3 +183,18 @@ xpathSApply(books, "//book[@id]/title", xmlValue)
 xpathSApply(books, "//book[@id='bk103']/title", xmlValue)
 ```
 
+# Reading JSON Files
+JSON stands for Javascript Object Notation. It has similar structure as XML but different syntax. To read JSON files we need the `jsonlite` package.
+```{r}
+## Load the library
+library(jsonlite)
+
+jsonData <- fromJSON("https://api.github.com/users/jtleek/repos") 
+
+## Get the names
+names(jsonData)
+
+## Nested objects
+names(jsonData$owner)
+```
+

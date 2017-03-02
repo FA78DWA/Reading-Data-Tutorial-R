@@ -241,3 +241,13 @@ DT
 tables()
 ```
 
+**Subsetting Rows**
+Use `DT` creted in previous step.
+```{r}
+## Get the first 2 rows from DT
+DT[2,]
+
+## Get the rows with y=c
+DT[DT$y=="c",]
+```
+

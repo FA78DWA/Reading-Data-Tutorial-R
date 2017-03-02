@@ -33,10 +33,9 @@ List the files in the current directory
 list.files("./")
 ```
 
-    ##  [1] "books.xml"           "data.csv"            "data.xlsx"          
-    ##  [4] "house_data.csv"      "ReadingData.knit.md" "ReadingData.md"     
-    ##  [7] "ReadingData.nb.html" "ReadingData.Rmd"     "ReadingData.utf8.md"
-    ## [10] "simple.xml"
+    ## [1] "books.xml"           "data.csv"            "data.xlsx"          
+    ## [4] "house_data.csv"      "ReadingData.md"      "ReadingData.nb.html"
+    ## [7] "ReadingData.Rmd"     "simple.xml"
 
 Use `date()` to get the downloading date.
 
@@ -45,7 +44,7 @@ downloadDate <- date()
 downloadDate
 ```
 
-    ## [1] "Thu Mar 02 16:45:54 2017"
+    ## [1] "Thu Mar 02 16:51:01 2017"
 
 Reading Excel Files
 ===================
@@ -58,7 +57,7 @@ download.file(url, "data.xlsx",mode="wb")
 date()
 ```
 
-    ## [1] "Thu Mar 02 16:45:55 2017"
+    ## [1] "Thu Mar 02 16:51:01 2017"
 
 Using `xlsx` Package
 --------------------
@@ -635,15 +634,15 @@ DT
 ```
 
     ##             x y          z
-    ## 1: -0.3391353 a -0.3184901
-    ## 2: -0.9979388 a -0.9385342
-    ## 3: -0.3015013 a  0.3666544
-    ## 4:  0.8135170 b -0.4521520
-    ## 5: -0.3606534 b -0.7092137
-    ## 6: -0.3802281 b -1.5083522
-    ## 7: -0.2530329 c -0.0750245
-    ## 8:  1.2535846 c  2.0688133
-    ## 9: -0.8213955 c -1.9377648
+    ## 1:  1.1637060 a -0.2069592
+    ## 2:  1.5302343 a -0.3067752
+    ## 3:  0.2353242 a  1.4297631
+    ## 4: -0.3908675 b  0.3816902
+    ## 5:  0.8448469 b  0.6645518
+    ## 6: -0.2568330 b -0.8184477
+    ## 7: -0.5407020 c -0.3665061
+    ## 8: -3.0000109 c  0.0833570
+    ## 9:  2.1220969 c -1.2108633
 
 **To see all data tables in memory call `tabels()`**
 
@@ -654,3 +653,23 @@ tables()
     ##      NAME NROW NCOL MB COLS  KEY
     ## [1,] DT      9    3  1 x,y,z    
     ## Total: 1MB
+
+**Subsetting Rows** Use `DT` creted in previous step.
+
+``` r
+## Get the first 2 rows from DT
+DT[2,]
+```
+
+    ##           x y          z
+    ## 1: 1.530234 a -0.3067752
+
+``` r
+## Get the rows with y=c
+DT[DT$y=="c",]
+```
+
+    ##            x y          z
+    ## 1: -0.540702 c -0.3665061
+    ## 2: -3.000011 c  0.0833570
+    ## 3:  2.122097 c -1.2108633

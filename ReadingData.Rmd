@@ -292,12 +292,40 @@ DT[,a:= x>=0]
 DT[,b:=mean(x+w), by=a]
 ```
 **CAUTION**
+Creating a copy of `DT`, then changing the original `DT` will also change the copy.
 ```{r}
-
 DT2 <- DT
 DT[,y:=2]
-DT
 
 DT2
+```
+
+## Using Special Variable `.N`
+`.N` is an integer, length 1, containing the number of rows in the group. 
+```{r}
+set.seed(0)
+
+#sample(x,n,T/F) takes a sample of the specified size (n) from the elements of (x) using either with or without (T/F) replacement.
+x <- sample(letters[1:3], 1000, TRUE) 
+
+## Create new DT from this sample
+newDT <- data.table(x)
+
+## Group newDT by x
+newDT[ ,.N, by=x]
+```
+
+## Create key on data table
+`setkey()` setkey() sorts a data.table and marks it as sorted (with an attribute sorted). The sorted columns are the key. The key can be any columns in any order. The columns are always sorted in ascending order.
+```{r}
+## Create 300*2 data table 
+DT <- data.table(x=rep(c("a","b","c"), each=100), y=rnorm(300))
+
+## Set the key of this data table to be x
+setkey(DT,x)
+
+## DT after sorting
+DT
+
 ```
 

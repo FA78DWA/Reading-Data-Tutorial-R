@@ -405,7 +405,7 @@ dbGetQuery(hg19, "select count(*) from affyU133Plus2")
 ```
 
 We can also extract a specific table from the database.
-```{r results='hide', message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE}
 affy <- dbReadTable(hg19,"affyU133Plus2")
 head(affy)
 ```

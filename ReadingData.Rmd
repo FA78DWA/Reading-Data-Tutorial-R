@@ -377,8 +377,11 @@ result <- dbGetQuery(ucsc, "show databases;")
 ## Disconnect after finishing. Always do that after finishing.
 dbDisconnect(ucsc)
 
-## Show the result: list of all the databases that are available on that server
-result
+## The number of databases available
+nrow(result)
+
+## Show the result: list of the first 10 the databases that are available on that server
+result[1:10,]
 ```
 
 Now, we are going to connect on a specific dataset `hg19`
@@ -437,7 +440,7 @@ dim(affySmall) # gt the dimensions of this result
 ## Clear the query after finishing
 dbClearResult(affyMisQuery)
 ```
-** DON'T FORGET TO CLOSE THE CONNECTION**
+**DON'T FORGET TO CLOSE THE CONNECTION**
 ```{r}
 dbDisconnect(hg19)
 ```

@@ -357,3 +357,40 @@ setkey(DT2,x)
 merge(DT1,DT2)
 ```
 
+# Reading from mySQL
+To read data from **mySQL** data base you will need to download [mySQL](https://dev.mysql.com/downloads/windows/), and the `RMySQL` package. But, if you are on **windows** you will need some more steps. [Here](http://www.ahschulz.de/2013/07/23/installing-rmysql-under-windows/) is how to do it step by step.
+
+After completing the configurations, start oading the library. `RMySQL` might need the `DBI` package, so yeah, download it.
+```{r}
+library(DBI)
+library(RMySQL)
+```
+
+Then we will use some mySQL data from UCSC. You can find more details about it and how to connect on the server [Here](https://genome.ucsc.edu/goldenPath/help/mysql.html) .
+```{r}
+## Connect on the server
+ucsc <- dbConnect(MySQL(), user="genome", host="genome-mysql.cse.ucsc.edu")
+
+## Query the database with this sql command "show databases;"
+result <- dbGetQuery(ucsc, "show databases;")
+
+## Disconnect after finishing. Always do that after finishing.
+dbDisconnect(ucsc)
+
+## Show the result: list of all the databases that are available on that server
+result
+```
+
+Now, we are going to connect on a specific dataset `hg19`
+```{r}
+## Connect on the "hg19" database on the server
+hg <- dbConnect(MySQL(), user="genome",db="hg19", host="genome-mysql.cse.ucsc.edu")
+
+## Get the list of tabels names in this database
+allTables <- dbListTables(hg)
+allTables[1:8] #show the first 8 names
+
+## Get the number of tables
+length(allTables)
+```
+ 

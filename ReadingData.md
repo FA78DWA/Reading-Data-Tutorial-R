@@ -14,6 +14,7 @@
     -   [Using special variable `.N`](#using-special-variable-.n)
     -   [Create a key on your data table](#create-a-key-on-your-data-table)
     -   [Join two data tables together](#join-two-data-tables-together)
+-   [Reading from mySQL](#reading-from-mysql)
 
 Downloading Data from the internet
 ==================================
@@ -38,10 +39,9 @@ List the files in the current directory
 list.files("./")
 ```
 
-    ##  [1] "books.xml"           "data.csv"            "data.xlsx"          
-    ##  [4] "house_data.csv"      "ReadingData.knit.md" "ReadingData.md"     
-    ##  [7] "ReadingData.nb.html" "ReadingData.Rmd"     "ReadingData.utf8.md"
-    ## [10] "simple.xml"
+    ## [1] "books.xml"           "data.csv"            "data.xlsx"          
+    ## [4] "house_data.csv"      "ReadingData.md"      "ReadingData.nb.html"
+    ## [7] "ReadingData.Rmd"     "simple.xml"
 
 Use `date()` to get the downloading date.
 
@@ -50,7 +50,7 @@ downloadDate <- date()
 downloadDate
 ```
 
-    ## [1] "Thu Mar 02 18:04:53 2017"
+    ## [1] "Fri Mar 03 13:07:07 2017"
 
 Reading Excel Files
 ===================
@@ -63,7 +63,7 @@ download.file(url, "data.xlsx",mode="wb")
 date()
 ```
 
-    ## [1] "Thu Mar 02 18:04:53 2017"
+    ## [1] "Fri Mar 03 13:07:08 2017"
 
 Using `xlsx` Package
 --------------------
@@ -640,15 +640,15 @@ DT
 ```
 
     ##              x y           z
-    ## 1:  0.81237506 a  0.78069550
-    ## 2:  1.23372628 a -1.02398392
-    ## 3:  0.01106866 a  0.63192173
-    ## 4: -0.50636986 b -0.40832509
-    ## 5: -0.18894875 b  0.23179134
-    ## 6:  0.79634766 b  0.07812055
-    ## 7: -0.58015247 c -1.31886225
-    ## 8:  0.54938994 c  0.32114354
-    ## 9:  0.83536467 c -2.06963794
+    ## 1: -1.03871927 a  1.84657841
+    ## 2:  1.32844903 a  1.02595415
+    ## 3:  0.57736423 a  0.63293168
+    ## 4: -0.95500623 b  0.97076231
+    ## 5: -1.05255293 b -1.54383292
+    ## 6: -1.00418252 b  0.64481354
+    ## 7:  0.60799311 c -0.51342557
+    ## 8:  0.05421943 c -0.77541982
+    ## 9: -0.58864945 c  0.01581029
 
 **To see all data tables in memory call `tabels()`**
 
@@ -670,28 +670,28 @@ Use `DT` from previous step.
 DT[2,]
 ```
 
-    ##           x y         z
-    ## 1: 1.233726 a -1.023984
+    ##           x y        z
+    ## 1: 1.328449 a 1.025954
 
 ``` r
 ## Get the rows with y=c
 DT[DT$y=="c",]
 ```
 
-    ##             x y          z
-    ## 1: -0.5801525 c -1.3188622
-    ## 2:  0.5493899 c  0.3211435
-    ## 3:  0.8353647 c -2.0696379
+    ##              x y           z
+    ## 1:  0.60799311 c -0.51342557
+    ## 2:  0.05421943 c -0.77541982
+    ## 3: -0.58864945 c  0.01581029
 
 ``` r
 ## Get certain rows for example 1st, 5th, and 9th
 DT[c(1,5,9),]
 ```
 
-    ##             x y          z
-    ## 1:  0.8123751 a  0.7806955
-    ## 2: -0.1889488 b  0.2317913
-    ## 3:  0.8353647 c -2.0696379
+    ##             x y           z
+    ## 1: -1.0387193 a  1.84657841
+    ## 2: -1.0525529 b -1.54383292
+    ## 3: -0.5886495 c  0.01581029
 
 Subsetting Columns
 ------------------
@@ -719,8 +719,8 @@ DT[,2]
 DT[,DT$z]
 ```
 
-    ## [1]  0.78069550 -1.02398392  0.63192173 -0.40832509  0.23179134  0.07812055
-    ## [7] -1.31886225  0.32114354 -2.06963794
+    ## [1]  1.84657841  1.02595415  0.63293168  0.97076231 -1.54383292  0.64481354
+    ## [7] -0.51342557 -0.77541982  0.01581029
 
 ``` r
 ## Get certain columns for example 1st and 3rd
@@ -728,15 +728,15 @@ DT[,c(1,3)]
 ```
 
     ##              x           z
-    ## 1:  0.81237506  0.78069550
-    ## 2:  1.23372628 -1.02398392
-    ## 3:  0.01106866  0.63192173
-    ## 4: -0.50636986 -0.40832509
-    ## 5: -0.18894875  0.23179134
-    ## 6:  0.79634766  0.07812055
-    ## 7: -0.58015247 -1.31886225
-    ## 8:  0.54938994  0.32114354
-    ## 9:  0.83536467 -2.06963794
+    ## 1: -1.03871927  1.84657841
+    ## 2:  1.32844903  1.02595415
+    ## 3:  0.57736423  0.63293168
+    ## 4: -0.95500623  0.97076231
+    ## 5: -1.05255293 -1.54383292
+    ## 6: -1.00418252  0.64481354
+    ## 7:  0.60799311 -0.51342557
+    ## 8:  0.05421943 -0.77541982
+    ## 9: -0.58864945  0.01581029
 
 Operating on a subset of a data table
 -------------------------------------
@@ -750,8 +750,8 @@ But, what if we want to take the average of the columns, or do any other operati
 DT[,list(mean(x), sum(z))]
 ```
 
-    ##           V1        V2
-    ## 1: 0.3292001 -2.777137
+    ##            V1       V2
+    ## 1: -0.2301205 2.304172
 
 ``` r
 ## Get a table with the count of each y value
@@ -767,64 +767,64 @@ DT[,table(y)]
 DT[,w:=z^2]
 ```
 
-    ##              x y           z           w
-    ## 1:  0.81237506 a  0.78069550 0.609485469
-    ## 2:  1.23372628 a -1.02398392 1.048543061
-    ## 3:  0.01106866 a  0.63192173 0.399325075
-    ## 4: -0.50636986 b -0.40832509 0.166729378
-    ## 5: -0.18894875 b  0.23179134 0.053727224
-    ## 6:  0.79634766 b  0.07812055 0.006102821
-    ## 7: -0.58015247 c -1.31886225 1.739397634
-    ## 8:  0.54938994 c  0.32114354 0.103133171
-    ## 9:  0.83536467 c -2.06963794 4.283401189
+    ##              x y           z            w
+    ## 1: -1.03871927 a  1.84657841 3.4098518415
+    ## 2:  1.32844903 a  1.02595415 1.0525819171
+    ## 3:  0.57736423 a  0.63293168 0.4006025117
+    ## 4: -0.95500623 b  0.97076231 0.9423794698
+    ## 5: -1.05255293 b -1.54383292 2.3834200829
+    ## 6: -1.00418252 b  0.64481354 0.4157845065
+    ## 7:  0.60799311 c -0.51342557 0.2636058205
+    ## 8:  0.05421943 c -0.77541982 0.6012758908
+    ## 9: -0.58864945 c  0.01581029 0.0002499653
 
 ``` r
 ## Add new column m = log(x+z+5). Note that we used {} to put in multi-line expression. Each expression ends with ';'
 DT[,m:={tmp <- (x+z); log2(tmp+5)}]
 ```
 
-    ##              x y           z           w        m
-    ## 1:  0.81237506 a  0.78069550 0.609485469 2.720951
-    ## 2:  1.23372628 a -1.02398392 1.048543061 2.381212
-    ## 3:  0.01106866 a  0.63192173 0.399325075 2.496460
-    ## 4: -0.50636986 b -0.40832509 0.166729378 2.030444
-    ## 5: -0.18894875 b  0.23179134 0.053727224 2.334237
-    ## 6:  0.79634766 b  0.07812055 0.006102821 2.554458
-    ## 7: -0.58015247 c -1.31886225 1.739397634 1.632727
-    ## 8:  0.54938994 c  0.32114354 0.103133171 2.553492
-    ## 9:  0.83536467 c -2.06963794 4.283401189 1.912928
+    ##              x y           z            w        m
+    ## 1: -1.03871927 a  1.84657841 3.4098518415 2.538006
+    ## 2:  1.32844903 a  1.02595415 1.0525819171 2.878608
+    ## 3:  0.57736423 a  0.63293168 0.4006025117 2.634662
+    ## 4: -0.95500623 b  0.97076231 0.9423794698 2.326467
+    ## 5: -1.05255293 b -1.54383292 2.3834200829 1.265205
+    ## 6: -1.00418252 b  0.64481354 0.4157845065 2.214321
+    ## 7:  0.60799311 c -0.51342557 0.2636058205 2.348960
+    ## 8:  0.05421943 c -0.77541982 0.6012758908 2.097206
+    ## 9: -0.58864945 c  0.01581029 0.0002499653 2.146382
 
 ``` r
 ## BOLEAN OPERATIONS: Add new column a shows if x>=0 or <0
 DT[,a:= x>=0]
 ```
 
-    ##              x y           z           w        m     a
-    ## 1:  0.81237506 a  0.78069550 0.609485469 2.720951  TRUE
-    ## 2:  1.23372628 a -1.02398392 1.048543061 2.381212  TRUE
-    ## 3:  0.01106866 a  0.63192173 0.399325075 2.496460  TRUE
-    ## 4: -0.50636986 b -0.40832509 0.166729378 2.030444 FALSE
-    ## 5: -0.18894875 b  0.23179134 0.053727224 2.334237 FALSE
-    ## 6:  0.79634766 b  0.07812055 0.006102821 2.554458  TRUE
-    ## 7: -0.58015247 c -1.31886225 1.739397634 1.632727 FALSE
-    ## 8:  0.54938994 c  0.32114354 0.103133171 2.553492  TRUE
-    ## 9:  0.83536467 c -2.06963794 4.283401189 1.912928  TRUE
+    ##              x y           z            w        m     a
+    ## 1: -1.03871927 a  1.84657841 3.4098518415 2.538006 FALSE
+    ## 2:  1.32844903 a  1.02595415 1.0525819171 2.878608  TRUE
+    ## 3:  0.57736423 a  0.63293168 0.4006025117 2.634662  TRUE
+    ## 4: -0.95500623 b  0.97076231 0.9423794698 2.326467 FALSE
+    ## 5: -1.05255293 b -1.54383292 2.3834200829 1.265205 FALSE
+    ## 6: -1.00418252 b  0.64481354 0.4157845065 2.214321 FALSE
+    ## 7:  0.60799311 c -0.51342557 0.2636058205 2.348960  TRUE
+    ## 8:  0.05421943 c -0.77541982 0.6012758908 2.097206  TRUE
+    ## 9: -0.58864945 c  0.01581029 0.0002499653 2.146382 FALSE
 
 ``` r
 ## GROUPING: get the mean of(x+w) when a is TRUE and a is False, then add the result in new column b. Note that b has only 2 values.
 DT[,b:=mean(x+w), by=a]
 ```
 
-    ##              x y           z           w        m     a         b
-    ## 1:  0.81237506 a  0.78069550 0.609485469 2.720951  TRUE 1.7813772
-    ## 2:  1.23372628 a -1.02398392 1.048543061 2.381212  TRUE 1.7813772
-    ## 3:  0.01106866 a  0.63192173 0.399325075 2.496460  TRUE 1.7813772
-    ## 4: -0.50636986 b -0.40832509 0.166729378 2.030444 FALSE 0.2281277
-    ## 5: -0.18894875 b  0.23179134 0.053727224 2.334237 FALSE 0.2281277
-    ## 6:  0.79634766 b  0.07812055 0.006102821 2.554458  TRUE 1.7813772
-    ## 7: -0.58015247 c -1.31886225 1.739397634 1.632727 FALSE 0.2281277
-    ## 8:  0.54938994 c  0.32114354 0.103133171 2.553492  TRUE 1.7813772
-    ## 9:  0.83536467 c -2.06963794 4.283401189 1.912928  TRUE 1.7813772
+    ##              x y           z            w        m     a         b
+    ## 1: -1.03871927 a  1.84657841 3.4098518415 2.538006 FALSE 0.5025151
+    ## 2:  1.32844903 a  1.02595415 1.0525819171 2.878608  TRUE 1.2215230
+    ## 3:  0.57736423 a  0.63293168 0.4006025117 2.634662  TRUE 1.2215230
+    ## 4: -0.95500623 b  0.97076231 0.9423794698 2.326467 FALSE 0.5025151
+    ## 5: -1.05255293 b -1.54383292 2.3834200829 1.265205 FALSE 0.5025151
+    ## 6: -1.00418252 b  0.64481354 0.4157845065 2.214321 FALSE 0.5025151
+    ## 7:  0.60799311 c -0.51342557 0.2636058205 2.348960  TRUE 1.2215230
+    ## 8:  0.05421943 c -0.77541982 0.6012758908 2.097206  TRUE 1.2215230
+    ## 9: -0.58864945 c  0.01581029 0.0002499653 2.146382 FALSE 0.5025151
 
 **CAUTION** Creating a copy of `DT`, then changing the original `DT` will also change the copy.
 
@@ -842,31 +842,31 @@ DT[,y:=2]
     ## column type correctly up front when you create the table and stick to it,
     ## please.
 
-    ##              x y           z           w        m     a         b
-    ## 1:  0.81237506 2  0.78069550 0.609485469 2.720951  TRUE 1.7813772
-    ## 2:  1.23372628 2 -1.02398392 1.048543061 2.381212  TRUE 1.7813772
-    ## 3:  0.01106866 2  0.63192173 0.399325075 2.496460  TRUE 1.7813772
-    ## 4: -0.50636986 2 -0.40832509 0.166729378 2.030444 FALSE 0.2281277
-    ## 5: -0.18894875 2  0.23179134 0.053727224 2.334237 FALSE 0.2281277
-    ## 6:  0.79634766 2  0.07812055 0.006102821 2.554458  TRUE 1.7813772
-    ## 7: -0.58015247 2 -1.31886225 1.739397634 1.632727 FALSE 0.2281277
-    ## 8:  0.54938994 2  0.32114354 0.103133171 2.553492  TRUE 1.7813772
-    ## 9:  0.83536467 2 -2.06963794 4.283401189 1.912928  TRUE 1.7813772
+    ##              x y           z            w        m     a         b
+    ## 1: -1.03871927 2  1.84657841 3.4098518415 2.538006 FALSE 0.5025151
+    ## 2:  1.32844903 2  1.02595415 1.0525819171 2.878608  TRUE 1.2215230
+    ## 3:  0.57736423 2  0.63293168 0.4006025117 2.634662  TRUE 1.2215230
+    ## 4: -0.95500623 2  0.97076231 0.9423794698 2.326467 FALSE 0.5025151
+    ## 5: -1.05255293 2 -1.54383292 2.3834200829 1.265205 FALSE 0.5025151
+    ## 6: -1.00418252 2  0.64481354 0.4157845065 2.214321 FALSE 0.5025151
+    ## 7:  0.60799311 2 -0.51342557 0.2636058205 2.348960  TRUE 1.2215230
+    ## 8:  0.05421943 2 -0.77541982 0.6012758908 2.097206  TRUE 1.2215230
+    ## 9: -0.58864945 2  0.01581029 0.0002499653 2.146382 FALSE 0.5025151
 
 ``` r
 DT2
 ```
 
-    ##              x y           z           w        m     a         b
-    ## 1:  0.81237506 2  0.78069550 0.609485469 2.720951  TRUE 1.7813772
-    ## 2:  1.23372628 2 -1.02398392 1.048543061 2.381212  TRUE 1.7813772
-    ## 3:  0.01106866 2  0.63192173 0.399325075 2.496460  TRUE 1.7813772
-    ## 4: -0.50636986 2 -0.40832509 0.166729378 2.030444 FALSE 0.2281277
-    ## 5: -0.18894875 2  0.23179134 0.053727224 2.334237 FALSE 0.2281277
-    ## 6:  0.79634766 2  0.07812055 0.006102821 2.554458  TRUE 1.7813772
-    ## 7: -0.58015247 2 -1.31886225 1.739397634 1.632727 FALSE 0.2281277
-    ## 8:  0.54938994 2  0.32114354 0.103133171 2.553492  TRUE 1.7813772
-    ## 9:  0.83536467 2 -2.06963794 4.283401189 1.912928  TRUE 1.7813772
+    ##              x y           z            w        m     a         b
+    ## 1: -1.03871927 2  1.84657841 3.4098518415 2.538006 FALSE 0.5025151
+    ## 2:  1.32844903 2  1.02595415 1.0525819171 2.878608  TRUE 1.2215230
+    ## 3:  0.57736423 2  0.63293168 0.4006025117 2.634662  TRUE 1.2215230
+    ## 4: -0.95500623 2  0.97076231 0.9423794698 2.326467 FALSE 0.5025151
+    ## 5: -1.05255293 2 -1.54383292 2.3834200829 1.265205 FALSE 0.5025151
+    ## 6: -1.00418252 2  0.64481354 0.4157845065 2.214321 FALSE 0.5025151
+    ## 7:  0.60799311 2 -0.51342557 0.2636058205 2.348960  TRUE 1.2215230
+    ## 8:  0.05421943 2 -0.77541982 0.6012758908 2.097206  TRUE 1.2215230
+    ## 9: -0.58864945 2  0.01581029 0.0002499653 2.146382 FALSE 0.5025151
 
 Using special variable `.N`
 ---------------------------
@@ -1084,3 +1084,284 @@ merge(DT1,DT2)
     ## 1: a 1 5
     ## 2: a 2 5
     ## 3: b 3 6
+
+Reading from mySQL
+==================
+
+To read data from **mySQL** data base you will need to download [mySQL](https://dev.mysql.com/downloads/windows/), and the `RMySQL` package. But, if you are on **windows** you will need some more steps. [Here](http://www.ahschulz.de/2013/07/23/installing-rmysql-under-windows/) is how to do it step by step.
+
+After completing the configurations, start oading the library. `RMySQL` might need the `DBI` package, so yeah, download it.
+
+``` r
+library(DBI)
+library(RMySQL)
+```
+
+Then we will use some mySQL data from UCSC. You can find more details about it and how to connect on the server [Here](https://genome.ucsc.edu/goldenPath/help/mysql.html) .
+
+``` r
+## Connect on the server
+ucsc <- dbConnect(MySQL(), user="genome", host="genome-mysql.cse.ucsc.edu")
+
+## Query the database with this sql command "show databases;"
+result <- dbGetQuery(ucsc, "show databases;")
+
+## Disconnect after finishing. Always do that after finishing.
+dbDisconnect(ucsc)
+```
+
+    ## [1] TRUE
+
+``` r
+## Show the result: list of all the databases that are available on that server
+result
+```
+
+    ##               Database
+    ## 1   information_schema
+    ## 2              ailMel1
+    ## 3              allMis1
+    ## 4              anoCar1
+    ## 5              anoCar2
+    ## 6              anoGam1
+    ## 7              apiMel1
+    ## 8              apiMel2
+    ## 9              aplCal1
+    ## 10             aptMan1
+    ## 11             balAcu1
+    ## 12             bosTau2
+    ## 13             bosTau3
+    ## 14             bosTau4
+    ## 15             bosTau5
+    ## 16             bosTau6
+    ## 17             bosTau7
+    ## 18             bosTau8
+    ## 19           bosTauMd3
+    ## 20             braFlo1
+    ## 21             caeJap1
+    ## 22              caePb1
+    ## 23              caePb2
+    ## 24             caeRem2
+    ## 25             caeRem3
+    ## 26             calJac1
+    ## 27             calJac3
+    ## 28             calMil1
+    ## 29             canFam1
+    ## 30             canFam2
+    ## 31             canFam3
+    ## 32             cavPor3
+    ## 33                 cb1
+    ## 34                 cb3
+    ## 35                ce10
+    ## 36                ce11
+    ## 37                 ce2
+    ## 38                 ce4
+    ## 39                 ce6
+    ## 40             cerSim1
+    ## 41             chlSab2
+    ## 42             choHof1
+    ## 43             chrPic1
+    ## 44                 ci1
+    ## 45                 ci2
+    ## 46             criGri1
+    ## 47             danRer1
+    ## 48            danRer10
+    ## 49             danRer2
+    ## 50             danRer3
+    ## 51             danRer4
+    ## 52             danRer5
+    ## 53             danRer6
+    ## 54             danRer7
+    ## 55             dasNov3
+    ## 56             dipOrd1
+    ## 57                 dm1
+    ## 58                 dm2
+    ## 59                 dm3
+    ## 60                 dm6
+    ## 61                 dp2
+    ## 62                 dp3
+    ## 63             droAna1
+    ## 64             droAna2
+    ## 65             droEre1
+    ## 66             droGri1
+    ## 67             droMoj1
+    ## 68             droMoj2
+    ## 69             droPer1
+    ## 70             droSec1
+    ## 71             droSim1
+    ## 72             droVir1
+    ## 73             droVir2
+    ## 74             droYak1
+    ## 75             droYak2
+    ## 76             eboVir3
+    ## 77             echTel1
+    ## 78             echTel2
+    ## 79             equCab1
+    ## 80             equCab2
+    ## 81             eriEur1
+    ## 82             eriEur2
+    ## 83             felCat3
+    ## 84             felCat4
+    ## 85             felCat5
+    ## 86             felCat8
+    ## 87                 fr1
+    ## 88                 fr2
+    ## 89                 fr3
+    ## 90             gadMor1
+    ## 91             galGal2
+    ## 92             galGal3
+    ## 93             galGal4
+    ## 94             galGal5
+    ## 95             galVar1
+    ## 96             gasAcu1
+    ## 97              gbMeta
+    ## 98             geoFor1
+    ## 99                  go
+    ## 100           go080130
+    ## 101           go140213
+    ## 102           go150121
+    ## 103            gorGor3
+    ## 104            gorGor4
+    ## 105            gorGor5
+    ## 106            hetGla1
+    ## 107            hetGla2
+    ## 108               hg16
+    ## 109               hg17
+    ## 110               hg18
+    ## 111               hg19
+    ## 112        hg19Patch10
+    ## 113         hg19Patch2
+    ## 114         hg19Patch5
+    ## 115         hg19Patch9
+    ## 116               hg38
+    ## 117         hg38Patch2
+    ## 118         hg38Patch3
+    ## 119         hg38Patch6
+    ## 120         hg38Patch7
+    ## 121         hg38Patch9
+    ## 122            hgFixed
+    ## 123             hgTemp
+    ## 124          hgcentral
+    ## 125            latCha1
+    ## 126            loxAfr3
+    ## 127            macEug1
+    ## 128            macEug2
+    ## 129            macFas5
+    ## 130            melGal1
+    ## 131            melUnd1
+    ## 132            micMur1
+    ## 133            micMur2
+    ## 134               mm10
+    ## 135         mm10Patch1
+    ## 136         mm10Patch4
+    ## 137                mm5
+    ## 138                mm6
+    ## 139                mm7
+    ## 140                mm8
+    ## 141                mm9
+    ## 142            monDom1
+    ## 143            monDom4
+    ## 144            monDom5
+    ## 145            musFur1
+    ## 146            myoLuc2
+    ## 147            nomLeu1
+    ## 148            nomLeu2
+    ## 149            nomLeu3
+    ## 150            ochPri2
+    ## 151            ochPri3
+    ## 152            oreNil1
+    ## 153            oreNil2
+    ## 154            ornAna1
+    ## 155            ornAna2
+    ## 156            oryCun2
+    ## 157            oryLat2
+    ## 158            otoGar3
+    ## 159            oviAri1
+    ## 160            oviAri3
+    ## 161            panPan1
+    ## 162            panTro1
+    ## 163            panTro2
+    ## 164            panTro3
+    ## 165            panTro4
+    ## 166            panTro5
+    ## 167            papAnu2
+    ## 168            papHam1
+    ## 169 performance_schema
+    ## 170            petMar1
+    ## 171            petMar2
+    ## 172            ponAbe2
+    ## 173            priPac1
+    ## 174            proCap1
+    ## 175     proteins120806
+    ## 176     proteins121210
+    ## 177     proteins140122
+    ## 178     proteins150225
+    ## 179     proteins160229
+    ## 180           proteome
+    ## 181            pteVam1
+    ## 182            rheMac1
+    ## 183            rheMac2
+    ## 184            rheMac3
+    ## 185            rheMac8
+    ## 186                rn3
+    ## 187                rn4
+    ## 188                rn5
+    ## 189                rn6
+    ## 190            sacCer1
+    ## 191            sacCer2
+    ## 192            sacCer3
+    ## 193            saiBol1
+    ## 194            sarHar1
+    ## 195            sorAra1
+    ## 196            sorAra2
+    ## 197           sp120323
+    ## 198           sp121210
+    ## 199           sp140122
+    ## 200           sp150225
+    ## 201           sp160229
+    ## 202            speTri2
+    ## 203            strPur1
+    ## 204            strPur2
+    ## 205            susScr2
+    ## 206            susScr3
+    ## 207            taeGut1
+    ## 208            taeGut2
+    ## 209            tarSyr1
+    ## 210            tarSyr2
+    ## 211               test
+    ## 212            tetNig1
+    ## 213            tetNig2
+    ## 214            triMan1
+    ## 215            tupBel1
+    ## 216            turTru2
+    ## 217            uniProt
+    ## 218            vicPac1
+    ## 219            vicPac2
+    ## 220           visiGene
+    ## 221            xenTro1
+    ## 222            xenTro2
+    ## 223            xenTro3
+    ## 224            xenTro7
+
+Now, we are going to connect on a specific dataset `hg19`
+
+``` r
+## Connect on the "hg19" database on the server
+hg <- dbConnect(MySQL(), user="genome",db="hg19", host="genome-mysql.cse.ucsc.edu")
+
+## Get the list of tabels names in this database
+allTables <- dbListTables(hg)
+allTables[1:8] #show the first 8 names
+```
+
+    ## [1] "HInv"                   "HInvGeneMrna"          
+    ## [3] "acembly"                "acemblyClass"          
+    ## [5] "acemblyPep"             "affyCytoScan"          
+    ## [7] "affyExonProbeAmbiguous" "affyExonProbeCore"
+
+``` r
+## Get the number of tables
+length(allTables)
+```
+
+    ## [1] 11048

@@ -409,4 +409,36 @@ We can also extract a specific table from the database.
 affy <- dbReadTable(hg19,"affyU133Plus2")
 head(affy)
 ```
+Here is a nother Query that select all records from **affyU133Plus2** tabel that have **misMatches** between 2 and 3. Remeber that **misMatches** is a field (column) in this table.
+
+note: when using `dbGetQuery` you don't need to use `fetch` because
+`dbGetQuery` combine `dbSendQuery`, `fetch` and `dbClearResult`. see [here](http://stackoverflow.com/questions/14726114/rmysql-fetch-cant-find-inherited-method).
+ 
+```{r message=FALSE, warning=FALSE}
+## Send the query and get the result
+affyMisQuery <- dbGetQuery(hg19, "select * from affyU133Plus2 where misMatches between 1 and 3")
+
+## Calculate the quantile
+quantile(affyMisQuery$misMatches)
+
+## Clear the query after finishing
+#dbClearResult(affyMisQuery)
+```
+
+To only get the first few rows from the dataset you can use `dbSendQuery` + `fetch`.
+```{r message=FALSE, warning=FALSE}
+## Send the query
+affyMisQuery <- dbSendQuery(hg19, "select * from affyU133Plus2 where misMatches between 1 and 3")
+
+## Get the resut, but only the first 10 rows
+affySmall <- fetch(affyMisQuery, n=10)
+dim(affySmall) # gt the dimensions of this result
+
+## Clear the query after finishing
+dbClearResult(affyMisQuery)
+```
+** DON'T FORGET TO CLOSE THE CONNECTION**
+```{r}
+dbDisconnect(hg19)
+```
 

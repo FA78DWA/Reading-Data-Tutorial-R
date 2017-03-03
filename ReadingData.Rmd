@@ -54,7 +54,7 @@ readFile <- read.xlsx("data.xlsx", sheetIndex=1)
 head(readFile)
 ```
  
-You might face some difficulities when using the xlsx library. Here is the most famous error:
+You might face some difficulties when using the xlsx library. Here is the most famous error:
  
 Error : .onLoad failed in loadNamespace() for 'rJava', details:
   call: inDL(x, as.logical(local), as.logical(now), ...)
@@ -224,7 +224,7 @@ head(getIrisBack)
 ```
 
 # Using `data.table`
-This package inherits from `data.frame` this means that all functions that accept `data.frame` will work on `data.table`. Also, `data.table` is much faster in data subsetting, grouping and updating, because it is written in C.
+This package inherits from `data.frame` this means that all functions that accept `data.frame` will work on `data.table`. Also, `data.table` is much faster in data sub-setting, grouping and updating, because it is written in C.
 
 Starting by downloading the package and load it. Then, create a `data table`
 ```{r}
@@ -267,7 +267,7 @@ DT[,c(1,3)]
 ```
 
 ## Operating on a subset of a data table
-Until now the subsetting either rows or columns are intuitive. `DT` is a 2-dimensional array(table), and you can get a specific element using DT[i,j] format just like `matlab`. 
+Until now the sub-setting either rows or columns are intuitive. `DT` is a 2-dimensional array(table), and you can get a specific element using DT[i,j] format just like `matlab`. 
 
 But, what if we want to take the average of the columns, or do any other operation on a subset of the `DT`. In this case **DT[i,j,by]** comes very handy. 
  **DT[i,j,by]** means Take DT subset rows by **i**, then compute **j** grouped by **by**. Examples.
@@ -360,13 +360,13 @@ merge(DT1,DT2)
 # Reading from mySQL
 To read data from **mySQL** data base you will need to download [mySQL](https://dev.mysql.com/downloads/windows/), and the `RMySQL` package. But, if you are on **windows** you will need some more steps. [Here](http://www.ahschulz.de/2013/07/23/installing-rmysql-under-windows/) is how to do it step by step.
 
-After completing the configurations, start oading the library. `RMySQL` might need the `DBI` package, so yeah, download it.
+After completing the configurations, start loading the library. `RMySQL` might need the `DBI` package, so yeah, download it.
 ```{r}
 library(DBI)
 library(RMySQL)
 ```
 
-Then we will use some mySQL data from UCSC. You can find more details about it and how to connect on the server [Here](https://genome.ucsc.edu/goldenPath/help/mysql.html) .
+Then we will use some MySQL data from UCSC. You can find more details about it and how to connect on the server [Here](https://genome.ucsc.edu/goldenPath/help/mysql.html) .
 ```{r}
 ## Connect on the server
 ucsc <- dbConnect(MySQL(), user="genome", host="genome-mysql.cse.ucsc.edu")
@@ -412,7 +412,7 @@ We can also extract a specific table from the database.
 affy <- dbReadTable(hg19,"affyU133Plus2")
 head(affy)
 ```
-Here is a nother Query that select all records from **affyU133Plus2** tabel that have **misMatches** between 2 and 3. Remeber that **misMatches** is a field (column) in this table.
+Here is another Query that select all records from **affyU133Plus2** table that have **misMatches** between 2 and 3. Remember that **misMatches** is a field (column) in this table.
 
 note: when using `dbGetQuery` you don't need to use `fetch` because
 `dbGetQuery` combine `dbSendQuery`, `fetch` and `dbClearResult`. see [here](http://stackoverflow.com/questions/14726114/rmysql-fetch-cant-find-inherited-method).
@@ -443,5 +443,67 @@ dbClearResult(affyMisQuery)
 **DON'T FORGET TO CLOSE THE CONNECTION**
 ```{r}
 dbDisconnect(hg19)
+```
+
+# Reading from HDF5
+HDF stands for **Hierarchical Data Format**. For more information see [here](https://www.hdfgroup.org/).
+
+To install the `rhdf5` package, follow these steps
+```{r message=FALSE, warning=FALSE}
+source("http://bioconductor.org/biocLite.R")
+biocLite("rhdf5")
+```
+
+Then, load the library
+```{r}
+library(rhdf5)
+
+## Create HDF5 file
+created <- h5createFile("sample.h5")
+
+## Check if the file is created successfully
+created
+```
+**Creating groups**
+
+Once you create the `.h5` file you can create groups and subgroups inside it.
+```{r}
+## Group
+created <- h5createGroup("sample.h5", "group1")
+created <- h5createGroup("sample.h5", "group2")
+
+##Sub-group
+created <- h5createGroup("sample.h5", "group1/sub1")
+
+## List the groups
+h5ls("sample.h5")
+```
+**Write data to groups**
+Let's add some data into the groups we created. 
+```{r}
+## Create a matrix A, add it to group1
+A = matrix(1:10, nrow = 5, ncol = 2)
+h5write(A, "sample.h5", "group1/A")
+
+## Create a multi-dimension array B, add it to group1/sub1
+B = array(seq(0.1,2.0,by=0.1), dim=c(5,2,2))
+h5write(B, "sample.h5", "group1/sub1/B")
+
+## List the groups
+h5ls("sample.h5")
+```
+
+**We can also add data at the top-level of the hierarchy**
+For example, add a data frame as a top level group.
+```{r}
+## Create the dataframe
+df <- data.frame(1L:5L,seq(0,1,length.out=5),
+  c("ab","cde","fghi","a","s"), stringsAsFactors=FALSE)
+
+## add it. Note that you added the name dirctly without specifying groups
+h5write(df,"sample.h5", "df")
+
+## List the groups
+h5ls("sample.h5")
 ```
 

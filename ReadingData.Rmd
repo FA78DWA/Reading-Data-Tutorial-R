@@ -584,21 +584,6 @@ close(myConnection)
 htmlCode
 ```
 
-Another example,  get the number of characters in the 10th, 20th, 30th and 100th lines of HTML from this page:
-
-http://biostat.jhsph.edu/~jleek/contact.html
-
-```{r}
-urlConnection <-url("http://biostat.jhsph.edu/~jleek/contact.html") 
-
-htmlLines <- readLines(urlConnection)
-
-nchar(htmlLines[10])
-nchar(htmlLines[20])
-nchar(htmlLines[30])
-nchar(htmlLines[100])
-```
-
 As we can see, the output is unformatted xml code lines.
 
 We can deal with that using the `xml package`.
@@ -649,6 +634,21 @@ pg
 
 ##
 names(pg)
+```
+
+Example:- get the number of characters in the 10th, 20th, 30th and 100th lines of HTML from this page:
+
+http://biostat.jhsph.edu/~jleek/contact.html
+
+```{r}
+urlConnection <-url("http://biostat.jhsph.edu/~jleek/contact.html") 
+
+htmlLines <- readLines(urlConnection)
+
+nchar(htmlLines[10])
+nchar(htmlLines[20])
+nchar(htmlLines[30])
+nchar(htmlLines[100])
 ```
 
 # Reading from APIs

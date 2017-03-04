@@ -479,6 +479,7 @@ created <- h5createGroup("sample.h5", "group1/sub1")
 h5ls("sample.h5")
 ```
 **Write data to groups**
+
 Let's add some data into the groups we created. 
 ```{r}
 ## Create a matrix A, add it to group1
@@ -494,6 +495,7 @@ h5ls("sample.h5")
 ```
 
 **We can also add data at the top-level of the hierarchy**
+
 For example, add a data frame as a top level group.
 ```{r}
 ## Create the dataframe
@@ -507,3 +509,34 @@ h5write(df,"sample.h5", "df")
 h5ls("sample.h5")
 ```
 
+**Reading from `.hf` file**
+
+Given `sample.h5` that we created in the last steps.
+```{r}
+## Read matrix A
+getA <- h5read("sample.h5", "group1/A")
+getA
+```
+
+```{r}
+## Read matrix B
+getB <- h5read("sample.h5", "group1/sub1/B")
+getB
+```
+
+**Writing to a specific data inside the `.h5` file**
+
+We can add new data inside a given element inside the `h5` file. For example, we can add new row or column inside the A matrix that we created before.
+
+```{r}
+## A matrix before
+getA <- h5read("sample.h5", "group1/A")
+getA
+
+## adding 10,20,30 in A[1:3,1]
+h5write(c(10,20,30), "sample.h5", "group1/A", index=list(1:3,1))
+
+## A matrix after
+getA <- h5read("sample.h5", "group1/A")
+getA
+```

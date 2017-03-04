@@ -1,6 +1,6 @@
 ---
 title: "R Notebook"
-#output: html_notebook
+# output: html_notebook
 
 output:
   md_document:
@@ -444,6 +444,32 @@ dbClearResult(affyMisQuery)
 ```{r}
 dbDisconnect(hg19)
 ```
+## Using `sqldf` package
+
+The `sqldf` package allows for execution of SQL commands on R data frames.
+
+For this part download the [American Community Survey data](https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06pid.csv) and load it into an R object called `acs`. I already downloaded it.
+
+```{r}
+# library(sqldf)
+# 
+# acs <- read.csv("paid.csv")
+# 
+# ## select only the data for the probability weights pwgtp1 with ages less than 50
+# qu1 <- sqldf("select pwgtp1 from acs where AGEP < 50")
+# 
+# ## To check our result
+# R <- acs$pwgtp1[acs$AGEP < 50]
+# sum(R - qu1)
+# 
+# ## Select the unique values from AGEP 
+# qu2 <- sqldf("select distinct AGEP from acs")
+# 
+# ## To check our result
+# u <- unique(acs$AGEP)
+# sum(u - qu2)
+```
+
 
 # Reading from HDF5
 HDF stands for **Hierarchical Data Format**. For more information see [here](https://www.hdfgroup.org/).
@@ -519,7 +545,7 @@ getA
 ```
 
 ```{r}
-## Read matrix B
+## Read array  B
 getB <- h5read("sample.h5", "group1/sub1/B")
 getB
 ```
@@ -540,3 +566,120 @@ h5write(c(10,20,30), "sample.h5", "group1/A", index=list(1:3,1))
 getA <- h5read("sample.h5", "group1/A")
 getA
 ```
+
+# Reading data from web pages
+
+We can read the `html` code from the websites and extract data from it, this is called **webscraping**. To do that, first set a connection to the `url`, then `readlines`, and finaly close the connection.
+```{r}
+## set the connection
+myConnection <- url("http://scholar.google.com/citations?user=HI-I6C0AAAAJ&hl=en")
+
+## Read lines
+htmlCode <- readLines(myConnection)
+
+## close the connection
+close(myConnection)
+
+## show the lines 
+htmlCode
+```
+
+Another example,  get the number of characters in the 10th, 20th, 30th and 100th lines of HTML from this page:
+
+http://biostat.jhsph.edu/~jleek/contact.html
+
+```{r}
+urlConnection <-url("http://biostat.jhsph.edu/~jleek/contact.html") 
+
+htmlLines <- readLines(urlConnection)
+
+nchar(htmlLines[10])
+nchar(htmlLines[20])
+nchar(htmlLines[30])
+nchar(htmlLines[100])
+```
+
+As we can see, the output is unformatted xml code lines.
+
+We can deal with that using the `xml package`.
+```{r}
+library(XML)
+
+## The url
+url <- "http://scholar.google.com/citations?user=HI-I6C0AAAAJ&hl=en"
+
+## Parse the html code
+html <- htmlTreeParse(url, useInternalNodes=TRUE)
+
+## Get the page title
+xpathSApply(html,"//title", xmlValue)
+```
+
+Another way is to use `httr` package. For more information see [this](https://cran.r-project.org/web/packages/httr/httr.pdf).
+```{r}
+library(httr)
+
+## The url
+url <- "http://scholar.google.com/citations?user=HI-I6C0AAAAJ&hl=en"
+
+html2 <- GET(url)
+
+## Get the url content
+pageContent <- content(html2, as="text")
+
+## Parsing
+parsedHTML <- htmlParse(pageContent, asText = TRUE)
+
+## get the title
+xpathSApply(parsedHTML, "//title", xmlValue)
+```
+
+Another use for the `httr` package is to access websites with password.
+
+```{r}
+## this page needs a password
+pg = GET("http://httpbin.org/basic-auth/user/passwd")
+pg
+```
+
+```{r}
+## giving the username and password
+pg = GET("http://httpbin.org/basic-auth/user/passwd", authenticate("user", "passwd"))
+pg
+
+##
+names(pg)
+```
+
+# Reading from APIs
+
+Using the `httr` package we can get data from different websites.
+
+## Access github API
+First, Register an application with the Github API [here](https://github.com/settings/applications/new). See [here](https://datatweet.wordpress.com/2014/05/14/reading-data-from-github-api-using-r/) for help.
+
+```{r}
+# library(httr)
+# library(httpuv)
+# library(jsonlite)
+# 
+# oauth_endpoints("github")
+# 
+# 
+# clientID <- "cb5b1be3e375e3a310b5"
+# ClientSecret <- "03420ea6c24f1e25af2b174369d17d5996a4025c"
+# 
+# github.app <- oauth_app("github", clientID, ClientSecret)
+# 
+# ## Get OAuth credentials. Note that authorization code is the key you entered above
+# github_token <- oauth2.0_token(oauth_endpoints("github"), github.app)
+# 
+# ## Use the API
+# gtoken <- config(token = github_token)
+# req <- GET("https://api.github.com/users/jtleek/repos", gtoken)
+# 
+# ## Get the url content
+# jsonContent <- content(req)
+# json2 = jsonlite::fromJSON(toJSON(jsonContent))
+```
+

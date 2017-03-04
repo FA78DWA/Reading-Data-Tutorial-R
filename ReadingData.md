@@ -15,6 +15,7 @@
     -   [Create a key on your data table](#create-a-key-on-your-data-table)
     -   [Join two data tables together](#join-two-data-tables-together)
 -   [Reading from mySQL](#reading-from-mysql)
+-   [Reading from HDF5](#reading-from-hdf5)
 
 Downloading Data from the internet
 ==================================
@@ -41,7 +42,7 @@ list.files("./")
 
     ## [1] "books.xml"           "data.csv"            "data.xlsx"          
     ## [4] "house_data.csv"      "ReadingData.md"      "ReadingData.nb.html"
-    ## [7] "ReadingData.Rmd"     "simple.xml"
+    ## [7] "ReadingData.Rmd"     "sample.h5"           "simple.xml"
 
 Use `date()` to get the downloading date.
 
@@ -50,7 +51,7 @@ downloadDate <- date()
 downloadDate
 ```
 
-    ## [1] "Fri Mar 03 14:24:52 2017"
+    ## [1] "Sat Mar 04 13:46:47 2017"
 
 Reading Excel Files
 ===================
@@ -63,7 +64,7 @@ download.file(url, "data.xlsx",mode="wb")
 date()
 ```
 
-    ## [1] "Fri Mar 03 14:24:52 2017"
+    ## [1] "Sat Mar 04 13:46:47 2017"
 
 Using `xlsx` Package
 --------------------
@@ -108,7 +109,7 @@ head(readFile)
     ## 5   <NA>   <NA>   <NA>
     ## 6   <NA>   <NA>   <NA>
 
-You might face some difficulities when using the xlsx library. Here is the most famous error:
+You might face some difficulties when using the xlsx library. Here is the most famous error:
 
 Error : .onLoad failed in loadNamespace() for 'rJava', details: call: inDL(x, as.logical(local), as.logical(now), ...)
 
@@ -626,7 +627,7 @@ head(getIrisBack)
 Using `data.table`
 ==================
 
-This package inherits from `data.frame` this means that all functions that accept `data.frame` will work on `data.table`. Also, `data.table` is much faster in data subsetting, grouping and updating, because it is written in C.
+This package inherits from `data.frame` this means that all functions that accept `data.frame` will work on `data.table`. Also, `data.table` is much faster in data sub-setting, grouping and updating, because it is written in C.
 
 Starting by downloading the package and load it. Then, create a `data table`
 
@@ -640,15 +641,15 @@ DT
 ```
 
     ##             x y          z
-    ## 1:  1.2066636 a -0.3418841
-    ## 2:  1.0904294 a  1.0137837
-    ## 3: -0.6776792 a -1.1789438
-    ## 4: -0.3772896 b -0.1346987
-    ## 5: -0.7145968 b -1.0053824
-    ## 6: -1.2848655 b -0.5225089
-    ## 7:  0.2240820 c  0.0980241
-    ## 8: -0.1543129 c  1.5778269
-    ## 9: -1.2682347 c  0.3801685
+    ## 1:  2.5044891 a -1.6996767
+    ## 2:  0.7461292 a -1.4515088
+    ## 3: -0.6495529 a  0.7714779
+    ## 4: -1.4098831 b -1.2896903
+    ## 5:  0.5269316 b  0.6396832
+    ## 6: -0.8395325 b -0.8779526
+    ## 7: -0.9765949 c -0.7846183
+    ## 8:  0.2785861 c -1.5849277
+    ## 9:  1.3930439 c  0.1831574
 
 **To see all data tables in memory call `tabels()`**
 
@@ -670,28 +671,28 @@ Use `DT` from previous step.
 DT[2,]
 ```
 
-    ##           x y        z
-    ## 1: 1.090429 a 1.013784
+    ##            x y         z
+    ## 1: 0.7461292 a -1.451509
 
 ``` r
 ## Get the rows with y=c
 DT[DT$y=="c",]
 ```
 
-    ##             x y         z
-    ## 1:  0.2240820 c 0.0980241
-    ## 2: -0.1543129 c 1.5778269
-    ## 3: -1.2682347 c 0.3801685
+    ##             x y          z
+    ## 1: -0.9765949 c -0.7846183
+    ## 2:  0.2785861 c -1.5849277
+    ## 3:  1.3930439 c  0.1831574
 
 ``` r
 ## Get certain rows for example 1st, 5th, and 9th
 DT[c(1,5,9),]
 ```
 
-    ##             x y          z
-    ## 1:  1.2066636 a -0.3418841
-    ## 2: -0.7145968 b -1.0053824
-    ## 3: -1.2682347 c  0.3801685
+    ##            x y          z
+    ## 1: 2.5044891 a -1.6996767
+    ## 2: 0.5269316 b  0.6396832
+    ## 3: 1.3930439 c  0.1831574
 
 Subsetting Columns
 ------------------
@@ -719,8 +720,8 @@ DT[,2]
 DT[,DT$z]
 ```
 
-    ## [1] -0.3418841  1.0137837 -1.1789438 -0.1346987 -1.0053824 -0.5225089
-    ## [7]  0.0980241  1.5778269  0.3801685
+    ## [1] -1.6996767 -1.4515088  0.7714779 -1.2896903  0.6396832 -0.8779526
+    ## [7] -0.7846183 -1.5849277  0.1831574
 
 ``` r
 ## Get certain columns for example 1st and 3rd
@@ -728,20 +729,20 @@ DT[,c(1,3)]
 ```
 
     ##             x          z
-    ## 1:  1.2066636 -0.3418841
-    ## 2:  1.0904294  1.0137837
-    ## 3: -0.6776792 -1.1789438
-    ## 4: -0.3772896 -0.1346987
-    ## 5: -0.7145968 -1.0053824
-    ## 6: -1.2848655 -0.5225089
-    ## 7:  0.2240820  0.0980241
-    ## 8: -0.1543129  1.5778269
-    ## 9: -1.2682347  0.3801685
+    ## 1:  2.5044891 -1.6996767
+    ## 2:  0.7461292 -1.4515088
+    ## 3: -0.6495529  0.7714779
+    ## 4: -1.4098831 -1.2896903
+    ## 5:  0.5269316  0.6396832
+    ## 6: -0.8395325 -0.8779526
+    ## 7: -0.9765949 -0.7846183
+    ## 8:  0.2785861 -1.5849277
+    ## 9:  1.3930439  0.1831574
 
 Operating on a subset of a data table
 -------------------------------------
 
-Until now the subsetting either rows or columns are intuitive. `DT` is a 2-dimensional array(table), and you can get a specific element using DT\[i,j\] format just like `matlab`.
+Until now the sub-setting either rows or columns are intuitive. `DT` is a 2-dimensional array(table), and you can get a specific element using DT\[i,j\] format just like `matlab`.
 
 But, what if we want to take the average of the columns, or do any other operation on a subset of the `DT`. In this case **DT\[i,j,by\]** comes very handy. **DT\[i,j,by\]** means Take DT subset rows by **i**, then compute **j** grouped by **by**. Examples.
 
@@ -750,8 +751,8 @@ But, what if we want to take the average of the columns, or do any other operati
 DT[,list(mean(x), sum(z))]
 ```
 
-    ##            V1         V2
-    ## 1: -0.2173115 -0.1136147
+    ##           V1        V2
+    ## 1: 0.1748463 -6.094056
 
 ``` r
 ## Get a table with the count of each y value
@@ -767,64 +768,64 @@ DT[,table(y)]
 DT[,w:=z^2]
 ```
 
-    ##             x y          z           w
-    ## 1:  1.2066636 a -0.3418841 0.116884720
-    ## 2:  1.0904294 a  1.0137837 1.027757407
-    ## 3: -0.6776792 a -1.1789438 1.389908502
-    ## 4: -0.3772896 b -0.1346987 0.018143728
-    ## 5: -0.7145968 b -1.0053824 1.010793841
-    ## 6: -1.2848655 b -0.5225089 0.273015547
-    ## 7:  0.2240820 c  0.0980241 0.009608725
-    ## 8: -0.1543129 c  1.5778269 2.489537793
-    ## 9: -1.2682347 c  0.3801685 0.144528053
+    ##             x y          z          w
+    ## 1:  2.5044891 a -1.6996767 2.88890073
+    ## 2:  0.7461292 a -1.4515088 2.10687780
+    ## 3: -0.6495529 a  0.7714779 0.59517812
+    ## 4: -1.4098831 b -1.2896903 1.66330098
+    ## 5:  0.5269316 b  0.6396832 0.40919456
+    ## 6: -0.8395325 b -0.8779526 0.77080084
+    ## 7: -0.9765949 c -0.7846183 0.61562588
+    ## 8:  0.2785861 c -1.5849277 2.51199579
+    ## 9:  1.3930439 c  0.1831574 0.03354663
 
 ``` r
 ## Add new column m = log(x+z+5). Note that we used {} to put in multi-line expression. Each expression ends with ';'
 DT[,m:={tmp <- (x+z); log2(tmp+5)}]
 ```
 
-    ##             x y          z           w        m
-    ## 1:  1.2066636 a -0.3418841 0.116884720 2.552077
-    ## 2:  1.0904294 a  1.0137837 1.027757407 2.828675
-    ## 3: -0.6776792 a -1.1789438 1.389908502 1.652315
-    ## 4: -0.3772896 b -0.1346987 0.018143728 2.166076
-    ## 5: -0.7145968 b -1.0053824 1.010793841 1.713705
-    ## 6: -1.2848655 b -0.5225089 0.273015547 1.674743
-    ## 7:  0.2240820 c  0.0980241 0.009608725 2.411997
-    ## 8: -0.1543129 c  1.5778269 2.489537793 2.683363
-    ## 9: -1.2682347 c  0.3801685 0.144528053 2.039817
+    ##             x y          z          w        m
+    ## 1:  2.5044891 a -1.6996767 2.88890073 2.537249
+    ## 2:  0.7461292 a -1.4515088 2.10687780 2.102531
+    ## 3: -0.6495529 a  0.7714779 0.59517812 2.356686
+    ## 4: -1.4098831 b -1.2896903 1.66330098 1.201901
+    ## 5:  0.5269316 b  0.6396832 0.40919456 2.624479
+    ## 6: -0.8395325 b -0.8779526 0.77080084 1.714802
+    ## 7: -0.9765949 c -0.7846183 0.61562588 1.695454
+    ## 8:  0.2785861 c -1.5849277 2.51199579 1.885050
+    ## 9:  1.3930439 c  0.1831574 0.03354663 2.717254
 
 ``` r
 ## BOLEAN OPERATIONS: Add new column a shows if x>=0 or <0
 DT[,a:= x>=0]
 ```
 
-    ##             x y          z           w        m     a
-    ## 1:  1.2066636 a -0.3418841 0.116884720 2.552077  TRUE
-    ## 2:  1.0904294 a  1.0137837 1.027757407 2.828675  TRUE
-    ## 3: -0.6776792 a -1.1789438 1.389908502 1.652315 FALSE
-    ## 4: -0.3772896 b -0.1346987 0.018143728 2.166076 FALSE
-    ## 5: -0.7145968 b -1.0053824 1.010793841 1.713705 FALSE
-    ## 6: -1.2848655 b -0.5225089 0.273015547 1.674743 FALSE
-    ## 7:  0.2240820 c  0.0980241 0.009608725 2.411997  TRUE
-    ## 8: -0.1543129 c  1.5778269 2.489537793 2.683363 FALSE
-    ## 9: -1.2682347 c  0.3801685 0.144528053 2.039817 FALSE
+    ##             x y          z          w        m     a
+    ## 1:  2.5044891 a -1.6996767 2.88890073 2.537249  TRUE
+    ## 2:  0.7461292 a -1.4515088 2.10687780 2.102531  TRUE
+    ## 3: -0.6495529 a  0.7714779 0.59517812 2.356686 FALSE
+    ## 4: -1.4098831 b -1.2896903 1.66330098 1.201901 FALSE
+    ## 5:  0.5269316 b  0.6396832 0.40919456 2.624479  TRUE
+    ## 6: -0.8395325 b -0.8779526 0.77080084 1.714802 FALSE
+    ## 7: -0.9765949 c -0.7846183 0.61562588 1.695454 FALSE
+    ## 8:  0.2785861 c -1.5849277 2.51199579 1.885050  TRUE
+    ## 9:  1.3930439 c  0.1831574 0.03354663 2.717254  TRUE
 
 ``` r
 ## GROUPING: get the mean of(x+w) when a is TRUE and a is False, then add the result in new column b. Note that b has only 2 values.
 DT[,b:=mean(x+w), by=a]
 ```
 
-    ##             x y          z           w        m     a         b
-    ## 1:  1.2066636 a -0.3418841 0.116884720 2.552077  TRUE 1.2251419
-    ## 2:  1.0904294 a  1.0137837 1.027757407 2.828675  TRUE 1.2251419
-    ## 3: -0.6776792 a -1.1789438 1.389908502 1.652315 FALSE 0.1414915
-    ## 4: -0.3772896 b -0.1346987 0.018143728 2.166076 FALSE 0.1414915
-    ## 5: -0.7145968 b -1.0053824 1.010793841 1.713705 FALSE 0.1414915
-    ## 6: -1.2848655 b -0.5225089 0.273015547 1.674743 FALSE 0.1414915
-    ## 7:  0.2240820 c  0.0980241 0.009608725 2.411997  TRUE 1.2251419
-    ## 8: -0.1543129 c  1.5778269 2.489537793 2.683363 FALSE 0.1414915
-    ## 9: -1.2682347 c  0.3801685 0.144528053 2.039817 FALSE 0.1414915
+    ##             x y          z          w        m     a           b
+    ## 1:  2.5044891 a -1.6996767 2.88890073 2.537249  TRUE  2.67993907
+    ## 2:  0.7461292 a -1.4515088 2.10687780 2.102531  TRUE  2.67993907
+    ## 3: -0.6495529 a  0.7714779 0.59517812 2.356686 FALSE -0.05766439
+    ## 4: -1.4098831 b -1.2896903 1.66330098 1.201901 FALSE -0.05766439
+    ## 5:  0.5269316 b  0.6396832 0.40919456 2.624479  TRUE  2.67993907
+    ## 6: -0.8395325 b -0.8779526 0.77080084 1.714802 FALSE -0.05766439
+    ## 7: -0.9765949 c -0.7846183 0.61562588 1.695454 FALSE -0.05766439
+    ## 8:  0.2785861 c -1.5849277 2.51199579 1.885050  TRUE  2.67993907
+    ## 9:  1.3930439 c  0.1831574 0.03354663 2.717254  TRUE  2.67993907
 
 **CAUTION** Creating a copy of `DT`, then changing the original `DT` will also change the copy.
 
@@ -842,31 +843,31 @@ DT[,y:=2]
     ## column type correctly up front when you create the table and stick to it,
     ## please.
 
-    ##             x y          z           w        m     a         b
-    ## 1:  1.2066636 2 -0.3418841 0.116884720 2.552077  TRUE 1.2251419
-    ## 2:  1.0904294 2  1.0137837 1.027757407 2.828675  TRUE 1.2251419
-    ## 3: -0.6776792 2 -1.1789438 1.389908502 1.652315 FALSE 0.1414915
-    ## 4: -0.3772896 2 -0.1346987 0.018143728 2.166076 FALSE 0.1414915
-    ## 5: -0.7145968 2 -1.0053824 1.010793841 1.713705 FALSE 0.1414915
-    ## 6: -1.2848655 2 -0.5225089 0.273015547 1.674743 FALSE 0.1414915
-    ## 7:  0.2240820 2  0.0980241 0.009608725 2.411997  TRUE 1.2251419
-    ## 8: -0.1543129 2  1.5778269 2.489537793 2.683363 FALSE 0.1414915
-    ## 9: -1.2682347 2  0.3801685 0.144528053 2.039817 FALSE 0.1414915
+    ##             x y          z          w        m     a           b
+    ## 1:  2.5044891 2 -1.6996767 2.88890073 2.537249  TRUE  2.67993907
+    ## 2:  0.7461292 2 -1.4515088 2.10687780 2.102531  TRUE  2.67993907
+    ## 3: -0.6495529 2  0.7714779 0.59517812 2.356686 FALSE -0.05766439
+    ## 4: -1.4098831 2 -1.2896903 1.66330098 1.201901 FALSE -0.05766439
+    ## 5:  0.5269316 2  0.6396832 0.40919456 2.624479  TRUE  2.67993907
+    ## 6: -0.8395325 2 -0.8779526 0.77080084 1.714802 FALSE -0.05766439
+    ## 7: -0.9765949 2 -0.7846183 0.61562588 1.695454 FALSE -0.05766439
+    ## 8:  0.2785861 2 -1.5849277 2.51199579 1.885050  TRUE  2.67993907
+    ## 9:  1.3930439 2  0.1831574 0.03354663 2.717254  TRUE  2.67993907
 
 ``` r
 DT2
 ```
 
-    ##             x y          z           w        m     a         b
-    ## 1:  1.2066636 2 -0.3418841 0.116884720 2.552077  TRUE 1.2251419
-    ## 2:  1.0904294 2  1.0137837 1.027757407 2.828675  TRUE 1.2251419
-    ## 3: -0.6776792 2 -1.1789438 1.389908502 1.652315 FALSE 0.1414915
-    ## 4: -0.3772896 2 -0.1346987 0.018143728 2.166076 FALSE 0.1414915
-    ## 5: -0.7145968 2 -1.0053824 1.010793841 1.713705 FALSE 0.1414915
-    ## 6: -1.2848655 2 -0.5225089 0.273015547 1.674743 FALSE 0.1414915
-    ## 7:  0.2240820 2  0.0980241 0.009608725 2.411997  TRUE 1.2251419
-    ## 8: -0.1543129 2  1.5778269 2.489537793 2.683363 FALSE 0.1414915
-    ## 9: -1.2682347 2  0.3801685 0.144528053 2.039817 FALSE 0.1414915
+    ##             x y          z          w        m     a           b
+    ## 1:  2.5044891 2 -1.6996767 2.88890073 2.537249  TRUE  2.67993907
+    ## 2:  0.7461292 2 -1.4515088 2.10687780 2.102531  TRUE  2.67993907
+    ## 3: -0.6495529 2  0.7714779 0.59517812 2.356686 FALSE -0.05766439
+    ## 4: -1.4098831 2 -1.2896903 1.66330098 1.201901 FALSE -0.05766439
+    ## 5:  0.5269316 2  0.6396832 0.40919456 2.624479  TRUE  2.67993907
+    ## 6: -0.8395325 2 -0.8779526 0.77080084 1.714802 FALSE -0.05766439
+    ## 7: -0.9765949 2 -0.7846183 0.61562588 1.695454 FALSE -0.05766439
+    ## 8:  0.2785861 2 -1.5849277 2.51199579 1.885050  TRUE  2.67993907
+    ## 9:  1.3930439 2  0.1831574 0.03354663 2.717254  TRUE  2.67993907
 
 Using special variable `.N`
 ---------------------------
@@ -1090,14 +1091,14 @@ Reading from mySQL
 
 To read data from **mySQL** data base you will need to download [mySQL](https://dev.mysql.com/downloads/windows/), and the `RMySQL` package. But, if you are on **windows** you will need some more steps. [Here](http://www.ahschulz.de/2013/07/23/installing-rmysql-under-windows/) is how to do it step by step.
 
-After completing the configurations, start oading the library. `RMySQL` might need the `DBI` package, so yeah, download it.
+After completing the configurations, start loading the library. `RMySQL` might need the `DBI` package, so yeah, download it.
 
 ``` r
 library(DBI)
 library(RMySQL)
 ```
 
-Then we will use some mySQL data from UCSC. You can find more details about it and how to connect on the server [Here](https://genome.ucsc.edu/goldenPath/help/mysql.html) .
+Then we will use some MySQL data from UCSC. You can find more details about it and how to connect on the server [Here](https://genome.ucsc.edu/goldenPath/help/mysql.html) .
 
 ``` r
 ## Connect on the server
@@ -1223,7 +1224,7 @@ head(affy)
     ## 5                                                                         19688,19819,19845,21145,21151,21155,21166,21170,21177,21535,24923,
     ## 6                                                                                                                                     27542,
 
-Here is a nother Query that select all records from **affyU133Plus2** tabel that have **misMatches** between 2 and 3. Remeber that **misMatches** is a field (column) in this table.
+Here is another Query that select all records from **affyU133Plus2** table that have **misMatches** between 2 and 3. Remember that **misMatches** is a field (column) in this table.
 
 note: when using `dbGetQuery` you don't need to use `fetch` because `dbGetQuery` combine `dbSendQuery`, `fetch` and `dbClearResult`. see [here](http://stackoverflow.com/questions/14726114/rmysql-fetch-cant-find-inherited-method).
 
@@ -1270,3 +1271,113 @@ dbDisconnect(hg19)
 ```
 
     ## [1] TRUE
+
+Reading from HDF5
+=================
+
+HDF stands for **Hierarchical Data Format**. For more information see [here](https://www.hdfgroup.org/).
+
+To install the `rhdf5` package, follow these steps
+
+``` r
+# source("http://bioconductor.org/biocLite.R")
+# biocLite("rhdf5")
+```
+
+Then, load the library
+
+``` r
+library(rhdf5)
+
+## Create HDF5 file
+created <- h5createFile("sample.h5")
+```
+
+    ## file 'C:\Users\Fadwa\Documents\R\ReadingData\sample.h5' already exists.
+
+``` r
+## Check if the file is created successfully
+created
+```
+
+    ## [1] FALSE
+
+**Creating groups**
+
+Once you create the `.h5` file you can create groups and subgroups inside it.
+
+``` r
+## Group
+created <- h5createGroup("sample.h5", "group1")
+```
+
+    ## Can not create group. Object with name 'group1' already exists.
+
+``` r
+created <- h5createGroup("sample.h5", "group2")
+```
+
+    ## Can not create group. Object with name 'group2' already exists.
+
+``` r
+##Sub-group
+created <- h5createGroup("sample.h5", "group1/sub1")
+```
+
+    ## Can not create group. Object with name 'group1/sub1' already exists.
+
+``` r
+## List the groups
+h5ls("sample.h5")
+```
+
+    ##          group   name       otype  dclass       dim
+    ## 0            / group1   H5I_GROUP                  
+    ## 1      /group1      A H5I_DATASET INTEGER     5 x 2
+    ## 2      /group1   sub1   H5I_GROUP                  
+    ## 3 /group1/sub1      B H5I_DATASET   FLOAT 5 x 2 x 2
+    ## 4            / group2   H5I_GROUP
+
+**Write data to groups** Let's add some data into the groups we created.
+
+``` r
+## Create a matrix A, add it to group1
+A = matrix(1:10, nrow = 5, ncol = 2)
+h5write(A, "sample.h5", "group1/A")
+
+## Create a multi-dimension array B, add it to group1/sub1
+B = array(seq(0.1,2.0,by=0.1), dim=c(5,2,2))
+h5write(B, "sample.h5", "group1/sub1/B")
+
+## List the groups
+h5ls("sample.h5")
+```
+
+    ##          group   name       otype  dclass       dim
+    ## 0            / group1   H5I_GROUP                  
+    ## 1      /group1      A H5I_DATASET INTEGER     5 x 2
+    ## 2      /group1   sub1   H5I_GROUP                  
+    ## 3 /group1/sub1      B H5I_DATASET   FLOAT 5 x 2 x 2
+    ## 4            / group2   H5I_GROUP
+
+**We can also add data at the top-level of the hierarchy** For example, add a data frame as a top level group.
+
+``` r
+## Create the dataframe
+df <- data.frame(1L:5L,seq(0,1,length.out=5),
+  c("ab","cde","fghi","a","s"), stringsAsFactors=FALSE)
+
+## add it. Note that you added the name dirctly without specifying groups
+h5write(df,"sample.h5", "df")
+
+## List the groups
+h5ls("sample.h5")
+```
+
+    ##          group   name       otype   dclass       dim
+    ## 0            /     df H5I_DATASET COMPOUND         5
+    ## 1            / group1   H5I_GROUP                   
+    ## 2      /group1      A H5I_DATASET  INTEGER     5 x 2
+    ## 3      /group1   sub1   H5I_GROUP                   
+    ## 4 /group1/sub1      B H5I_DATASET    FLOAT 5 x 2 x 2
+    ## 5            / group2   H5I_GROUP

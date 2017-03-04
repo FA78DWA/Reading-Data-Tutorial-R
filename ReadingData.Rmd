@@ -450,8 +450,8 @@ HDF stands for **Hierarchical Data Format**. For more information see [here](htt
 
 To install the `rhdf5` package, follow these steps
 ```{r message=FALSE, warning=FALSE}
-source("http://bioconductor.org/biocLite.R")
-biocLite("rhdf5")
+# source("http://bioconductor.org/biocLite.R")
+# biocLite("rhdf5")
 ```
 
 Then, load the library

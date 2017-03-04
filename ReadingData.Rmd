@@ -688,7 +688,7 @@ Data in a fixed-width text file is arranged in rows and columns, with one entry 
 
 To read a fixed width file into a data frame, use `read.fwf`. This function needs the width of each column as one of the inputs.
 
-To get the width of each column, i opened the file using any text editor and counted them manually. And since the actual data in this file starts from the 5th row, we will skip 4 rows.
+To get the width of each column, i opened the [file](http://www.cpc.ncep.noaa.gov/data/indices/wksst8110.for) using notepad (you can use any text editor) and counted them manually. And since the actual data in this file starts from the 5th row, we will skip 4 rows.
 ```{r}
 ## The url of the fixed width file
 url <- url("https://d396qusza40orc.cloudfront.net/getdata%2Fwksst8110.for")
